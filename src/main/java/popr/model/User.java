@@ -5,16 +5,14 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.hibernate.validator.constraints.Email;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 @Data
 @ToString
 @EqualsAndHashCode
-public class Person {
+@Table(name = "users")
+public class User {
 
     @Id
     @GeneratedValue
@@ -35,6 +33,6 @@ public class Person {
 
     private String password;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Zone zone;
 }

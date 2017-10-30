@@ -29,6 +29,9 @@ public class ServiceOrder {
     @ManyToOne
     private Service service;
 
+    @OneToOne
+    private User orderedBy;
+
     @PrePersist
     private void prePersist() {
         creationDate = ZonedDateTime.now();

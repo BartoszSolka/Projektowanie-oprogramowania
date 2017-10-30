@@ -27,7 +27,7 @@ public class Complaint {
     private ServiceOrder serviceOrder;
 
     @ManyToOne(optional = false)
-    private Person createdBy;
+    private User createdBy;
 
     @PrePersist
     private void prePersist() {

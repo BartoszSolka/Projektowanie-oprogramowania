@@ -3,7 +3,6 @@ package popr.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.springframework.data.geo.Point;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -19,6 +18,8 @@ public class Provider {
     @GeneratedValue
     private Long id;
 
+    private String name;
+
     private String nip;
 
     private String phoneNo;
@@ -26,8 +27,8 @@ public class Provider {
     private String address;
 
     @Embedded
-    private Point location;
+    private Location location;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "provider")
     List<Employee> employees = new ArrayList<>();
 }
