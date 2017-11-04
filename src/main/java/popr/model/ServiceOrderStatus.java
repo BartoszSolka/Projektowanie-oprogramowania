@@ -3,6 +3,7 @@ package popr.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import popr.model.enums.ServiceOrderStatusDict;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
@@ -16,6 +17,8 @@ public class ServiceOrderStatus {
     @Id
     @GeneratedValue
     private Long id;
+
+    private ServiceOrderStatusDict orderStatusDict;
 
     private String comment;
 

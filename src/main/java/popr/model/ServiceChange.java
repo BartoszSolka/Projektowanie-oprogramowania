@@ -30,6 +30,9 @@ public class ServiceChange {
     @ManyToOne(optional = false)
     private Service service;
 
+    @ManyToOne
+    private Admin validatedBy;
+
     @OneToMany(cascade = CascadeType.ALL)
     private List<ChangeStatus> statuses = new ArrayList<>();
 }
