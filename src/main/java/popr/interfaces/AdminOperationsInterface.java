@@ -11,9 +11,7 @@ public interface AdminOperationsInterface {
     Page<ServiceChange> getNotValidatedServiceChanges(Pageable pageable);
 
     User addUser(String email, String name, String surname, Zone zone, String phoneNo,
-                 String address, String login, String password);
+                 String address, String username, String password);
 
     Admin addAdmin(String username, String password);
-
-    Provider addProvider(String name, String nip, String phoneNo, String address, String location);
 }

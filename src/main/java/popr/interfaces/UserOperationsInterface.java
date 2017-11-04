@@ -3,10 +3,7 @@ package popr.interfaces;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import popr.model.Provider;
-import popr.model.Service;
-import popr.model.ServiceOrder;
-import popr.model.Zone;
+import popr.model.*;
 
 public interface UserOperationsInterface {
 
@@ -18,5 +15,5 @@ public interface UserOperationsInterface {
 
     Page<ServiceOrder> getServicesByZone(Zone zone, Pageable pageable);
 
-    Page<ServiceOrder> getServicesByUser(Long userId);
+    Page<ServiceOrder> getServicesByUser(User user, Pageable pageable);
 }
