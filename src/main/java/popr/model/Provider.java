@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Data
-@ToString
+@ToString(exclude="employees")
 @EqualsAndHashCode
 public class Provider {
 
