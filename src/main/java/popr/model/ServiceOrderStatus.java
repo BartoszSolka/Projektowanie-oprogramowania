@@ -6,6 +6,9 @@ import lombok.ToString;
 import popr.model.enums.ServiceOrderStatusDict;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.time.ZonedDateTime;
 
 @Entity
@@ -22,6 +25,7 @@ public class ServiceOrderStatus {
 
     private String comment;
 
+    @JsonIgnore
     private ZonedDateTime creationDate;
 
     private boolean current = true;

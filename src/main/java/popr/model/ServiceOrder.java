@@ -5,6 +5,9 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.time.ZonedDateTime;
 
 @Entity
@@ -19,16 +22,20 @@ public class ServiceOrder {
 
     private String description;
 
+    @JsonIgnore
     private ZonedDateTime creationDate;
 
     private Integer rating;
 
+    @JsonIgnore
     @ManyToOne(optional = false)
     private Zone zone;
 
+    @JsonIgnore
     @ManyToOne
     private Service service;
 
+    @JsonIgnore
     @OneToOne
     private User orderedBy;
 
