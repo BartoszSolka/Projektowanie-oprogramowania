@@ -1,16 +1,10 @@
 package popr.controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,8 +29,8 @@ public class ServiceProviderController implements ServiceProviderOrderManager, S
 	private ProviderOperationsInterface providerOperationsService;
 
 	@Override
-	@PostMapping(path = "/{providerId}/services", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-	public Service addService(@RequestBody Service service, @PathVariable Long providerId) {
+	@PostMapping(path = "/{providerId}/services")
+	public Service addService(Service service, @PathVariable Long providerId) {
 		return providerOperationsService.addService(providerId, service);
 	}
 

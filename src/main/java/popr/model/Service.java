@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Data
 @ToString
@@ -27,6 +29,7 @@ public class Service {
 
     private Integer estimatedRealisationTime;
 
+    @JsonIgnore
     @ManyToOne(optional = false)
     private Provider provider;
 }
