@@ -53,14 +53,10 @@ public class Bootstrap implements ApplicationRunner {
         zone = zoneRepository.save(zone);
 
         Provider provider = new Provider();
-        Location location = new Location();
-        location.setLatitude(52D);
-        location.setLongitude(21D);
-        location.setVoivodeship("Mazowieckie");
         provider.setName("Testowy uslugodawca");
         provider.setNip("NIP");
         provider.setAddress("ABC");
-        provider.setLocation(location);
+        provider.setZone(zone);
         provider.setPhoneNo("+48111222333");
 
         provider = providerRepository.save(provider);

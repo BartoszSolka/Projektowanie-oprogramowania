@@ -26,8 +26,8 @@ public class Provider {
 
     private String address;
 
-    @Embedded
-    private Location location;
+    @ManyToOne
+    private Zone zone;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "provider")
     List<Employee> employees = new ArrayList<>();

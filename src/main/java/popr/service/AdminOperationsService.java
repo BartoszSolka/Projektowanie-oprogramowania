@@ -1,19 +1,14 @@
 package popr.service;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import popr.model.Employee;
-import popr.model.Location;
-import java.util.ArrayList;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import popr.interfaces.AdminOperationsInterface;
 import popr.model.*;
-import popr.repository.AdminRepository;
-import popr.repository.ProviderRepository;
-import popr.repository.ServiceChangeRepository;
-import popr.repository.UserRepository;
+import popr.repository.*;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -24,16 +19,17 @@ public class AdminOperationsService implements AdminOperationsInterface {
     private final AdminRepository adminRepository;
     private final ServiceChangeRepository serviceChangeRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ZoneRepository zoneRepository;
 
     @Override
-    public Provider addProvider(String nip, String phoneNo, String address, String name, Location location) {
+    public Provider addProvider(String nip, String phoneNo, String address, String name, Zone zone) {
         Provider provider = new Provider();
 
         provider.setName(name);
         provider.setNip(nip);
         provider.setPhoneNo(phoneNo);
         provider.setAddress(address);
-        provider.setLocation(location);
+        provider.setZone(zone);
         return providerRepository.save(provider);
     }
 
@@ -64,6 +60,10 @@ public class AdminOperationsService implements AdminOperationsInterface {
         admin.setUsername(username);
         admin.setPassword(passwordEncoder.encode(password));
         return adminRepository.save(admin);
+    }
 
+    @Override
+    public List<Zone> getZones() {
+        return zoneRepository.findAll();
     }
 }

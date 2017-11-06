@@ -74,8 +74,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/isAlive", "is-alive").permitAll()
-                .antMatchers("/console/**", "/campaigns/**", "/campaign/**", "/clients/**", "/client/**")
-                .hasAnyAuthority()
                 .anyRequest().authenticated();
     }
 }

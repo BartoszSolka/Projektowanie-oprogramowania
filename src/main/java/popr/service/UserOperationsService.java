@@ -1,17 +1,19 @@
 package popr.service;
-import java.time.ZonedDateTime;
-import popr.model.User;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import popr.interfaces.UserOperationsInterface;
 import popr.model.Provider;
 import popr.model.ServiceOrder;
+import popr.model.User;
 import popr.model.Zone;
 import popr.repository.ProviderRepository;
 import popr.repository.ServiceOrderRepository;
 import popr.repository.ServiceRepository;
+import popr.repository.ZoneRepository;
+
+import java.time.ZonedDateTime;
+import java.util.List;
 
 @org.springframework.stereotype.Service
 @RequiredArgsConstructor
@@ -21,6 +23,7 @@ public class UserOperationsService implements UserOperationsInterface {
     private final ServiceRepository serviceRepository;
     private final UserService userService;
     private final ProviderRepository providerRepository;
+    private final ZoneRepository zoneRepository;
 
     @Override
     public ServiceOrder createServiceOrder(String description, Zone zone, Long serviceId, Long providerId) {
@@ -58,5 +61,10 @@ public class UserOperationsService implements UserOperationsInterface {
     @Override
     public Page<ServiceOrder> getServicesByUser(User user, Pageable pageable) {
         return serviceOrderRepository.findByOrderedBy(user, pageable);
+    }
+
+    @Override
+    public List<Zone> getZones() {
+        return zoneRepository.findAll();
     }
 }
