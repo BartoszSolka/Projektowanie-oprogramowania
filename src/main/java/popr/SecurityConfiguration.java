@@ -76,6 +76,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/isAlive", "is-alive").permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().authenticated(); */
     }
 }

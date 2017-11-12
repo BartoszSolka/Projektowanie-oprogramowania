@@ -17,7 +17,7 @@ public class ZoneService {
         return zoneRepository.findAll(pageable);
     }
 
-    public Zone readZoneByPostalCode(String postalCode) {
+    /*public Zone readZoneByPostalCode(String postalCode) {
         return zoneRepository.findByPostalCode(postalCode).orElse(null);
-    }
+    }*/
 }
