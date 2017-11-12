@@ -6,20 +6,20 @@ import popr.model.Provider;
 import popr.model.Service;
 import popr.model.ServiceOrder;
 import popr.model.Zone;
+import popr.model.ServiceOrderStatus;
 import popr.model.enums.ServiceOrderStatusDict;
 
 import java.util.List;
 
 public interface ProviderOperationsInterface {
 
-    Page<ServiceOrder> getServiceOrdersByProvider(Provider provider, Pageable pageable);
+	List<ServiceOrderStatusDict> getAllServiceOrderStatuses();
 
-    Service addService(Provider provider, String description, int price,
-                       int estimatedRealisationTime, String name);
+	List<ServiceOrder> getServiceOrdersByProviderId(Long providerId);
 
-    Service changeServiceStatus(ServiceOrderStatusDict status, String description, ServiceOrder serviceOrder);
+	Service addService(Long providerId, Service service);
 
-    List<ServiceOrderStatusDict> getAllServiceOrderStatuses();
+	ServiceOrderStatus changeServiceOrderStatus(ServiceOrderStatus newStatusOrder, Long serviceOrderId);
 
     List<Zone> getZones();
 
