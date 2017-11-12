@@ -1,5 +1,7 @@
 package popr.repository;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,5 +16,5 @@ public interface ServiceOrderRepository extends JpaRepository<ServiceOrder, Long
 
     Page<ServiceOrder> findByOrderedBy(User user, Pageable pageable);
 
-    Page<ServiceOrder> findByService_Provider(Provider provider, Pageable pageable);
+    List<ServiceOrder> findByServiceId(Long providerId);
 }

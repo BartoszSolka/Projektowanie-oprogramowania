@@ -1,8 +1,11 @@
 package popr.service;
+import com.google.gson.Gson;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import popr.model.Location;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import popr.interfaces.AdminOperationsInterface;
 import popr.model.*;
@@ -21,37 +24,10 @@ public class AdminOperationsService implements AdminOperationsInterface {
     private final PasswordEncoder passwordEncoder;
     private final ZoneRepository zoneRepository;
 
-    @Override
-    public Provider addProvider(String nip, String phoneNo, String address, String name, Zone zone) {
-        Provider provider = new Provider();
 
-        provider.setName(name);
-        provider.setNip(nip);
-        provider.setPhoneNo(phoneNo);
-        provider.setAddress(address);
-        provider.setZone(zone);
+    @Override
+    public Provider addProvider(Provider provider) {
         return providerRepository.save(provider);
-    }
-
-    @Override
-    public Page<ServiceChange> getNotValidatedServiceChanges(Pageable pageable) {
-        return serviceChangeRepository.findByValidatedByIsNull(pageable);
-    }
-
-    @Override
-    public User addUser(String email, String name, String surname, Zone zone, String phoneNo, String address, String username, String password) {
-        User user = new User();
-
-        user.setEmail(email);
-        user.setName(name);
-        user.setSurname(surname);
-        user.setPhoneNo(phoneNo);
-        user.setAddress(address);
-        user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
-        user.setZone(zone);
-        return userRepository.save(user);
-
     }
 
     @Override
@@ -63,7 +39,41 @@ public class AdminOperationsService implements AdminOperationsInterface {
     }
 
     @Override
-    public List<Zone> getZones() {
-        return zoneRepository.findAll();
+    public User addUser(String email, String name, String surname, Zone zone, String phoneNo, String address, String username, String password) {
+        User user = new User();
+        user.setEmail(email);
+        user.setName(name);
+        user.setSurname(surname);
+        user.setPhoneNo(phoneNo);
+        user.setAddress(address);
+        user.setUsername(username);
+        user.setPassword(passwordEncoder.encode(password));
+        user.setZone(zone);
+        return userRepository.save(user);
     }
+
+    @Override
+    public void changeStatusOfChange(String changeId, String statusId, String description) {
+
+    }
+
+
+
+    @Override
+    public String getZonesList() {
+        List<Zone> zones = zoneRepository.findAll();
+        String json = new Gson().toJson(zones);
+        return json;
+    }
+
+    @Override
+    public Page<ServiceChange> getNotValidatedServiceChanges(Pageable pageable) {
+        return serviceChangeRepository.findByValidatedByIsNull(pageable);
+    }
+
+    @Override
+    public Page<ServiceOrderStatus> getStatusChangeDictionary() {
+        return null;
+    }
+
 }
