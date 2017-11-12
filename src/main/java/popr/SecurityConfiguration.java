@@ -47,13 +47,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/webjars/**")
                 .antMatchers("/js/**")
                 .antMatchers("/css/**")
-                .antMatchers("/layout/**");
+                .antMatchers("/layout/**")
+        		.antMatchers("/serviceProvider/**");
+        
 
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+        /*http
                 .csrf().disable()
                 .formLogin()
                 .loginPage("/login")

@@ -6,6 +6,7 @@ import popr.model.Provider;
 import popr.model.Service;
 import popr.model.ServiceOrder;
 import popr.model.Zone;
+import popr.model.ServiceOrderStatus;
 import popr.model.enums.ServiceOrderStatusDict;
 
 import java.util.List;

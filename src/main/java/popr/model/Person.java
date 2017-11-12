@@ -3,33 +3,38 @@ package popr.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 @Data
 @ToString
 @EqualsAndHashCode
-public class Service {
+public class Person {
 
     @Id
     @GeneratedValue
     private Long id;
-    
-    private String title;
 
-    private String description;
+    @Email
+    private String email;
 
-    private Integer price;
+    private String name;
 
-    private Integer estimatedRealisationTime;
+    private String surname;
 
-    @JsonIgnore
+    private String phoneNo;
+
+    private String address;
+
+    private String username;
+
+    private String password;
+
     @ManyToOne(optional = false)
-    private Provider provider;
+    private Zone zone;
 }

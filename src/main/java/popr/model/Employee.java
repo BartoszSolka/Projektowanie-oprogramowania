@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@ToString
+@ToString(exclude="provider")
 @EqualsAndHashCode
 public class Employee {
 
