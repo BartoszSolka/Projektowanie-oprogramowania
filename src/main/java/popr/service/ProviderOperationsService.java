@@ -6,7 +6,6 @@ import popr.model.Provider;
 import popr.model.Service;
 import popr.model.ServiceOrder;
 import popr.model.ServiceOrderStatus;
-import popr.model.ServiceOrderStatus;
 import popr.model.enums.ServiceOrderStatusDict;
 import popr.repository.ServiceOrderRepository;
 import popr.repository.ServiceOrderStatusRepository;
@@ -15,16 +14,12 @@ import popr.repository.ServiceRepository;
 import java.util.Arrays;
 import java.util.List;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-
 @org.springframework.stereotype.Service
 @RequiredArgsConstructor
 public class ProviderOperationsService implements ProviderOperationsInterface {
 
     private final ServiceOrderRepository serviceOrderRepository;
     private final ServiceRepository serviceRepository;
-    private final ServiceOrderStatusRepository serviceOrderStatusRepository;
     private final ServiceOrderStatusRepository serviceOrderStatusRepository;
 
     @Override
