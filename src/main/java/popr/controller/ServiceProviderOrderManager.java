@@ -10,7 +10,7 @@ import popr.model.ServiceOrder;
 import popr.model.ServiceOrderStatus;
 import popr.model.enums.ServiceOrderStatusDict;
 
-public interface ServiceProviderOrderManager {
+public interfaceServiceProviderOrderManager{
 	List<ServiceOrder> listAllOrders(Long serviceProviderId);
 	
 	List<ServiceOrderStatusDict> orderStatusDictionary();

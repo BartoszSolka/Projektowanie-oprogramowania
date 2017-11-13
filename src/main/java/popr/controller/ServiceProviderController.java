@@ -52,12 +52,12 @@ public class ServiceProviderController implements ServiceProviderOrderManager, S
 	public List<ServiceOrderStatusDict> orderStatusDictionary() {
 		return providerOperationsService.getAllServiceOrderStatuses();
 	}
-	
+
 	@GetMapping(path="/{providerId}/services")
 	public ModelAndView addServiceForm() {
 		return new ModelAndView("addService");
 	}
-	
+
 	@GetMapping(path="/{providerId}/index")
 	public ModelAndView showProviderOrdersPage() {
 		return new ModelAndView("index");
