@@ -35,4 +35,5 @@ public class ServiceChange {
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<ChangeStatus> statuses = new ArrayList<>();
+
 }

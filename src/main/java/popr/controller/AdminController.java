@@ -24,23 +24,19 @@ public class AdminController implements AdminManager {
     @Override
     @PostMapping (path = "/addProvider")
     public Provider addProvider(@RequestBody Provider provider) {
-/*
-        String name = provider.getName();
-        String nip = provider.getNip();
-        String phoneNo = provider.getPhoneNo();
-        String address = provider.getAdress();
-        Location location = provider.getLocation();*/
         return adminOperationsService.addProvider(provider);
     }
 
     @Override
-    public Admin addAdmin(String username, String password) {
-        return null;
+    @PostMapping (path = "/addAdmin")
+    public Admin addAdmin(@RequestBody Admin admin) {
+        return adminOperationsService.addAdmin(admin);
     }
 
     @Override
-    public User addUser(String email, String name, String surname, Zone zone, String phoneNo, String address, String username, String password) {
-        return null;
+    @PostMapping (path = "/addUser")
+    public User addUser(@RequestBody User user) {
+        return adminOperationsService.addUser(user);
     }
 
     @Override
@@ -55,12 +51,14 @@ public class AdminController implements AdminManager {
     }
 
     @Override
-    public String getNotValidatedServiceChanges(Pageable pageable) {
-        return null;
+    @GetMapping (path = "/notValidatedServiceChanges")
+    public String getNotValidatedServiceChanges() {
+        return adminOperationsService.getNotValidatedServiceChanges();
     }
 
     @Override
+    @GetMapping (path = "/statusChangeDictionary")
     public String getStatusChangeDictionary() {
-        return null;
+        return adminOperationsService.getStatusChangeDictionary();
     }
 }

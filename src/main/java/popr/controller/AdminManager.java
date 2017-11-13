@@ -7,12 +7,12 @@ import popr.model.*;
 public interface AdminManager {
 
     Provider addProvider(Provider providerJson);
-    Admin addAdmin(String username, String password);
-    User addUser(String email, String name, String surname, Zone zone, String phoneNo, String address, String username, String password);
+    Admin addAdmin(Admin admin);
+    User addUser(User user);
     void changeStatusOfChange(String changeId, String statusId, String description);
 
     String getZonesList();
-    String getNotValidatedServiceChanges(Pageable pageable);
+    String getNotValidatedServiceChanges();
     String getStatusChangeDictionary();
 
 }

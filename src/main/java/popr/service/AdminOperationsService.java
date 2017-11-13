@@ -1,5 +1,6 @@
 package popr.service;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import popr.model.Location;
 
@@ -23,6 +24,7 @@ public class AdminOperationsService implements AdminOperationsInterface {
     private final ServiceChangeRepository serviceChangeRepository;
     private final PasswordEncoder passwordEncoder;
     private final ZoneRepository zoneRepository;
+    private final ChangeStatusRepository changeStatusRepository;
 
 
     @Override
@@ -31,24 +33,12 @@ public class AdminOperationsService implements AdminOperationsInterface {
     }
 
     @Override
-    public Admin addAdmin(String username, String password) {
-        Admin admin = new Admin();
-        admin.setUsername(username);
-        admin.setPassword(passwordEncoder.encode(password));
+    public Admin addAdmin(Admin admin) {
         return adminRepository.save(admin);
     }
 
     @Override
-    public User addUser(String email, String name, String surname, Zone zone, String phoneNo, String address, String username, String password) {
-        User user = new User();
-        user.setEmail(email);
-        user.setName(name);
-        user.setSurname(surname);
-        user.setPhoneNo(phoneNo);
-        user.setAddress(address);
-        user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
-        user.setZone(zone);
+    public User addUser(User user) {
         return userRepository.save(user);
     }
 
@@ -56,8 +46,6 @@ public class AdminOperationsService implements AdminOperationsInterface {
     public void changeStatusOfChange(String changeId, String statusId, String description) {
 
     }
-
-
 
     @Override
     public String getZonesList() {
@@ -67,13 +55,19 @@ public class AdminOperationsService implements AdminOperationsInterface {
     }
 
     @Override
-    public Page<ServiceChange> getNotValidatedServiceChanges(Pageable pageable) {
-        return serviceChangeRepository.findByValidatedByIsNull(pageable);
+    public String getNotValidatedServiceChanges() {
+        List<ServiceChange> changes = serviceChangeRepository.findByValidatedByIsNull();
+        System.out.println(changes);
+        Gson gson = new GsonBuilder().serializeNulls().create();
+        String json = gson.toJson(changes);
+        return json;
     }
 
     @Override
-    public Page<ServiceOrderStatus> getStatusChangeDictionary() {
-        return null;
+    public String getStatusChangeDictionary() {
+        List<ChangeStatus> dict = changeStatusRepository.findAll();
+        String json = new Gson().toJson(dict);
+        return json;
     }
 
 }
