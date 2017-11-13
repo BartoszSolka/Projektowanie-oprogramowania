@@ -5,13 +5,12 @@ import popr.interfaces.ProviderOperationsInterface;
 import popr.model.Provider;
 import popr.model.Service;
 import popr.model.ServiceOrder;
-import popr.model.Zone;
+import popr.model.ServiceOrderStatus;
 import popr.model.ServiceOrderStatus;
 import popr.model.enums.ServiceOrderStatusDict;
 import popr.repository.ServiceOrderRepository;
 import popr.repository.ServiceOrderStatusRepository;
 import popr.repository.ServiceRepository;
-import popr.repository.ZoneRepository;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,7 +24,7 @@ public class ProviderOperationsService implements ProviderOperationsInterface {
 
     private final ServiceOrderRepository serviceOrderRepository;
     private final ServiceRepository serviceRepository;
-    private final ZoneRepository zoneRepository;
+    private final ServiceOrderStatusRepository serviceOrderStatusRepository;
     private final ServiceOrderStatusRepository serviceOrderStatusRepository;
 
     @Override
@@ -54,10 +53,5 @@ public class ProviderOperationsService implements ProviderOperationsInterface {
     @Override
     public List<ServiceOrderStatusDict> getAllServiceOrderStatuses() {
         return Arrays.asList(ServiceOrderStatusDict.values());
-    }
-
-    @Override
-    public List<Zone> getZones() {
-        return zoneRepository.findAll();
     }
 }
