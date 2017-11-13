@@ -17,4 +17,9 @@ public class Controller {
         return "login";
     }
 
+    @GetMapping("/new-service")
+    public String newService(Model model) {
+        return "new-service";
+    }
+
 }

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Interfejs usługodawcy</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-default navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="/" class="navbar-brand">System obsługi awarii - usługodawca</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/">Home</a></li>
+                <li class="dropdown"></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div class="jumbotron">
+        <h2>Utwórz zlecenie</h2>
+        <br><br>
+        <h4>Tytuł:</h4>
+        <input id="tytulZlecenia" style="width: 100%;">
+        <h4>Cena:</h4>
+        <input id="cenaZlecenia" style="width: 100%;">
+        <h4>Estymowany czas:</h4>
+        <input id="czasZlecenia" style="width: 100%;">
+        <h4>Opis</h4>
+        <textarea id="opisZlecenia" style="width: 100%; min-height: 200px"></textarea>
+        <button type="button" class="btn btn-success" onclick="dodajZlecenie();">Dodaj</button>
+    </div>
+</div>
+<script>/**
+ * Created by Paweł on 13.11.2017.
+ */
+var dodajZlecenie = function () {
+        var tytulZlecenia = document.getElementById('tytulZlecenia').value;
+        var cenaZlecenia = document.getElementById('cenaZlecenia').value;
+        var czasZlecenia = document.getElementById('czasZlecenia').value;
+        var opisZlecenia = document.getElementById('opisZlecenia').value;
+
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8080/serviceProvider/4/services',
+            dataType: 'json',
+            data: {
+                id: 4,
+                title: tytulZlecenia,
+                description: opisZlecenia,
+                price: cenaZlecenia,
+                estimatedRealisationTime: czasZlecenia
+            }
+        });
+    };</script>
+</body>
+</html>
