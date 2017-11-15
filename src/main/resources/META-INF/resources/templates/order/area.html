@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+</head>
+<body>
+
+        <nav class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand">System obsługi awarii - użytkownik</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="my.html">Moje zlecenia</a></li>
+                        <li><a href="assembling.html">Złóż nowe zlecenie</a></li>
+                        <li class="active"><a href="area.html">Zlecenia w Twojej strefie</a></li>
+                        <li><a href="mark.html">Ocena zleceń</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Typ użytkownika <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/">Użytkownik</a></li>
+                                <li><a href="../">Zleceniodawca</a></li>
+                                <li><a href="../admin">Administrator</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <div class="jumbotron">
+    <h1>Zlecenia w strefie 00-001</h1>
+    <table class="table table-condensed table-hover table-bordered">
+        <thead>
+        <tr>
+            <th>Opis</th>
+            <th>Data utworzenia</th>
+            <th>Ocena</th>
+            <th>Strefa</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Słabo oznaczone przejście dla pieszych na ulicy Batorego 10</td>
+            <td>05.09.2017</td>
+            <td>9/10</td>
+            <td>00-001</td>
+            <td>Nieaktualne</td>
+        </tr>
+        <tr>
+            <td>Uszkodzony przystanek autobusowy Metro Pole Motowskie 05</td>
+            <td>18.10.2017</td>
+            <td>8/10</td>
+            <td>00-001</td>
+            <td>Nieaktualne</td>
+        </tr>
+        </tbody>
+    </table>
+            </div>
+        </div>
+
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
