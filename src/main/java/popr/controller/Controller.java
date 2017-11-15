@@ -22,4 +22,39 @@ public class Controller {
         return "new-service";
     }
 
+    @GetMapping("/order/my")
+    public String myOrder(Model model) {
+        return "order/my";
+    }
+
+    @GetMapping("/order/area")
+    public String areaOrder(Model model) {
+        return "order/area";
+    }
+
+    @GetMapping("/order/assembling")
+    public String assemblingOrder(Model model) {
+        return "order/assembling";
+    }
+
+    @GetMapping("/order/mark")
+    public String markOrder(Model model) {
+        return "order/mark";
+    }
+
+    @GetMapping("/admin")
+    public String admin(Model model) {
+        return "admin/index";
+    }
+
+    @GetMapping("/admin/new-provider")
+    public String adminNewProvider(Model model) {
+        return "admin/new-provider";
+    }
+
+    @GetMapping("/admin/new-user")
+    public String adminNewUser(Model model) {
+        return "admin/new-user";
+    }
+
 }
