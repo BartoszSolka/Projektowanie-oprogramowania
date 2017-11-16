@@ -31,21 +31,94 @@
     <div class="jumbotron">
         <h2>Dodaj usługodawce</h2>
         <br><br>
+        <h4>Nazwa:
+            <input id="name" style="width: 70%;">
+        </h4>
         <h4>NIP:        
-          <input style="width: 70%;">
+          <input id="nip" style="width: 70%;">
         </h4>
         <h4>Telefon:
-          <input style="width: 70%;">
+          <input id="phoneNumber" style="width: 70%;">
         </h4>
         <h4>SiedzibaFirmy:
-          <input style="width: 70%;">
+          <input id="address" style="width: 70%;">
         </h4>
         <h4>Lokalizacja:
-          <input style="width: 70%;">
+          <input id="location" style="width: 70%;">
         </h4>
-        <button type="button" class="btn btn-success">Dodaj</button>
+        <button type="button" class="btn btn-success" onclick="dodajUslugodawce();">Dodaj</button>
+
+        <div class="modal fade" id="successModal" role="dialog">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Dodanie usługodawcy</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Operacja zakończona pomyślnie.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="failModal" role="dialog">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Błąd !</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Operacja zakończona niepowodzeniem. Sprawdź poprawność danych.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
+<script>
+    /**
+ * Created by Paweł on 13.11.2017.
+ */
+var dodajUslugodawce = function () {
+        var name = document.getElementById('name').value;
+        var nip = document.getElementById('nip').value;
+        var phoneNumber = document.getElementById('phoneNumber').value;
+        var address = document.getElementById('address').value;
+        var location = document.getElementById('location').value;
 
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8080/admin/addProvider',
+            dataType: 'json',
+            data: {
+                name: name,
+                nip: nip,
+                phoneNo: phoneNumber,
+                address: address,
+                location: location
+            },
+            success: function (response) {
+                console.log(response);
+                $("#successModal").modal();
+            },
+            error: function (response) {
+                console.log(response);
+                $("#failModal").modal();
+            }
+        });
+
+    };
+
+
+</script>
 </body>
 </html>

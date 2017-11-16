@@ -17,7 +17,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="/">Zlecenia</a></li>
+                <li><a href="/">Usługi</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
@@ -34,17 +34,54 @@
 </nav>
 <div class="container">
     <div class="jumbotron">
-        <h2>Utwórz zlecenie</h2>
+        <h2>Dodaj usługę</h2>
         <br><br>
         <h4>Tytuł:</h4>
         <input id="tytulZlecenia" style="width: 100%;">
-        <h4>Cena:</h4>
+        <h4>Cena (zł):</h4>
         <input id="cenaZlecenia" style="width: 100%;">
         <h4>Estymowany czas:</h4>
         <input id="czasZlecenia" style="width: 100%;">
         <h4>Opis</h4>
         <textarea id="opisZlecenia" style="width: 100%; min-height: 200px"></textarea>
         <button type="button" class="btn btn-success" onclick="dodajZlecenie();">Dodaj</button>
+        <div class="modal fade" id="successModal" role="dialog">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Utworzenie zlecenia</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Usługa dodana pomyślnie.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="failModal" role="dialog">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Błąd !</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Usługa nie została dodana. Sprawdź poprawność danych.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
     </div>
 </div>
 <script>/**
@@ -66,8 +103,20 @@ var dodajZlecenie = function () {
                 description: opisZlecenia,
                 price: cenaZlecenia,
                 estimatedRealisationTime: czasZlecenia
+            },
+            success: function (response) {
+                console.log(response);
+                $("#successModal").modal();
+            },
+            error: function (response) {
+                console.log(response);
+                $("#failModal").modal();
             }
         });
-    };</script>
+
+    };
+
+
+</script>
 </body>
 </html>
