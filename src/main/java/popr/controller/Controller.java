@@ -22,6 +22,11 @@ public class Controller {
         return "new-service";
     }
 
+    @GetMapping("/info")
+    public String info(Model model) {
+        return "info";
+    }
+
     @GetMapping("/order/my")
     public String myOrder(Model model) {
         return "order/my";

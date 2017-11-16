@@ -24,8 +24,8 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Typ użytkownika <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/">Użytkownik</a></li>
-                        <li><a href="./order/my.html">Zleceniodawca</a></li>
+                        <li><a href="/">Usługodawca</a></li>
+                        <li><a href="./order/my.html">Użytkownik</a></li>
                         <li><a href="./admin">Administrator</a></li>
                     </ul>
                 </li>
@@ -36,7 +36,7 @@
 <div class="container">
     <div class="jumbotron">
         <a href="./new-service">
-            Utwórz zlecenie
+            Dodaj usługę
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
         </a>
         </tr>
@@ -48,7 +48,9 @@
             <thead>
             <tr>
                 <th>#</th>
-                <th>Rodzaj usługi</th>
+                <th>Opis zlecenia</th>
+                <th>Data utworzenia</th>
+                <th>Ocena</th>
                 <th>Opcje</th>
             </tr>
             </thead>
@@ -59,22 +61,30 @@
 </div>
 <script>
     $.get('http://localhost:8080/serviceProvider/4/orders', function (data) {
+        console.log(data);
         var tbody = document.getElementById("tbody");
         for (var i = 0; i < data.length; i++) {
             var tr = document.createElement("tr");
-            var th = document.createElement("th");
-            th.textContent = data[i].id;
+            var td0 = document.createElement("td");
             var td1 = document.createElement("td");
-            td1.textContent = data[i].description;
             var td2 = document.createElement("td");
-            td2.innerHTML = '<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>\n' +
+            var td3 = document.createElement("td");
+            var td4 = document.createElement("td");
+
+            td0.textContent = data[i].id;
+            td1.textContent = data[i].description;
+            //td2.textContent = data[i].creation_date;
+            td3.textContent = data[i].rating;
+            td4.innerHTML = '<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>\n' +
                 '                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>\n' +
                 '                    <a href="./info.html">\n' +
                 '                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>\n' +
                 '                    </a>';
-            tr.appendChild(th);
+            tr.appendChild(td0);
             tr.appendChild(td1);
             tr.appendChild(td2);
+            tr.appendChild(td3);
+            tr.appendChild(td4);
             tbody.appendChild(tr);
         }
     })
