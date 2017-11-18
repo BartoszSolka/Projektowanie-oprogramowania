@@ -26,4 +26,14 @@ public interface ServiceUserManager {
 
 
 
+    ServiceOrderStatus getServiceOrderStatus(ServiceOrder serviceOrder);
+
+    ServiceOrder cancelServiceOrder(ServiceOrder serviceOrder);
+
+    ServiceOrder editServiceOrder(String description, Zone zone, Service service, ServiceOrder serviceOrder);
+
+    ServiceOrder rateServiceOrder(ServiceOrder serviceOrder, Integer rating);
+
+
+
 }

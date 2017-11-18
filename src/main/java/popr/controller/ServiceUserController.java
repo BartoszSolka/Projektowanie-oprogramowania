@@ -70,5 +70,29 @@ public class ServiceUserController implements ServiceUserManager {
         return userOperationsService.rateServiceOrder(orderId, rating);
     }
 
+    @Override
+    @GetMapping(path = "/orderStatus", produces = APPLICATION_JSON_VALUE)
+    public ServiceOrderStatus getServiceOrderStatus(ServiceOrder serviceOrder) {
+        return userOperationsService.getServiceOrderStatus(serviceOrder);
+    }
+
+    @Override
+    @PostMapping(path = "/cancelOrder")
+    public ServiceOrder cancelServiceOrder(ServiceOrder serviceOrder) {
+        return userOperationsService.cancelServiceOrder(serviceOrder);
+    }
+
+    @Override
+    @PostMapping(path = "/editOrder")
+    public ServiceOrder editServiceOrder(String description, Zone zone, Service service, ServiceOrder serviceOrder) {
+        return userOperationsService.editServiceOrder(description, zone, service, serviceOrder);
+    }
+
+    @Override
+    @PostMapping(path = "/rateOrder")
+    public ServiceOrder rateServiceOrder(ServiceOrder serviceOrder, Integer rating) {
+        return userOperationsService.rateServiceOrder(serviceOrder, rating);
+    }
+
 
 }
