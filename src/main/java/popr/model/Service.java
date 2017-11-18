@@ -1,5 +1,6 @@
 package popr.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -8,8 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Data
@@ -20,6 +19,9 @@ public class Service {
     @Id
     @GeneratedValue
     private Long id;
+
+    @ManyToOne
+    private ServiceType serviceType;
     
     private String title;
 

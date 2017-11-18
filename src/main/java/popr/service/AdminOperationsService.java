@@ -1,12 +1,8 @@
 package popr.service;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import popr.model.Location;
-
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import popr.interfaces.AdminOperationsInterface;
 import popr.model.*;
@@ -69,5 +65,4 @@ public class AdminOperationsService implements AdminOperationsInterface {
         String json = new Gson().toJson(dict);
         return json;
     }
-
 }
