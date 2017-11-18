@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface ServiceUserManager {
 
-    ServiceOrder createServiceOrder(String description, String zoneId, Long serviceID, Long providerId);
+    ServiceOrder createServiceOrder(String description, Zone zone, Long serviceID, Long providerId);
 
     Page<Service> getServices(Pageable pageable);
 
