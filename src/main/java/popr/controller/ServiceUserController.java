@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import popr.interfaces.ProviderOperationsInterface;
 import popr.interfaces.UserOperationsInterface;
-import popr.model.Service;
-import popr.model.ServiceOrder;
-import popr.model.User;
-import popr.model.Zone;
+import popr.model.*;
 import popr.repository.ProviderRepository;
 import popr.repository.ZoneRepository;
 
@@ -50,6 +47,30 @@ public class ServiceUserController implements ServiceUserManager {
     @GetMapping(path = "/userService", produces = APPLICATION_JSON_VALUE)
     public Page<ServiceOrder> getServicesByUser(User user, Pageable pageable) {
         return userOperationsService.getServicesByUser(user, pageable);
+    }
+
+    @Override
+    @GetMapping(path = "/orderStatus", produces = APPLICATION_JSON_VALUE)
+    public ServiceOrderStatus getServiceOrderStatus(ServiceOrder serviceOrder) {
+        return userOperationsService.getServiceOrderStatus(serviceOrder);
+    }
+
+    @Override
+    @PostMapping(path = "/cancelOrder")
+    public ServiceOrder cancelServiceOrder(ServiceOrder serviceOrder) {
+        return userOperationsService.cancelServiceOrder(serviceOrder);
+    }
+
+    @Override
+    @PostMapping(path = "/editOrder")
+    public ServiceOrder editServiceOrder(String description, Zone zone, Service service, ServiceOrder serviceOrder) {
+        return userOperationsService.editServiceOrder(description, zone, service, serviceOrder);
+    }
+
+    @Override
+    @PostMapping(path = "/rateOrder")
+    public ServiceOrder rateServiceOrder(ServiceOrder serviceOrder, Integer rating) {
+        return userOperationsService.rateServiceOrder(serviceOrder, rating);
     }
 
 

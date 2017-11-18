@@ -2,10 +2,7 @@ package popr.controller;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import popr.model.Service;
-import popr.model.ServiceOrder;
-import popr.model.User;
-import popr.model.Zone;
+import popr.model.*;
 
 import java.util.List;
 
@@ -18,5 +15,15 @@ public interface ServiceUserManager {
     Page<ServiceOrder> getServicesByZone(Zone zone, Pageable pageable);
 
     Page<ServiceOrder> getServicesByUser(User user, Pageable pageable);
+
+    ServiceOrderStatus getServiceOrderStatus(ServiceOrder serviceOrder);
+
+    ServiceOrder cancelServiceOrder(ServiceOrder serviceOrder);
+
+    ServiceOrder editServiceOrder(String description, Zone zone, Service service, ServiceOrder serviceOrder);
+
+    ServiceOrder rateServiceOrder(ServiceOrder serviceOrder, Integer rating);
+
+
 
 }
