@@ -11,6 +11,8 @@ import popr.repository.ServiceRepository;
 
 import java.time.ZonedDateTime;
 
+
+
 @org.springframework.stereotype.Service
 @RequiredArgsConstructor
 public class UserOperationsService implements UserOperationsInterface {
@@ -60,7 +62,8 @@ public class UserOperationsService implements UserOperationsInterface {
     }
 
     @Override
-    public ServiceOrderStatus getServiceOrderStatus(ServiceOrder serviceOrder) {
+    public ServiceOrderStatus getServiceOrderStatus(Long orderId) {
+        ServiceOrder serviceOrder = serviceOrderRepository.findById(orderId);
         return serviceOrderStatusRepository.findByServiceOrderAndCurrentIsTrue(serviceOrder);
     }
 
@@ -70,7 +73,8 @@ public class UserOperationsService implements UserOperationsInterface {
     }
 
     @Override
-    public ServiceOrder editServiceOrder(String description, Zone zone, Service service, ServiceOrder serviceOrder) {
+    public ServiceOrder editServiceOrder(String description, Zone zone, Service service, Long orderId) {
+        ServiceOrder serviceOrder = serviceOrderRepository.findById(orderId);
         if (description != null) {
             serviceOrder.setDescription(description);
         }
@@ -85,7 +89,8 @@ public class UserOperationsService implements UserOperationsInterface {
     }
 
     @Override
-    public ServiceOrder rateServiceOrder(ServiceOrder serviceOrder, Integer rating) {
+    public ServiceOrder rateServiceOrder(Long orderId, Integer rating) {
+        ServiceOrder serviceOrder = serviceOrderRepository.findById(orderId);
         serviceOrder.setRating(rating);
         return serviceOrderRepository.save(serviceOrder);
     }

@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import popr.interfaces.ProviderOperationsInterface;
 import popr.interfaces.UserOperationsInterface;
 import popr.model.*;
@@ -51,8 +48,8 @@ public class ServiceUserController implements ServiceUserManager {
 
     @Override
     @GetMapping(path = "/orderStatus", produces = APPLICATION_JSON_VALUE)
-    public ServiceOrderStatus getServiceOrderStatus(ServiceOrder serviceOrder) {
-        return userOperationsService.getServiceOrderStatus(serviceOrder);
+    public ServiceOrderStatus getServiceOrderStatus(Long orderId) {
+        return userOperationsService.getServiceOrderStatus(orderId);
     }
 
     @Override
@@ -63,14 +60,14 @@ public class ServiceUserController implements ServiceUserManager {
 
     @Override
     @PostMapping(path = "/editOrder")
-    public ServiceOrder editServiceOrder(String description, Zone zone, Service service, ServiceOrder serviceOrder) {
-        return userOperationsService.editServiceOrder(description, zone, service, serviceOrder);
+    public ServiceOrder editServiceOrder(String description, Zone zone, Service service, Long orderId) {
+        return userOperationsService.editServiceOrder(description, zone, service, orderId);
     }
 
     @Override
     @PostMapping(path = "/rateOrder")
-    public ServiceOrder rateServiceOrder(ServiceOrder serviceOrder, Integer rating) {
-        return userOperationsService.rateServiceOrder(serviceOrder, rating);
+    public ServiceOrder rateServiceOrder(Long orderId, Integer rating) {
+        return userOperationsService.rateServiceOrder(orderId, rating);
     }
 
 
