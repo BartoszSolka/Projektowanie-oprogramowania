@@ -17,11 +17,11 @@ public interface UserOperationsInterface {
 
     Page<ServiceOrder> getServicesByUser(User user, Pageable pageable);
 
-    ServiceOrderStatus getServiceOrderStatus(ServiceOrder serviceOrder);
+    ServiceOrderStatus getServiceOrderStatus(Long orderId);
 
     ServiceOrder cancelServiceOrder(ServiceOrder serviceOrder);
 
-    ServiceOrder editServiceOrder(String description, Zone zone, Service service, ServiceOrder serviceOrder);
+    ServiceOrder editServiceOrder(String description, Zone zone, Service service, Long orderId);
 
-    ServiceOrder rateServiceOrder(ServiceOrder serviceOrder, Integer rating);
+    ServiceOrder rateServiceOrder(Long orderId, Integer rating);
 }
