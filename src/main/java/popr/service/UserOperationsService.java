@@ -1,23 +1,22 @@
 package popr.service;
-import java.time.ZonedDateTime;
-import popr.model.User;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import popr.interfaces.UserOperationsInterface;
-import popr.model.Provider;
-import popr.model.ServiceOrder;
-import popr.model.Zone;
+import popr.model.*;
 import popr.repository.ProviderRepository;
 import popr.repository.ServiceOrderRepository;
+import popr.repository.ServiceOrderStatusRepository;
 import popr.repository.ServiceRepository;
+
+import java.time.ZonedDateTime;
 
 @org.springframework.stereotype.Service
 @RequiredArgsConstructor
 public class UserOperationsService implements UserOperationsInterface {
 
     private final ServiceOrderRepository serviceOrderRepository;
+    private final ServiceOrderStatusRepository serviceOrderStatusRepository;
     private final ServiceRepository serviceRepository;
     private final UserService userService;
     private final ProviderRepository providerRepository;
@@ -58,5 +57,36 @@ public class UserOperationsService implements UserOperationsInterface {
     @Override
     public Page<ServiceOrder> getServicesByUser(User user, Pageable pageable) {
         return serviceOrderRepository.findByOrderedBy(user, pageable);
+    }
+
+    @Override
+    public ServiceOrderStatus getServiceOrderStatus(ServiceOrder serviceOrder) {
+        return serviceOrderStatusRepository.findByServiceOrderAndCurrentIsTrue(serviceOrder);
+    }
+
+    @Override
+    public ServiceOrder cancelServiceOrder(ServiceOrder serviceOrder) {
+        return null;
+    }
+
+    @Override
+    public ServiceOrder editServiceOrder(String description, Zone zone, Service service, ServiceOrder serviceOrder) {
+        if (description != null) {
+            serviceOrder.setDescription(description);
+        }
+        if (zone != null) {
+            serviceOrder.setZone(zone);
+        }
+        if (service != null) {
+            serviceOrder.setService(service);
+        }
+
+        return serviceOrderRepository.save(serviceOrder);
+    }
+
+    @Override
+    public ServiceOrder rateServiceOrder(ServiceOrder serviceOrder, Integer rating) {
+        serviceOrder.setRating(rating);
+        return serviceOrderRepository.save(serviceOrder);
     }
 }
