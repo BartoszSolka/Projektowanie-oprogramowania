@@ -43,15 +43,11 @@
         <h4>Adres:
           <input id="address" style="width: 70%;">
         </h4>
-        <h4>Wojewódźtwo:
-          <input id="voivodeship" style="width: 70%;">
+        <h4>Strefa:
+          <input id="zone" style="width: 70%;">
         </h4>
-        <h4>Szerokość geo:
-            <input id="latitude" style="width: 70%;">
-        </h4>
-        <h4>Długość geo:
-            <input id="longitude" style="width: 70%;">
-        </h4>
+
+
         <button type="button" class="btn btn-success" onclick="dodajUslugodawce();">Dodaj</button>
 
         <div class="modal fade" id="successModal" role="dialog">
@@ -99,10 +95,7 @@ var dodajUslugodawce = function () {
         var nip = document.getElementById('nip').value;
         var phoneNumber = document.getElementById('phoneNumber').value;
         var address = document.getElementById('address').value;
-        var voivodeship = document.getElementById('voivodeship').value;
-        var latitude = document.getElementById('latitude').value;
-        var longitude = document.getElementById('longitude').value;
-
+        var zone = document.getElementById("zone").value;
 
         $.ajax({
             type: 'POST',
@@ -113,10 +106,10 @@ var dodajUslugodawce = function () {
                 nip: nip,
                 phoneNo: phoneNumber,
                 address: address,
-                location: {
-                    voivodeship: voivodeship,
-                    latitude: latitude,
-                    longitude: longitude
+                zone: {
+                    id: zone,
+                    postalCode:null
+
                 }
             },
             success: function (response) {

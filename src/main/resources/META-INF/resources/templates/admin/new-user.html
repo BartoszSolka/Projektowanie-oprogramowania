@@ -32,32 +32,108 @@
         <h2>Dodaj Użytkownika</h2>
         <br><br>
         <h4>Email:        
-          <input style="width: 70%;">
+          <input id="email" style="width: 70%;">
         </h4>
          <h4>Imie:        
-           <input style="width: 70%;">
+           <input  id="name" style="width: 70%;">
         </h4>
          <h4>Nazwisko:        
-           <input style="width: 70%;">
+           <input  id="surname" style="width: 70%;">
         </h4>
          <h4>Telefon:        
-           <input style="width: 70%;">
+           <input  id="phoneNumber" style="width: 70%;">
         </h4>
         <h4>Adres:
-          <input style="width: 70%;">
+          <input id="address" style="width: 70%;">
         </h4>
         <h4>Login:
-          <input style="width: 70%;">
+          <input id="username" style="width: 70%;">
         </h4>
         <h4>Hasło:
-          <input style="width: 70%;">
+          <input id="password"   style="width: 70%;">
         </h4>
          <h4>Strefa:        
-          <input style="width: 70%;">
+          <input id="zone" style="width: 70%;">
         </h4>
-        <button type="button" class="btn btn-success">Dodaj</button>
+        <button type="button" class="btn btn-success" onclick="dodajUzytkownika();">Dodaj</button>
+        <div class="modal fade" id="successModal" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Dodanie usługodawcy</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Operacja zakończona pomyślnie.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="failModal" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Błąd !</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Operacja zakończona niepowodzeniem. Sprawdź poprawność danych.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                </div>
+            </div>
+        </div>
+    </div>
  </div>
 </div>
 
+<script>
+    var dodajUzytkownika = function () {
+        var name = document.getElementById('name').value;
+        var surname = document.getElementById('surname').value;
+        var email = document.getElementById('email').value;
+        var phoneNumber = document.getElementById('phoneNumber').value;
+        var address = document.getElementById('address').value;
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        var zone = document.getElementById("zone").value;
+
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8080/admin/addUser',
+            dataType: 'json',
+            data: {
+                email: email,
+                name: name,
+                surname: surname,
+                phoneNo: phoneNumber,
+                address: address,
+                username: username,
+                password: password,
+                zone: {
+                    id: zone,
+                    postalCode:null
+
+                }
+            },
+            success: function (response) {
+                console.log(response);
+                $("#successModal").modal();
+            },
+            error: function (response) {
+                console.log(response);
+                $("#failModal").modal();
+            }
+        });
+
+    };
+
+
+</script>
 </body>
 </html>
