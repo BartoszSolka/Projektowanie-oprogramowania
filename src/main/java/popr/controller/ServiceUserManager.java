@@ -14,7 +14,7 @@ public interface ServiceUserManager {
 
     Page<ServiceOrder> getServiceOrdersByZone(String postalCode, Pageable pageable);
 
-    Page<ServiceOrder> getServiceOrdersByUser(User user, Pageable pageable);
+    Page<ServiceOrder> getServiceOrdersByUser(Pageable pageable);
 
     ServiceOrderStatus getServiceOrderStatus(Long orderId);
 

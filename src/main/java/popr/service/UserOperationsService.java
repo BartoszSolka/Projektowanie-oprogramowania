@@ -57,7 +57,8 @@ public class UserOperationsService implements UserOperationsInterface {
     }
 
     @Override
-    public Page<ServiceOrder> getServiceOrdersByUser(User user, Pageable pageable) {
+    public Page<ServiceOrder> getServiceOrdersByUser(Pageable pageable) {
+        User user = userService.readCurrent();
         return serviceOrderRepository.findByOrderedBy(user, pageable);
     }
 
