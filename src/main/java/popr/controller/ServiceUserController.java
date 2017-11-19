@@ -24,8 +24,8 @@ public class ServiceUserController implements ServiceUserManager {
 
     @Override
     @PostMapping(path = "/addOrder")
-    public ServiceOrder createServiceOrder(String description, Zone zone, Long serviceID, Long providerId) {
-        return userOperationsService.createServiceOrder(description, zone, serviceID, providerId);
+    public ServiceOrder createServiceOrder(String description, String postalCode, Long serviceID, Long providerId) {
+        return userOperationsService.createServiceOrder(description, postalCode, serviceID, providerId);
     }
 
     @Override
@@ -36,14 +36,14 @@ public class ServiceUserController implements ServiceUserManager {
 
     @Override
     @GetMapping(path = "/zoneService", produces = APPLICATION_JSON_VALUE)
-    public Page<ServiceOrder> getServicesByZone(Zone zone, Pageable pageable) {
-        return userOperationsService.getServicesByZone(zone, pageable);
+    public Page<ServiceOrder> getServiceOrdersByZone(String postalCode, Pageable pageable) {
+        return userOperationsService.getServiceOrdersByZone(postalCode, pageable);
     }
 
     @Override
     @GetMapping(path = "/userService", produces = APPLICATION_JSON_VALUE)
-    public Page<ServiceOrder> getServicesByUser(User user, Pageable pageable) {
-        return userOperationsService.getServicesByUser(user, pageable);
+    public Page<ServiceOrder> getServiceOrdersByUser(User user, Pageable pageable) {
+        return userOperationsService.getServiceOrdersByUser(user, pageable);
     }
 
     @Override
@@ -60,8 +60,8 @@ public class ServiceUserController implements ServiceUserManager {
 
     @Override
     @PostMapping(path = "/editOrder")
-    public ServiceOrder editServiceOrder(String description, Zone zone, Service service, Long orderId) {
-        return userOperationsService.editServiceOrder(description, zone, service, orderId);
+    public ServiceOrder editServiceOrder(String description, String postalCode, Service service, Long orderId) {
+        return userOperationsService.editServiceOrder(description, postalCode, service, orderId);
     }
 
     @Override

@@ -4,10 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import popr.interfaces.UserOperationsInterface;
 import popr.model.*;
-import popr.repository.ProviderRepository;
-import popr.repository.ServiceOrderRepository;
-import popr.repository.ServiceOrderStatusRepository;
-import popr.repository.ServiceRepository;
+import popr.repository.*;
 
 import java.time.ZonedDateTime;
 
@@ -21,11 +18,13 @@ public class UserOperationsService implements UserOperationsInterface {
     private final ServiceOrderStatusRepository serviceOrderStatusRepository;
     private final ServiceRepository serviceRepository;
     private final UserService userService;
+    private final ZoneRepository zoneRepository;
     private final ProviderRepository providerRepository;
 
     @Override
-    public ServiceOrder createServiceOrder(String description, Zone zone, Long serviceId, Long providerId) {
+    public ServiceOrder createServiceOrder(String description, String postalCode, Long serviceId, Long providerId) {
         popr.model.Service service = serviceRepository.findOne(serviceId);
+        Zone zone = zoneRepository.findByPostalCode(postalCode);
         if (service == null) {
             return null;//handle error
         }
@@ -52,12 +51,13 @@ public class UserOperationsService implements UserOperationsInterface {
     }
 
     @Override
-    public Page<ServiceOrder> getServicesByZone(Zone zone, Pageable pageable) {
+    public Page<ServiceOrder> getServiceOrdersByZone(String postalCode, Pageable pageable) {
+        Zone zone = zoneRepository.findByPostalCode(postalCode);
         return serviceOrderRepository.findByZone(zone, pageable);
     }
 
     @Override
-    public Page<ServiceOrder> getServicesByUser(User user, Pageable pageable) {
+    public Page<ServiceOrder> getServiceOrdersByUser(User user, Pageable pageable) {
         return serviceOrderRepository.findByOrderedBy(user, pageable);
     }
 
@@ -73,12 +73,13 @@ public class UserOperationsService implements UserOperationsInterface {
     }
 
     @Override
-    public ServiceOrder editServiceOrder(String description, Zone zone, Service service, Long orderId) {
+    public ServiceOrder editServiceOrder(String description, String postalCode, Service service, Long orderId) {
         ServiceOrder serviceOrder = serviceOrderRepository.findById(orderId);
+        Zone zone = zoneRepository.findByPostalCode(postalCode);
         if (description != null) {
             serviceOrder.setDescription(description);
         }
-        if (zone != null) {
+        if (postalCode != null) {
             serviceOrder.setZone(zone);
         }
         if (service != null) {
