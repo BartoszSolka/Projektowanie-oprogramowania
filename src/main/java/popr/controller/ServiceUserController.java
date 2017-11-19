@@ -42,8 +42,8 @@ public class ServiceUserController implements ServiceUserManager {
 
     @Override
     @GetMapping(path = "/userService", produces = APPLICATION_JSON_VALUE)
-    public Page<ServiceOrder> getServiceOrdersByUser(User user, Pageable pageable) {
-        return userOperationsService.getServiceOrdersByUser(user, pageable);
+    public Page<ServiceOrder> getServiceOrdersByUser(Pageable pageable) {
+        return userOperationsService.getServiceOrdersByUser(pageable);
     }
 
     @Override
