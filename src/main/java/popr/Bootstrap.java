@@ -78,6 +78,8 @@ public class Bootstrap implements ApplicationRunner {
 
         ServiceOrder serviceOrder = new ServiceOrder();
         serviceOrder.setService(service);
+        serviceOrder.setDescription("Testowa usługa");
+        serviceOrder.setRating(0);
         serviceOrder.setZone(zone);
         serviceOrder.setOrderedBy(user);
         serviceOrder = serviceOrderRepository.save(serviceOrder);
