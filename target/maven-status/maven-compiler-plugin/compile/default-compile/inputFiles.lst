@@ -1,32 +1,65 @@
-E:\STUDIA\Projektowanie oprogramowania\apka\Projektowanie-oprogramowania\target\generated-sources\java\popr\model\QReport.java
-E:\STUDIA\Projektowanie oprogramowania\apka\Projektowanie-oprogramowania\src\main\java\popr\controller\Controller.java
-E:\STUDIA\Projektowanie oprogramowania\apka\Projektowanie-oprogramowania\target\generated-sources\java\popr\model\QServiceChange.java
-E:\STUDIA\Projektowanie oprogramowania\apka\Projektowanie-oprogramowania\target\generated-sources\java\popr\model\QChangeStatus.java
-E:\STUDIA\Projektowanie oprogramowania\apka\Projektowanie-oprogramowania\src\main\java\popr\model\Complaint.java
-E:\STUDIA\Projektowanie oprogramowania\apka\Projektowanie-oprogramowania\src\main\java\popr\model\Employee.java
-E:\STUDIA\Projektowanie oprogramowania\apka\Projektowanie-oprogramowania\src\main\java\popr\model\Provider.java
-E:\STUDIA\Projektowanie oprogramowania\apka\Projektowanie-oprogramowania\target\generated-sources\java\popr\model\QOrderStatus.java
-E:\STUDIA\Projektowanie oprogramowania\apka\Projektowanie-oprogramowania\target\generated-sources\java\popr\model\QPerson.java
-E:\STUDIA\Projektowanie oprogramowania\apka\Projektowanie-oprogramowania\src\main\java\popr\model\Report.java
-E:\STUDIA\Projektowanie oprogramowania\apka\Projektowanie-oprogramowania\target\generated-sources\java\popr\model\QAdmin.java
-E:\STUDIA\Projektowanie oprogramowania\apka\Projektowanie-oprogramowania\src\main\java\popr\model\Admin.java
-E:\STUDIA\Projektowanie oprogramowania\apka\Projektowanie-oprogramowania\src\main\java\popr\repository\AdminRepository.java
-E:\STUDIA\Projektowanie oprogramowania\apka\Projektowanie-oprogramowania\target\generated-sources\java\popr\model\QOrder.java
-E:\STUDIA\Projektowanie oprogramowania\apka\Projektowanie-oprogramowania\target\generated-sources\java\popr\model\QZone.java
-E:\STUDIA\Projektowanie oprogramowania\apka\Projektowanie-oprogramowania\src\main\java\popr\model\ProviderStatus.java
-E:\STUDIA\Projektowanie oprogramowania\apka\Projektowanie-oprogramowania\target\generated-sources\java\popr\model\QService.java
-E:\STUDIA\Projektowanie oprogramowania\apka\Projektowanie-oprogramowania\src\main\java\popr\model\ServiceChange.java
-E:\STUDIA\Projektowanie oprogramowania\apka\Projektowanie-oprogramowania\target\generated-sources\java\popr\model\QEmployee.java
-E:\STUDIA\Projektowanie oprogramowania\apka\Projektowanie-oprogramowania\src\main\java\popr\model\OrderStatus.java
-E:\STUDIA\Projektowanie oprogramowania\apka\Projektowanie-oprogramowania\src\main\java\popr\model\Person.java
-E:\STUDIA\Projektowanie oprogramowania\apka\Projektowanie-oprogramowania\src\main\java\popr\CustomUserDetailsService.java
-E:\STUDIA\Projektowanie oprogramowania\apka\Projektowanie-oprogramowania\src\main\java\popr\model\ChangeStatus.java
-E:\STUDIA\Projektowanie oprogramowania\apka\Projektowanie-oprogramowania\src\main\java\popr\model\Order.java
-E:\STUDIA\Projektowanie oprogramowania\apka\Projektowanie-oprogramowania\target\generated-sources\java\popr\model\QProviderStatus.java
-E:\STUDIA\Projektowanie oprogramowania\apka\Projektowanie-oprogramowania\target\generated-sources\java\popr\model\QProvider.java
-E:\STUDIA\Projektowanie oprogramowania\apka\Projektowanie-oprogramowania\src\main\java\popr\SecurityConfiguration.java
-E:\STUDIA\Projektowanie oprogramowania\apka\Projektowanie-oprogramowania\src\main\java\popr\model\Service.java
-E:\STUDIA\Projektowanie oprogramowania\apka\Projektowanie-oprogramowania\target\generated-sources\java\popr\model\QComplaint.java
-E:\STUDIA\Projektowanie oprogramowania\apka\Projektowanie-oprogramowania\src\main\java\popr\model\Zone.java
-E:\STUDIA\Projektowanie oprogramowania\apka\Projektowanie-oprogramowania\src\main\java\popr\PoprApplication.java
-E:\STUDIA\Projektowanie oprogramowania\apka\Projektowanie-oprogramowania\target\generated-sources\java\org\springframework\data\geo\QPoint.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\model\Admin.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\target\generated-sources\java\popr\model\QService.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\repository\ServiceTypeRepository.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\target\generated-sources\java\popr\model\QChangeStatus.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\model\Person.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\repository\ProviderStatusRepository.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\target\generated-sources\java\popr\model\QProvider.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\target\generated-sources\java\popr\model\QServiceOrderStatus.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\model\ServiceOrderStatus.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\repository\ChangeStatusRepository.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\SecurityConfiguration.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\target\generated-sources\java\popr\model\QReport.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\service\ZoneService.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\CustomUserDetailsService.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\model\ServiceOrder.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\controller\AdminManager.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\interfaces\UserOperationsInterface.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\model\Report.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\repository\ServiceOrderRepository.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\PoprApplication.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\service\ProviderOperationsService.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\target\generated-sources\java\popr\model\QAdmin.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\model\ProviderStatus.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\repository\ServiceRepository.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\interfaces\AdminOperationsInterface.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\model\Employee.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\controller\ServiceProviderServiceManager.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\target\generated-sources\java\popr\model\QServiceType.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\controller\ServiceUserManager.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\service\AdminOperationsService.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\controller\ServiceProviderController.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\controller\AdminController.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\controller\Controller.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\target\generated-sources\java\popr\model\QUser.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\controller\ServiceProviderOrderManager.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\service\UserService.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\target\generated-sources\java\popr\model\QProviderStatus.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\repository\ServiceChangeRepository.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\repository\ZoneRepository.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\target\generated-sources\java\popr\model\QZone.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\repository\ProviderRepository.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\model\Zone.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\model\ServiceType.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\target\generated-sources\java\popr\model\QEmployee.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\model\User.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\repository\EmployeeRepository.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\controller\ServiceUserController.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\target\generated-sources\java\popr\model\QPerson.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\Bootstrap.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\repository\ServiceOrderStatusRepository.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\service\UserOperationsService.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\interfaces\ProviderOperationsInterface.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\model\Complaint.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\repository\UserRepository.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\repository\ComplaintRepository.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\target\generated-sources\java\popr\model\QServiceChange.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\target\generated-sources\java\popr\model\QServiceOrder.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\model\ChangeStatus.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\model\Provider.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\model\Service.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\repository\AdminRepository.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\model\ServiceChange.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\repository\ReportRepository.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\target\generated-sources\java\popr\model\QComplaint.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\model\enums\ServiceOrderStatusDict.java
