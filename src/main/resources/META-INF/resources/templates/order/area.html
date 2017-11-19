@@ -68,28 +68,31 @@
         success: function (response) {
             console.log(response);
             var parentDiv = document.getElementById('mainTbody');
-            var tr = document.createElement('tr');
-            var td0 = document.createElement('td');
-            var td1 = document.createElement('td');
-            var td2 = document.createElement('td');
-            var td3 = document.createElement('td');
-            var td4 = document.createElement('td');
+            for(var i = 0;i<response.content.length;i++){
+                var tr = document.createElement('tr');
+                var td0 = document.createElement('td');
+                var td1 = document.createElement('td');
+                var td2 = document.createElement('td');
+                var td3 = document.createElement('td');
+                var td4 = document.createElement('td');
 
-            td0.textContent = response.content[0].description;
-            td1.textContent = '2017-11-19';
-            td2.className = 'dropdown';
+                td0.textContent = response.content[i].description;
+                td1.textContent = '2017-11-19';
+                td2.className = 'dropdown';
 
-            td2.textContent = response.content[0].rating;
-            td3.textContent = '00-001';
-            td4.textContent = '';
+                td2.textContent = response.content[i].rating;
+                td3.textContent = '00-001';
+                td4.textContent = '';
 
-            tr.appendChild(td0);
-            tr.appendChild(td1);
-            tr.appendChild(td2);
-            tr.appendChild(td3);
-            tr.appendChild(td4);
+                tr.appendChild(td0);
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                tr.appendChild(td3);
+                tr.appendChild(td4);
 
-            parentDiv.appendChild(tr);
+                parentDiv.appendChild(tr);
+            }
+
         },
         error: function (response) {
             console.log(response);
