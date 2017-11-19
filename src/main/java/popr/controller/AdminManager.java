@@ -6,7 +6,7 @@ import popr.model.*;
 
 public interface AdminManager {
 
-    Provider addProvider(Provider providerJson);
+    Provider addProvider(Provider provider);
     Admin addAdmin(Admin admin);
     User addUser(User user);
     void changeStatusOfChange(String changeId, String statusId, String description);

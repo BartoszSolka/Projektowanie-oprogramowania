@@ -87,9 +87,7 @@
     </div>
 </div>
 <script>
-    /**
- * Created by Paweł on 13.11.2017.
- */
+
 var dodajUslugodawce = function () {
         var name = document.getElementById('name').value;
         var nip = document.getElementById('nip').value;
@@ -102,15 +100,16 @@ var dodajUslugodawce = function () {
             url: 'http://localhost:8080/admin/addProvider',
             dataType: 'json',
             data: {
+                id:4,
                 name: name,
                 nip: nip,
                 phoneNo: phoneNumber,
                 address: address,
                 zone: {
-                    id: zone,
-                    postalCode:null
-
-                }
+                  id: zone,
+                  postalCode:null
+                },
+                isActive:true
             },
             success: function (response) {
                 console.log(response);
