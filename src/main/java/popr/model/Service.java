@@ -1,6 +1,7 @@
 package popr.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.gson.annotations.Expose;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -18,11 +19,13 @@ public class Service {
 
     @Id
     @GeneratedValue
+    @Expose
     private Long id;
 
     @ManyToOne
     private ServiceType serviceType;
-    
+
+    @Expose
     private String title;
 
     private String description;

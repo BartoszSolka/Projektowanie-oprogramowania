@@ -27,6 +27,7 @@ public class Provider {
     private String address;
 
     @ManyToOne
+    @Embedded
     private Zone zone;
 
     private boolean isActive;

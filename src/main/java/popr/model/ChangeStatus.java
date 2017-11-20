@@ -1,5 +1,6 @@
 package popr.model;
 
+import com.google.gson.annotations.Expose;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -17,13 +18,16 @@ public class ChangeStatus {
 
     @Id
     @GeneratedValue
-
+    @Expose
     private Long id;
 
+    @Expose
     private String comment;
 
+    @Expose
     private boolean current = true;
 
     @ManyToOne
+    @Expose
     private ServiceChange serviceChange;
 }
