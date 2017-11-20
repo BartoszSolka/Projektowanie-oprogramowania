@@ -25,6 +25,6 @@ public class UserOperationsServiceTests {
 
     @Test
     public void canCreateServiceOrder() throws Exception {
-        userOperationsService.createServiceOrder("test", new Zone(), 1L, 1L);
+        userOperationsService.createServiceOrder("test", "01-111", 1L, 1L);
     }
 }

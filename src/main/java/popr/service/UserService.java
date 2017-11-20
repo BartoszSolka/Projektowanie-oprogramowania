@@ -14,7 +14,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     public User readCurrent() {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return userRepository.findByUsername(userDetails.getUsername());
+        //UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userRepository.findByUsername("user1");
     }
 }

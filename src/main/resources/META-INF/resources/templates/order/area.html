@@ -5,7 +5,6 @@
     <title>Title</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
 </head>
 <body>
 
@@ -19,7 +18,6 @@
                         <li><a href="my.html">Moje zlecenia</a></li>
                         <li><a href="assembling.html">Złóż nowe zlecenie</a></li>
                         <li class="active"><a href="area.html">Zlecenia w Twojej strefie</a></li>
-                        <li><a href="mark.html">Ocena zleceń</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
@@ -47,21 +45,8 @@
             <th>Status</th>
         </tr>
         </thead>
-        <tbody>
-        <tr>
-            <td>Słabo oznaczone przejście dla pieszych na ulicy Batorego 10</td>
-            <td>05.09.2017</td>
-            <td>9/10</td>
-            <td>00-001</td>
-            <td>Nieaktualne</td>
-        </tr>
-        <tr>
-            <td>Uszkodzony przystanek autobusowy Metro Pole Motowskie 05</td>
-            <td>18.10.2017</td>
-            <td>8/10</td>
-            <td>00-001</td>
-            <td>Nieaktualne</td>
-        </tr>
+        <tbody id="mainTbody">
+
         </tbody>
     </table>
             </div>
@@ -72,6 +57,48 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="js/main.js"></script>
+<script>
+    $.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/user/zoneService',
+        dataType: 'json',
+        data: {
+            postalCode: '01-111'
+        },
+        success: function (response) {
+            console.log(response);
+            var parentDiv = document.getElementById('mainTbody');
+            for(var i = 0;i<response.content.length;i++){
+                var tr = document.createElement('tr');
+                var td0 = document.createElement('td');
+                var td1 = document.createElement('td');
+                var td2 = document.createElement('td');
+                var td3 = document.createElement('td');
+                var td4 = document.createElement('td');
+
+                td0.textContent = response.content[i].description;
+                td1.textContent = '2017-11-19';
+                td2.className = 'dropdown';
+
+                td2.textContent = response.content[i].rating;
+                td3.textContent = '00-001';
+                td4.textContent = '';
+
+                tr.appendChild(td0);
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                tr.appendChild(td3);
+                tr.appendChild(td4);
+
+                parentDiv.appendChild(tr);
+            }
+
+        },
+        error: function (response) {
+            console.log(response);
+            alert('Cos poszło nie tak...');
+        }
+    });
+</script>
 </body>
 </html>

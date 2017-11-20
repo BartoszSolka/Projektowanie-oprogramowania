@@ -8,19 +8,19 @@ import java.util.List;
 
 public interface ServiceUserManager {
 
-    ServiceOrder createServiceOrder(String description, Zone zonee, Long serviceID, Long providerId);
+    ServiceOrder createServiceOrder(String description, String postalCode, Long serviceID, Long providerId);
 
     Page<Service> getServices(Pageable pageable);
 
-    Page<ServiceOrder> getServicesByZone(Zone zone, Pageable pageable);
+    Page<ServiceOrder> getServiceOrdersByZone(String postalCode, Pageable pageable);
 
-    Page<ServiceOrder> getServicesByUser(User user, Pageable pageable);
+    Page<ServiceOrder> getServiceOrdersByUser(Pageable pageable);
 
     ServiceOrderStatus getServiceOrderStatus(Long orderId);
 
     ServiceOrder cancelServiceOrder(ServiceOrder serviceOrder);
 
-    ServiceOrder editServiceOrder(String description, Zone zone, Service service, Long orderId);
+    ServiceOrder editServiceOrder(String description, String postalCode, Service service, Long orderId);
 
     ServiceOrder rateServiceOrder(Long orderId, Integer rating);
 

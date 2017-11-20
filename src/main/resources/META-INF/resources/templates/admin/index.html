@@ -28,7 +28,7 @@
     </div>
 </nav>
 <div class="container">
-    
+
     <div class="jumbotron">
         <h2>Usługodawcy</h2>
         <table class="table table-striped">
@@ -39,7 +39,7 @@
                 <th >Telefon</th>
                 <th >Siedziba Firmy</th>
                 <th >Lokalizacja</th>
-                
+
             </tr>
             </thead>
             <tbody>
@@ -47,7 +47,7 @@
                 <th>1</th>
                 <td>432423423</td>
                 <td>
-                
+
                     526789123</td>
                  <td>Warszawa</td>
                  <td>ul.Jana pawał 24</td>
@@ -75,7 +75,7 @@
     </div>
 </div>
 <div class="container">
-    
+
     <div class="jumbotron">
         <h2>Użytkownicy</h2>
         <table class="table table-striped">
@@ -90,7 +90,7 @@
                 <th >Login</th>
                 <th >Hasło</th>
                 <th >Strefa</th>
-                
+
             </tr>
             </thead>
             <tbody>
@@ -104,7 +104,7 @@
                 <td>MSkorup</td>
                 <td>papusi12</td>
                 <th >1</th>
-                
+
             </tr>
             <tr>
                 <th>2</th>
@@ -144,10 +144,10 @@
                 <th >Data Utworzenia</th>
                 <th >Ocena</th>
                 <th >Strefa</th>
-                
+
             </tr>
             </thead>
-            <tbody>
+            <tbody id="cases">
             <tr>
                 <th><a>1<span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></th>
                 <td>Dziura w drodzie na ul. Kolorowej</td>
@@ -162,12 +162,40 @@
                 <td>8</td>
                 <td>02-034</td>
             </tr>
-            
+
             </tbody>
         </table>
     </div>
 </div>
 </div>
+<script>
+    $.get('http://localhost:8080/serviceProvider/4/orders', function (data) {
+        console.log(data);
+        var tbody = document.getElementById("cases");
+        for (var i = 0; i < data.length; i++) {
+            var tr = document.createElement("tr");
+            var td0 = document.createElement("td");
+            var td1 = document.createElement("td");
+            var td2 = document.createElement("td");
+            var td3 = document.createElement("td");
+            var td4 = document.createElement("td");
+
+
+            td0.textContent = data[i].id;
+            td0.innerHTML = td0.textContent +'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>\n';
+            td1.textContent = data[i].description;
+            td2.textContent = '13.11.2017';//data[i].creation_date;
+            td3.textContent = data[i].rating === null ? 'Brak' : data[i].rating;
+            td4.textContent = '01-003';
+            tr.appendChild(td0);
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            tr.appendChild(td3);
+            tr.appendChild(td4);
+            tbody.appendChild(tr);
+        }
+    })
+</script>
 
 </body>
 </html>
