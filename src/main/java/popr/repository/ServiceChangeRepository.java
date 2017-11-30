@@ -17,4 +17,6 @@ public interface ServiceChangeRepository extends JpaRepository<ServiceChange, Lo
     List<ServiceChange> findByValidatedByIsNull();
 
     Page<ServiceChange> findByService_Provider(Provider provider, Pageable pageable);
+
+    //void changeStatusOfChange(Long changeId, Long statusId, String description);
 }

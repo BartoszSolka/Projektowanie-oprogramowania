@@ -101,17 +101,17 @@ var dodajUslugodawce = function () {
             type: 'POST',
             url: 'http://localhost:8080/admin/addProvider',
             dataType: 'json',
-            data: {
+            contentType: 'application/json',
+            data: JSON.stringify({
                 name: name,
                 nip: nip,
                 phoneNo: phoneNumber,
                 address: address,
                 zone: {
                     id: zone,
-                    postalCode:null
-
+                    postalCode : null
                 }
-            },
+            }),
             success: function (response) {
                 console.log(response);
                 $("#successModal").modal();

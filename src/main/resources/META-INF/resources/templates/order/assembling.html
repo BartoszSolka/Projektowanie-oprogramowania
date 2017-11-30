@@ -19,7 +19,6 @@
                         <li><a href="my.html">Moje zlecenia</a></li>
                         <li class="active"><a href="assembling.html">Złóż nowe zlecenie</a></li>
                         <li><a href="area.html">Zlecenia w Twojej strefie</a></li>
-                        <li><a href="mark.html">Ocena zleceń</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
@@ -78,6 +77,7 @@
             },
             error: function (response) {
                 console.log(response);
+                alert('Cos poszło nie tak...');
             }
         });
 
