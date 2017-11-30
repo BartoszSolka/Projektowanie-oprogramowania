@@ -24,8 +24,8 @@ public class ServiceUserController implements ServiceUserManager {
 
     @Override
     @PostMapping(path = "/addOrder")
-    public ServiceOrder createServiceOrder(String description, String address, String postalCode, Long serviceID, Long providerId) {
-        return userOperationsService.createServiceOrder(description, address,  postalCode, serviceID, providerId);
+    public ServiceOrder createServiceOrder(String description, String address, String postalCode, Long serviceID) {
+        return userOperationsService.createServiceOrder(description, address,  postalCode, serviceID);
     }
 
     @Override

@@ -7,7 +7,7 @@ import popr.model.*;
 
 public interface UserOperationsInterface {
 
-    ServiceOrder createServiceOrder(String description, String address, String postalCode, Long serviceId, Long providerId);
+    ServiceOrder createServiceOrder(String description, String address, String postalCode, Long serviceId);
 
     Page<Provider> getProviders(Pageable pageable);
 

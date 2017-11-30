@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ServiceUserManager {
 
-    ServiceOrder createServiceOrder(String description, String address, String postalCode, Long serviceID, Long providerId);
+    ServiceOrder createServiceOrder(String description, String address, String postalCode, Long serviceID);
 
     Page<Service> getServices(Pageable pageable);
 
