@@ -22,7 +22,7 @@ public class UserOperationsService implements UserOperationsInterface {
     private final ProviderRepository providerRepository;
 
     @Override
-    public ServiceOrder createServiceOrder(String description, String postalCode, Long serviceId, Long providerId) {
+    public ServiceOrder createServiceOrder(String description, String address, String postalCode, Long serviceId, Long providerId) {
         popr.model.Service service = serviceRepository.findOne(serviceId);
         Zone zone = zoneRepository.findByPostalCode(postalCode);
         if (service == null) {
@@ -33,6 +33,7 @@ public class UserOperationsService implements UserOperationsInterface {
 
         serviceOrder.setDescription(description);
         serviceOrder.setCreationDate(ZonedDateTime.now());
+        serviceOrder.setAddress(address);
         serviceOrder.setZone(zone);
         serviceOrder.setService(service);
         serviceOrder.setOrderedBy(userService.readCurrent());
