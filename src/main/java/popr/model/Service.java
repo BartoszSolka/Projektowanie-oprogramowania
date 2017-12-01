@@ -32,6 +32,8 @@ public class Service {
 
     private Integer price;
 
+    private String address;
+
     private Integer estimatedRealisationTime;
 
     @JsonIgnore

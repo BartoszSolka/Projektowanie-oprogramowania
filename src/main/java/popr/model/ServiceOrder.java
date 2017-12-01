@@ -27,6 +27,8 @@ public class ServiceOrder {
     @JsonIgnore
     private ZonedDateTime creationDate;
 
+    private String ratingDescription;
+
     private Integer rating;
 
     @JsonIgnore

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+import popr.model.enums.ServiceChangeType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -21,6 +22,9 @@ public class ServiceChange {
     @GeneratedValue
     @Expose
     private Long id;
+
+    @Enumerated(EnumType.STRING)
+    private ServiceChangeType serviceChangeType;
 
     @Expose
     @Getter

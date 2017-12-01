@@ -100,6 +100,7 @@ public class UserOperationsService implements UserOperationsInterface {
     public ServiceOrder rateServiceOrder(Long orderId, Integer rating, String description) {
         ServiceOrder serviceOrder = serviceOrderRepository.findById(orderId);
         serviceOrder.setRating(rating);
+        serviceOrder.setDescription(description);
         return serviceOrderRepository.save(serviceOrder);
     }
 

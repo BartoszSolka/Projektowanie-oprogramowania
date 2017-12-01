@@ -3,6 +3,7 @@ package popr.interfaces;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import popr.model.*;
+import popr.model.enums.ServiceChangeType;
 import popr.model.enums.ServiceOrderStatusDict;
 
 import java.util.List;
@@ -34,4 +35,6 @@ public interface ProviderOperationsInterface {
 	List<Zone> getZones();
 
 	Provider setLocation(Provider provider, Zone zone);
+
+	ServiceChange addServiceChange(Provider provider, Integer price, Integer estimatedRealisationTime, ServiceType serviceType, Service service, ServiceChangeType serviceChangeType);
 }
