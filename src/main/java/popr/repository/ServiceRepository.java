@@ -7,4 +7,5 @@ import popr.model.Service;
 
 public interface ServiceRepository extends JpaRepository<Service, Long> {
 	List<Service> findByProviderId(Long id);
+	Service findById(Long id);
 }

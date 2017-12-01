@@ -20,6 +20,7 @@ public class UserOperationsService implements UserOperationsInterface {
     private final UserService userService;
     private final ZoneRepository zoneRepository;
     private final ProviderRepository providerRepository;
+    private final ComplaintRepository complaintRepository;
 
     @Override
     public ServiceOrder createServiceOrder(String description, String address, String postalCode, Long serviceId) {
@@ -70,16 +71,20 @@ public class UserOperationsService implements UserOperationsInterface {
     }
 
     @Override
-    public ServiceOrder cancelServiceOrder(ServiceOrder serviceOrder) {
-        return null;
+    public ServiceOrder cancelServiceOrder(Long orderId ) { return null;
     }
 
     @Override
-    public ServiceOrder editServiceOrder(String description, String postalCode, Service service, Long orderId) {
+    public ServiceOrder editServiceOrder(String description, String postalCode, Long serviceId, Long orderId, String address) {
         ServiceOrder serviceOrder = serviceOrderRepository.findById(orderId);
+        Service service = serviceRepository.findById(serviceId);
         Zone zone = zoneRepository.findByPostalCode(postalCode);
+
         if (description != null) {
             serviceOrder.setDescription(description);
+        }
+        if (address != null) {
+            serviceOrder.setAddress(address);
         }
         if (postalCode != null) {
             serviceOrder.setZone(zone);
@@ -92,9 +97,21 @@ public class UserOperationsService implements UserOperationsInterface {
     }
 
     @Override
-    public ServiceOrder rateServiceOrder(Long orderId, Integer rating) {
+    public ServiceOrder rateServiceOrder(Long orderId, Integer rating, String description) {
         ServiceOrder serviceOrder = serviceOrderRepository.findById(orderId);
         serviceOrder.setRating(rating);
         return serviceOrderRepository.save(serviceOrder);
+    }
+
+    @Override
+    public Complaint createComplaint(String description, Long orderId){
+        ServiceOrder serviceOrder = serviceOrderRepository.findById(orderId);
+        Complaint complaint = new Complaint();
+
+        complaint.setDescription(description);
+        complaint.setServiceOrder(serviceOrder);
+        complaint.setCreatedBy(userService.readCurrent());
+
+        return complaintRepository.save(complaint);
     }
 }
