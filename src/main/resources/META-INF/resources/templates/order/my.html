@@ -8,50 +8,70 @@
 </head>
 <body>
 
-        <nav class="navbar navbar-default navbar-static-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <a class="navbar-brand">System obsługi awarii - użytkownik</a>
-                </div>
-                <div id="navbar" class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a href="my.html">Moje zlecenia</a></li>
-                        <li><a href="assembling.html">Złóż nowe zlecenie</a></li>
-                        <li><a href="area.html">Zlecenia w Twojej strefie</a></li>
+<nav class="navbar navbar-default navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand">System obsługi awarii - użytkownik</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="my.html">Moje zlecenia</a></li>
+                <li><a href="assembling.html">Złóż nowe zlecenie</a></li>
+                <li><a href="area.html">Zlecenia w Twojej strefie</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">Typ użytkownika <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="../">Usługodawca</a></li>
+                        <li><a href="../order/my.html">Użytkownik</a></li>
+                        <li><a href="../admin">Administrator</a></li>
                     </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Typ użytkownika <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="../">Usługodawca</a></li>
-                                <li><a href="../order/my.html">Użytkownik</a></li>
-                                <li><a href="../admin">Administrator</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        <div class="container">
-            <div class="jumbotron">
-    <h1>Moje zlecenia</h1>
-    <table class="table table-condensed table-hover table-bordered">
-        <thead>
-        <tr>
-            <th>Opis</th>
-            <th>Data utworzenia</th>
-            <th>Ocena</th>
-            <th>Status</th>
-            <!--<th>Komentarz</th>-->
-        </tr>
-        </thead>
-        <tbody id="mainTbody">
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div class="jumbotron">
+        <h1>Moje zlecenia</h1>
+        <table class="table table-condensed table-hover table-bordered">
+            <thead>
+            <tr>
+                <th>Opis</th>
+                <th>Data utworzenia</th>
+                <th>Ocena</th>
+                <th>Status</th>
+                <!--<th>Komentarz</th>-->
+            </tr>
+            </thead>
+            <tbody id="mainTbody">
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="descriptionModal"></h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Adres:<br><span id="addressModal"></span><br><br>
+                    Strefa :<br><span></span><br><br>
+                    Rodzaj usługi:<br><span></span><br><br>
+                </p>
             </div>
         </div>
 
+    </div>
+</div>
 
 <!-- jQuery library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -69,31 +89,31 @@
         success: function (response) {
             console.log(response);
             var parentDiv = document.getElementById('mainTbody');
-            for(var i = 0; i<response.content.length;i++){
+            for (var i = 0; i < response.content.length; i++) {
                 var tr = document.createElement('tr');
                 var td0 = document.createElement('td');
                 var td1 = document.createElement('td');
                 var td2 = document.createElement('td');
                 var td4 = document.createElement('td');
-                td0.textContent = response.content[i].description;
+                td0.innerHTML = "<a href='javascript(0)' onclick=\"getStatusModal(" + response.content[i].id + ",'" + response.content[i].description + "','" + response.content[i].address + "')\" type=\"button\" data-toggle=\"modal\" data-target=\"#myModal\">" + response.content[i].description + "</a>\n";
                 td1.textContent = '2017-11-19';
                 td2.textContent = response.content[i].rating === null ? 0 : response.content[i].rating;
                 td2.contentEditable = 'true';
                 td2.setAttribute('data-id', response.content[i].id);
                 td2.onkeypress = function () {
-                    if(event.keyCode === 13){
+                    if (event.keyCode === 13) {
                         sendNewRate(this.textContent, this.getAttribute('data-id'));
                     }
-                    if(this.textContent === '0' && event.keyCode === 48){
+                    if (this.textContent === '0' && event.keyCode === 48) {
                         event.preventDefault();
                         this.textContent = 0;
                         return;
                     }
-                    if(event.keyCode < 48 || event.keyCode > 57 || this.textContent > 0 || this.textContent < -1){
+                    if (event.keyCode < 48 || event.keyCode > 57 || this.textContent > 0 || this.textContent < -1) {
                         return false;
                     }
                 };
-                td4.textContent = '';
+                td4.innerHTML = (response.content[i].rating === null ? "Brak" : response.content[i].rating);
 
                 tr.appendChild(td0);
                 tr.appendChild(td1);
@@ -128,6 +148,30 @@
             }
         });
     };
+
+    function getStatusModal(statusId, description, address) {
+        document.getElementById('descriptionModal').innerText = description
+        document.getElementById('addressModal').innerText = address
+    }
+
+    function updateStatus() {
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8080/user/rateOrder',
+            dataType: 'json',
+            data: {
+                orderId: id,
+                rating: value
+            },
+            success: function (response) {
+
+            },
+            error: function (response) {
+                console.log(response);
+                alert('Cos poszło nie tak...');
+            }
+        });
+    }
 </script>
 </body>
 </html>
