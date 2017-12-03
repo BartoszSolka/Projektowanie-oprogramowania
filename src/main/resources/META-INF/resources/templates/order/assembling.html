@@ -45,10 +45,15 @@
                 <label for="strefaZlecenia">Strefa:</label>
                 <input class="form-control" id="strefaZlecenia" value="01-111">
             </div>
-            <div class="form-group">
-                <label for="rodzajUslugi">Rodzaj usługi:</label>
-                <input class="form-control" id="rodzajUslugi">
-            </div>
+            <label for="rodzajUslugi">Rodzaj usługi:</label>
+            <select id="rodzajUslugi" class="form-control">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+            </select>
             <div class="form-group">
                 <label for="adres">Adres:</label>
                 <input class="form-control" id="adres">
@@ -95,13 +100,11 @@
         validForm(opisZlecenia)
         validForm(strefa)
         validForm(adres)
-        validForm(rodzajUslugi)
         validCode(strefa)
         var isValid =
             validForm(opisZlecenia) &&
             validForm(strefa) &&
             validForm(adres) &&
-            validForm(rodzajUslugi) &&
             validCode(strefa)
 
         if (isValid) {
@@ -113,7 +116,7 @@
                     description: opisZlecenia.value,
                     postalCode: strefa.value,
                     address: adres.value,
-                    serviceID: 6,
+                    serviceID: rodzajUslugi,
                     providerId: 4
                 },
                 success: function (response) {
