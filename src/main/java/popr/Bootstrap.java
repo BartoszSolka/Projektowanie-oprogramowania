@@ -24,7 +24,7 @@ public class Bootstrap implements ApplicationRunner {
     private final ServiceOrderRepository serviceOrderRepository;
     private final ServiceRepository serviceRepository;
     private final ZoneRepository zoneRepository;
-
+    private final ServiceOrderStatusRepository serviceOrderStatusRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -80,10 +80,14 @@ public class Bootstrap implements ApplicationRunner {
         serviceOrder.setService(service);
         serviceOrder.setDescription("Testowa usługa");
         serviceOrder.setRating(0);
-        serviceOrder.setDescription("Super, daję 0");
+        serviceOrder.setRatingDescription("Super, daję 0");
         serviceOrder.setZone(zone);
         serviceOrder.setOrderedBy(user);
         serviceOrder = serviceOrderRepository.save(serviceOrder);
+
+        ServiceOrderStatus serviceOrderStatus = new ServiceOrderStatus();
+        serviceOrderStatus.setServiceOrder(serviceOrder);
+        serviceOrderStatus = serviceOrderStatusRepository.save(serviceOrderStatus);
 
         Complaint complaint = new Complaint();
         complaint.setCreatedBy(user);

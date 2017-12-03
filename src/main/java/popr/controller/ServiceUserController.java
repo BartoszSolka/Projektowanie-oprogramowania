@@ -54,7 +54,7 @@ public class ServiceUserController implements ServiceUserManager {
 
     @Override
     @PostMapping(path = "/cancelOrder")
-    public ServiceOrder cancelServiceOrder(Long orderId) {
+    public ServiceOrderStatus cancelServiceOrder(Long orderId) {
         return userOperationsService.cancelServiceOrder(orderId);
     }
 

@@ -18,7 +18,7 @@ public interface ServiceUserManager {
 
     ServiceOrderStatus getServiceOrderStatus(Long orderId);
 
-    ServiceOrder cancelServiceOrder(Long orderId);
+    ServiceOrderStatus cancelServiceOrder(Long orderId);
 
     ServiceOrder editServiceOrder(String description, String postalCode, Long serviceId, Long orderId, String address);
 
