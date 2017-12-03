@@ -154,24 +154,6 @@
         document.getElementById('addressModal').innerText = address
     }
 
-    function updateStatus() {
-        $.ajax({
-            type: 'POST',
-            url: 'http://localhost:8080/user/rateOrder',
-            dataType: 'json',
-            data: {
-                orderId: id,
-                rating: value
-            },
-            success: function (response) {
-
-            },
-            error: function (response) {
-                console.log(response);
-                alert('Cos poszło nie tak...');
-            }
-        });
-    }
 </script>
 </body>
 </html>
