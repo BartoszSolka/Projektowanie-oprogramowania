@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import popr.interfaces.UserOperationsInterface;
 import popr.model.*;
+import popr.model.enums.ServiceOrderStatusDict;
 import popr.repository.*;
 
 import java.time.ZonedDateTime;
@@ -38,8 +39,14 @@ public class UserOperationsService implements UserOperationsInterface {
         serviceOrder.setZone(zone);
         serviceOrder.setService(service);
         serviceOrder.setOrderedBy(userService.readCurrent());
+        serviceOrder = serviceOrderRepository.save(serviceOrder);
 
-        return serviceOrderRepository.save(serviceOrder);
+        ServiceOrderStatus serviceOrderStatus = new ServiceOrderStatus();
+
+        serviceOrderStatus.setServiceOrder(serviceOrder);
+        serviceOrderStatus = serviceOrderStatusRepository.save(serviceOrderStatus);
+
+        return serviceOrder;
     }
 
     @Override
@@ -71,7 +78,13 @@ public class UserOperationsService implements UserOperationsInterface {
     }
 
     @Override
-    public ServiceOrder cancelServiceOrder(Long orderId ) { return null;
+    public ServiceOrderStatus cancelServiceOrder(Long orderId ) {
+        ServiceOrder serviceOrder = serviceOrderRepository.findById(orderId);
+
+        ServiceOrderStatus serviceOrderStatus = serviceOrderStatusRepository.findByServiceOrderAndCurrentIsTrue(serviceOrder);
+        serviceOrderStatus.setOrderStatusDict(ServiceOrderStatusDict.CANCELED);
+
+        return serviceOrderStatusRepository.save(serviceOrderStatus);
     }
 
     @Override
@@ -100,7 +113,7 @@ public class UserOperationsService implements UserOperationsInterface {
     public ServiceOrder rateServiceOrder(Long orderId, Integer rating, String description) {
         ServiceOrder serviceOrder = serviceOrderRepository.findById(orderId);
         serviceOrder.setRating(rating);
-        serviceOrder.setDescription(description);
+        serviceOrder.setRatingDescription(description);
         return serviceOrderRepository.save(serviceOrder);
     }
 
