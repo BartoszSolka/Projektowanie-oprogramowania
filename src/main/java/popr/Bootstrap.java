@@ -78,6 +78,7 @@ public class Bootstrap implements ApplicationRunner {
 
         ServiceOrder serviceOrder = new ServiceOrder();
         serviceOrder.setService(service);
+        serviceOrder.setAddress("Piękna 123");
         serviceOrder.setDescription("Testowa usługa");
         serviceOrder.setRating(0);
         serviceOrder.setRatingDescription("Super, daję 0");
