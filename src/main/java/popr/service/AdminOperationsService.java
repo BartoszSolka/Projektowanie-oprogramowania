@@ -35,6 +35,7 @@ public class AdminOperationsService implements AdminOperationsInterface {
 
     @Override
     public User addUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
