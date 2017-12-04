@@ -7,11 +7,11 @@ import popr.model.*;
 
 public interface UserOperationsInterface {
 
-    ServiceOrder createServiceOrder(String description, String postalCode, Long serviceId, Long providerId);
-
-    Page<Provider> getProviders(Pageable pageable);
+    ServiceOrder createServiceOrder(String description, String address, String postalCode, Long serviceID);
 
     Page<Service> getServices(Pageable pageable);
+
+    Page<Provider> getProviders(Pageable pageable);
 
     Page<ServiceOrder> getServiceOrdersByZone(String postalCode, Pageable pageable);
 
@@ -19,9 +19,11 @@ public interface UserOperationsInterface {
 
     ServiceOrderStatus getServiceOrderStatus(Long orderId);
 
-    ServiceOrder cancelServiceOrder(ServiceOrder serviceOrder);
+    ServiceOrderStatus cancelServiceOrder(Long orderId);
 
-    ServiceOrder editServiceOrder(String description, String postalCode, Service service, Long orderId);
+    ServiceOrder editServiceOrder(String description, String postalCode, Long serviceId, Long orderId, String address);
 
-    ServiceOrder rateServiceOrder(Long orderId, Integer rating);
+    ServiceOrder rateServiceOrder(Long orderId, Integer rating, String description);
+
+    Complaint createComplaint(String description, Long orderId);
 }

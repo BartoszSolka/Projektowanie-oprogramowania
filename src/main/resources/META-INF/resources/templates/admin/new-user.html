@@ -107,8 +107,8 @@
             type: 'POST',
             url: 'http://localhost:8080/admin/addUser',
             dataType: 'json',
-            data: {
-                id:4,
+            contentType: 'application/json',
+            data: JSON.stringify({
                 email: email,
                 name: name,
                 surname: surname,
@@ -119,9 +119,8 @@
                 zone: {
                     id: zone,
                     postalCode:null
-
                 }
-            },
+            }),
             success: function (response) {
                 console.log(response);
                 $("#successModal").modal();
@@ -131,10 +130,7 @@
                 $("#failModal").modal();
             }
         });
-
     };
-
-
 </script>
 </body>
 </html>

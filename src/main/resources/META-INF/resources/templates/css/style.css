@@ -48,3 +48,8 @@ zlozenie-zlecenia {
 .nav > li {
     cursor: pointer;
 }
+
+.my__btn {
+    background: none;
+    border: none;
+}

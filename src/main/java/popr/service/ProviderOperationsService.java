@@ -1,10 +1,15 @@
 package popr.service;
+import popr.model.Admin;
+import popr.model.Service;
+import popr.model.ChangeStatus;
+import java.util.ArrayList;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import popr.interfaces.ProviderOperationsInterface;
 import popr.model.*;
+import popr.model.enums.ServiceChangeType;
 import popr.model.enums.ServiceOrderStatusDict;
 import popr.repository.*;
 
@@ -113,5 +118,18 @@ public class ProviderOperationsService implements ProviderOperationsInterface {
     public Provider setLocation(Provider provider, Zone zone) {
         provider.setZone(zone);
         return providerRepository.save(provider);
+    }
+
+    @Override
+    public ServiceChange addServiceChange(Provider provider, Integer price, Integer estimatedRealisationTime, ServiceType serviceType, Service service, ServiceChangeType serviceChangeType) {
+        ServiceChange serviceChange = new ServiceChange();
+
+        serviceChange.setId(provider.getId());
+        serviceChange.setServiceChangeType(serviceChangeType);
+        serviceChange.setPrice(price);
+        serviceChange.setEstimatedRealisationTime(estimatedRealisationTime);
+        serviceChange.setService(service);
+
+        return serviceChangeRepository.save(serviceChange);
     }
 }

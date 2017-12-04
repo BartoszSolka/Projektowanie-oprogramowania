@@ -1,8 +1,11 @@
 package popr.model;
 
+import com.google.gson.annotations.Expose;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.ToString;
+import popr.model.enums.ServiceChangeType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -17,23 +20,33 @@ public class ServiceChange {
 
     @Id
     @GeneratedValue
+    @Expose
     private Long id;
 
+    @Enumerated(EnumType.STRING)
+    private ServiceChangeType serviceChangeType;
+
+    @Expose
+    @Getter
     private String description;
 
     @NotNull
+    @Expose
     private Integer price;
 
     @NotNull
+    @Expose
     private Integer estimatedRealisationTime;
 
     @ManyToOne(optional = false)
+    @Expose
     private Service service;
 
     @ManyToOne
+    @Expose
     private Admin validatedBy;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @Expose
     private List<ChangeStatus> statuses = new ArrayList<>();
-
 }

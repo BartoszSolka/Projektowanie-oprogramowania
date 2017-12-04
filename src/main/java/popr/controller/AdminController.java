@@ -24,6 +24,7 @@ public class AdminController implements AdminManager {
     @Override
     @PostMapping (path = "/addProvider")
     public Provider addProvider(@RequestBody Provider provider) {
+        System.out.println(provider);
         return adminOperationsService.addProvider(provider);
     }
 
@@ -40,8 +41,9 @@ public class AdminController implements AdminManager {
     }
 
     @Override
-    public void changeStatusOfChange(String changeId, String statusId, String description) {
-
+    @PutMapping (path = "/changeStatus/{changeId}")
+    public void changeStatusOfChange(@PathVariable Long changeId, Long statusId, String description) {
+        //adminOperationsService.changeStatusOfChange(changeId, statusId, description);
     }
 
     @Override

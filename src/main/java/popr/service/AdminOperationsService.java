@@ -39,8 +39,8 @@ public class AdminOperationsService implements AdminOperationsInterface {
     }
 
     @Override
-    public void changeStatusOfChange(String changeId, String statusId, String description) {
-
+    public void changeStatusOfChange(Long changeId, Long statusId, String description) {
+        //serviceChangeRepository.changeStatusOfChange(changeId, statusId, description);
     }
 
     @Override
@@ -54,15 +54,17 @@ public class AdminOperationsService implements AdminOperationsInterface {
     public String getNotValidatedServiceChanges() {
         List<ServiceChange> changes = serviceChangeRepository.findByValidatedByIsNull();
         System.out.println(changes);
-        Gson gson = new GsonBuilder().serializeNulls().create();
+        Gson gson = new GsonBuilder().serializeNulls().excludeFieldsWithoutExposeAnnotation().create();
         String json = gson.toJson(changes);
+        System.out.println(json);
         return json;
     }
 
     @Override
     public String getStatusChangeDictionary() {
         List<ChangeStatus> dict = changeStatusRepository.findAll();
-        String json = new Gson().toJson(dict);
+        Gson gson = new GsonBuilder().serializeNulls().excludeFieldsWithoutExposeAnnotation().create();
+        String json = gson.toJson(dict);
         return json;
     }
 }

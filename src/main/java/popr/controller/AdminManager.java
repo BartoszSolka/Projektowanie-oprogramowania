@@ -9,7 +9,7 @@ public interface AdminManager {
     Provider addProvider(Provider provider);
     Admin addAdmin(Admin admin);
     User addUser(User user);
-    void changeStatusOfChange(String changeId, String statusId, String description);
+    void changeStatusOfChange(Long changeId, Long statusId, String description);
 
     String getZonesList();
     String getNotValidatedServiceChanges();

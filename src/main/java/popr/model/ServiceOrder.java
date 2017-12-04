@@ -22,8 +22,12 @@ public class ServiceOrder {
 
     private String description;
 
+    private String address;
+
     @JsonIgnore
     private ZonedDateTime creationDate;
+
+    private String ratingDescription;
 
     private Integer rating;
 
