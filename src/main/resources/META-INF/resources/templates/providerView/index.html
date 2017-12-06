@@ -54,8 +54,39 @@
             </tbody>
         </table>
     </div>
+    <div class="jumbotron">
+        <h2>Moje usługi</h2>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Opis usługi</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody id="torder">
+            </tbody>
+        </table>
+    </div>
+    <div class="jumbotron">
+        <h2>Zmiany w zleceniach</h2>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Opis zmiany</th>
+            </tr>
+            </thead>
+            <tbody id="tchanges">
+                <tr>
+                    <td>1</td>
+                    <td>Zmiana miejsca z  “Aleja Wojska Polskiego 31” na  “Marszałkowska 1”</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
     <div class="modal fade" id="infoModal" role="dialog">
-        <div class="modal-dialog modal-sm">
+        <div class="modal-dialog modal-sm" style="width:400px;">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -71,6 +102,9 @@
                     <p>Status: <span id="modalState"></span></p>
                     <p>Opis statusu: <span id="modalStateDescription"></span></p>
                 </div>
+                <div class="modal-body" style="border-top: 1px solid #e5e5e5;">
+                    <p>Numer telefonu użytkownika: <span id="modalUserNumber"></span></p>
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" onclick='openModalForStatusEditing();'>Aktualizuj status</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
@@ -78,6 +112,60 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="orderModal" role="dialog">
+        <div class="modal-dialog modal-sm" style="width:400px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Informacje dotyczące zlecenia</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Rodzaj usługi: <span id="modalOrder"></span></p>
+                    <p>Opis: <span id="modalOrderDescription"></span></p>
+                    <p>Cena: <span id="modalOrderPrice"></span></p>
+                    <p>Estymowany czas realizacji: <span id="modalOrderTime"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick='openModalForOrderEditing();'>Edytuj usługę</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="orderModalEdit" role="dialog">
+        <div class="modal-dialog modal-sm" style="width:400px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Edycja zlecenia</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="modalStateDescriptionEdit">Rodzaj usługi:</label>
+                        <input type="text" class="form-control" id="modalOrderEdit">
+                    </div>
+                    <div class="form-group">
+                        <label for="modalStateDescriptionEdit">Opis:</label>
+                        <input type="text" class="form-control" id="modalOrderDescriptionEdit">
+                    </div>
+                    <div class="form-group">
+                        <label for="modalStateDescriptionEdit">Cena:</label>
+                        <input type="text" class="form-control" id="modalOrderPriceEdit">
+                    </div>
+                    <div class="form-group">
+                        <label for="modalStateDescriptionEdit">Estymowany czas realizacji:</label>
+                        <input type="text" class="form-control" id="modalOrderTimeEdit">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick='updateOrder()'>Zatwierdź</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="statusModal" role="dialog">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
@@ -109,6 +197,57 @@
             </div>
         </div>
     </div>
+
+
+    <div class="modal fade" id="successOrderEditModal" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Usługa zedytowana pomyślnie</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="$('#orderModalEdit').modal('toggle');">Zamknij</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="failOrderEditModal" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Błąd !</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Usługa nie została zedytowana. Sprawdź poprawność danych.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteOrderInfoModal" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Usuwanie usługi !</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Czy na pewno chcesz usunąć usługę ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button id="deleteOrderInfoModalButton" type="button" class="btn btn-default" data-dismiss="modal">Tak</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Nie</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 <script>
     /*$.get('http://localhost:8080/serviceProvider/4/orders', function (data) {
@@ -122,7 +261,8 @@
             address: 'ul. Piękna 2',
             order: 'Udrożnienie drogi',
             state: 'w trakcie realizacji',
-            stateDescription: 'Ekipa opuściła firmę'
+            stateDescription: 'Ekipa opuściła firmę',
+            userNumber: '+48 123 456 789'
         },
         {
             id: '4',
@@ -131,7 +271,8 @@
             address: 'ul. Stara 21',
             order: 'Udrożnienie drogi',
             state: 'w trakcie realizacji',
-            stateDescription: ''
+            stateDescription: '',
+            userNumber: '507 777 333'
         },
         {
             id: '5',
@@ -140,11 +281,74 @@
             address: 'ul. Twarda 3',
             order: 'Udrożnienie drogi',
             state: 'Zakończono realizację',
-            stateDescription: 'Sukces'
+            stateDescription: 'Sukces',
+            userNumber: '+48 999 456 789'
         }
     ];
-    var tbody = document.getElementById("tbody");
+
+    var daneMockupOrder = [
+        {
+            id: '7',
+            order: 'Oczyszczenie zablokowanej drogi',
+            description: 'Wybrać w przypadku blokady przejazdu na drodze',
+            price: '500',
+            time: '2 dni'
+        },
+        {
+            id: '8',
+            order: 'Naprawa znaków drogowych',
+            description: 'Wybrać w przypadku konieczności wymiany lub naprawy znaku drogowego.',
+            price: '1000',
+            time: '5 dni'
+        }
+    ];
+    var tbody = document.getElementById('tbody');
+    var torder = document.getElementById('torder');
+
     var addOrderToView = function (data) {
+        for (var i = 0; i < data.length; i++) {
+            var tr = document.createElement("tr");
+            var td0 = document.createElement("td");
+            var td1 = document.createElement("td");
+            var td2 = document.createElement("td");
+            var deleteButton = document.createElement("div");
+            deleteButton.className = 'btn btn-default';
+            deleteButton.dataset.trIndex = i;
+            deleteButton.onclick = function () {
+                event.stopPropagation();
+                openModalForOrderDeleting(this.dataset.trIndex);
+            };
+            deleteButton.textContent = 'Usuń';
+            td0.textContent = data[i].id;
+            td1.textContent = data[i].order;
+            td2.appendChild(deleteButton);
+
+            tr.appendChild(td0);
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            tr.className = 'orderRow';
+            tr.dataset.orderIndex = i;
+            tr.onclick = function () {
+                var dataObj = daneMockupOrder[this.dataset.orderIndex];
+                document.getElementById('orderModal').dataset.currentIndex = this.dataset.orderIndex;
+
+                document.getElementById('modalOrder').textContent = dataObj.order;
+                document.getElementById('modalOrderDescription').textContent = dataObj.description;
+                document.getElementById('modalOrderPrice').textContent = dataObj.price;
+                document.getElementById('modalOrderTime').textContent = dataObj.time;
+
+
+                document.getElementById('modalOrderEdit').value = dataObj.order;
+                document.getElementById('modalOrderDescriptionEdit').value = dataObj.description;
+                document.getElementById('modalOrderPriceEdit').value = dataObj.price;
+                document.getElementById('modalOrderTimeEdit').value = dataObj.time;
+
+                $("#orderModal").modal();
+            };
+            torder.appendChild(tr);
+        }
+    };
+    var addServiceToView = function (data) {
         for (var i = 0; i < data.length; i++) {
             var tr = document.createElement("tr");
             var td0 = document.createElement("td");
@@ -164,6 +368,7 @@
                 document.getElementById('modalAdres').textContent = dataObj.address;
                 document.getElementById('modalState').textContent = dataObj.state;
                 document.getElementById('modalStateDescription').textContent = dataObj.stateDescription;
+                document.getElementById('modalUserNumber').textContent = dataObj.userNumber;
 
                 document.getElementById('statusEditSelected').textContent = dataObj.state;
                 document.getElementById('modalStateDescriptionEdit').value = dataObj.stateDescription;
@@ -181,6 +386,19 @@
     var openModalForStatusEditing = function () {
         $("#statusModal").modal();
     };
+    var openModalForOrderEditing = function () {
+        $("#orderModalEdit").modal();
+    };
+    var openModalForOrderDeleting = function (index) {
+        $("#deleteOrderInfoModal").modal();
+        document.getElementById('deleteOrderInfoModalButton').onclick = function () {
+            deleteOrderRow(torder.children[index]);
+        };
+    };
+
+    var deleteOrderRow = function (elem) {
+        elem.style.display = 'none';
+    };
 
     var updateStatus = function () {
         var status = document.getElementById('statusEditSelected').textContent;
@@ -192,7 +410,69 @@
         daneMockup[document.getElementById('statusModal').dataset.currentIndex].stateDescription = statusDescription;
     };
 
-    addOrderToView(daneMockup)
+    var updateOrder = function () {
+        var modalOrder = document.getElementById('modalOrderEdit');
+        var modalDescription = document.getElementById('modalOrderDescriptionEdit');
+        var modalPrice = document.getElementById('modalOrderPriceEdit');
+        var modalTime = document.getElementById('modalOrderTimeEdit');
+
+        var order = modalOrder.value.trim();
+        var description = modalDescription.value.trim();
+        var price = modalPrice.value.trim();
+        var time = modalTime.value.trim();
+
+        var checked = true;
+
+        if(order.length === 0){
+            modalOrder.style.borderColor = 'red';
+            checked = false;
+        } else {
+            modalOrder.style.borderColor = '#ccc';
+        }
+
+        if(description.length === 0){
+            modalDescription.style.borderColor = 'red';
+            checked = false;
+        } else {
+            modalDescription.style.borderColor = '#ccc';
+        }
+
+        if(price.length === 0 || isNaN(Number(price))){
+            modalPrice.style.borderColor = 'red';
+            checked = false;
+        } else {
+            modalPrice.style.borderColor = '#ccc';
+        }
+
+        if(time.length === 0){
+            modalTime.style.borderColor = 'red';
+            checked = false;
+        } else {
+            modalTime.style.borderColor = '#ccc';
+        }
+
+
+        if(checked){
+            document.getElementById('modalOrder').textContent = order;
+            document.getElementById('modalOrderDescription').textContent = description;
+            document.getElementById('modalOrderPrice').textContent = price;
+            document.getElementById('modalOrderTime').textContent = time;
+
+            var dataIndex = document.getElementById('orderModal').dataset.currentIndex;
+            daneMockupOrder[dataIndex].order = order;
+            daneMockupOrder[dataIndex].description = description;
+            daneMockupOrder[dataIndex].price = price;
+            daneMockupOrder[dataIndex].time = time;
+            $("#successOrderEditModal").modal();
+        } else {
+            $("#failOrderEditModal").modal();
+        }
+
+
+    };
+
+    addServiceToView(daneMockup);
+    addOrderToView(daneMockupOrder);
 </script>
 </body>
 </html>
