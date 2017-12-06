@@ -60,7 +60,7 @@
             <thead>
             <tr>
                 <th>#</th>
-                <th>Opis usługi</th>
+                <th>Rodzaj usługi</th>
                 <th></th>
             </tr>
             </thead>
@@ -463,6 +463,8 @@
             daneMockupOrder[dataIndex].description = description;
             daneMockupOrder[dataIndex].price = price;
             daneMockupOrder[dataIndex].time = time;
+
+            torder.children[document.getElementById('orderModal').dataset.currentIndex].children[1].textContent = order;
             $("#successOrderEditModal").modal();
         } else {
             $("#failOrderEditModal").modal();
