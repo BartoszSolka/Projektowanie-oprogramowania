@@ -42,6 +42,11 @@ public class Controller {
         return "userView/area";
     }
 
+    @GetMapping("/userView/endedAssembling")
+    public String endedAssembling(Model model) {
+        return "userView/endedAssembling";
+    }
+
     @GetMapping("/userView/assembling")
     public String assemblingOrder(Model model) {
         return "userView/assembling";
