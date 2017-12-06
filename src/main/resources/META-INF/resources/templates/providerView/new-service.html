@@ -17,15 +17,16 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="/">Usługi</a></li>
+                <li><a href="/providerView">Strona główna</a></li>
+                <li class="active"><a href="/providerView/new-service">Zarządzaj</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Typ użytkownika <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="/">Użytkownik</a></li>
-                        <li><a href="./userView/my.html">Zleceniodawca</a></li>
-                        <li><a href="./admin">Administrator</a></li>
+                        <li><a href="../userView/my.html">Zleceniodawca</a></li>
+                        <li><a href="../admin">Administrator</a></li>
                     </ul>
                 </li>
             </ul>
@@ -34,89 +35,119 @@
 </nav>
 <div class="container">
     <div class="jumbotron">
-        <h2>Dodaj usługę</h2>
-        <br><br>
-        <h4>Tytuł:</h4>
-        <input id="tytulZlecenia" style="width: 100%;">
-        <h4>Cena (zł):</h4>
-        <input id="cenaZlecenia" style="width: 100%;">
-        <h4>Estymowany czas:</h4>
-        <input id="czasZlecenia" style="width: 100%;">
-        <h4>Opis</h4>
-        <textarea id="opisZlecenia" style="width: 100%; min-height: 200px"></textarea>
-        <button type="button" class="btn btn-success" onclick="dodajZlecenie();">Dodaj</button>
-        <div class="modal fade" id="successModal" role="dialog">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Utworzenie zlecenia</h4>
+        <button type="button" class="btn btn-default" onclick='openNewOrderModal();'>Nowa usługa</button>
+    </div>
+
+    <div class="modal fade" id="newOrderModal" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Nowa usługa</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="modalOrderDescription">Rodzaj usługi:</label>
+                        <input type="text" class="form-control" id="modalOrderDescription">
                     </div>
-                    <div class="modal-body">
-                        <p>Usługa dodana pomyślnie.</p>
+                    <div class="form-group">
+                        <label for="modalOrderPrice">Cena:</label>
+                        <input type="text" class="form-control" id="modalOrderPrice">
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                    <div class="form-group">
+                        <label for="modalOrderTime">Estymowany czas realizacji:</label>
+                        <input type="text" class="form-control" id="modalOrderTime">
                     </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick='addOrder();'>Zatwierdź</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="modal fade" id="failModal" role="dialog">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Błąd !</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Usługa nie została dodana. Sprawdź poprawność danych.</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
-                    </div>
+    <div class="modal fade" id="successModal" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Usługa dodana pomyślnie</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="$('#newOrderModal').modal('toggle');">Zamknij</button>
                 </div>
             </div>
         </div>
+    </div>
 
-
-
-
+    <div class="modal fade" id="failModal" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Błąd !</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Usługa nie została dodana. Sprawdź poprawność danych.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<script>/**
+<script>
+    /**
  * Created by Paweł on 13.11.2017.
  */
-var dodajZlecenie = function () {
-        var tytulZlecenia = document.getElementById('tytulZlecenia').value;
-        var cenaZlecenia = document.getElementById('cenaZlecenia').value;
-        var czasZlecenia = document.getElementById('czasZlecenia').value;
-        var opisZlecenia = document.getElementById('opisZlecenia').value;
-
-        $.ajax({
-            type: 'POST',
-            url: 'http://localhost:8080/serviceProvider/4/services',
-            dataType: 'json',
-            data: {
-                id: 4,
-                title: tytulZlecenia,
-                description: opisZlecenia,
-                price: cenaZlecenia,
-                estimatedRealisationTime: czasZlecenia
-            },
-            success: function (response) {
-                console.log(response);
-                $("#successModal").modal();
-            },
-            error: function (response) {
-                console.log(response);
-                $("#failModal").modal();
-            }
-        });
-
+    var openNewOrderModal = function () {
+        $("#newOrderModal").modal();
+        document.getElementById('modalOrderDescription').value = '';
+        document.getElementById('modalOrderPrice').value = '';
+        document.getElementById('modalOrderTime').value = '';
     };
 
+    var addOrder = function () {
+        var modalOrder = document.getElementById('modalOrderDescription');
+        var modalOrderPrice = document.getElementById('modalOrderPrice');
+        var modalOrderTime = document.getElementById('modalOrderTime');
 
+        var description = modalOrder.value.trim();
+        var price = modalOrderPrice.value.trim();
+        var time = modalOrderTime.value.trim();
+
+        var checked = true;
+
+        if(description.length === 0){
+            modalOrder.style.borderColor = 'red';
+            checked = false;
+        } else {
+            modalOrder.style.borderColor = '#ccc';
+        }
+
+        if(price.length === 0){
+            modalOrderPrice.style.borderColor = 'red';
+            checked = false;
+        } else {
+            modalOrderPrice.style.borderColor = '#ccc';
+        }
+
+        if(time.length === 0){
+            modalOrderTime.style.borderColor = 'red';
+            checked = false;
+        } else {
+            modalOrderTime.style.borderColor = '#ccc';
+        }
+
+
+        if(checked){
+            $("#successModal").modal();
+        } else {
+            $("#failModal").modal();
+        }
+    };
 </script>
 </body>
 </html>

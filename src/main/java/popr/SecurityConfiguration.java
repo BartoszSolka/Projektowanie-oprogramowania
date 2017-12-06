@@ -49,7 +49,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**")
                 .antMatchers("/layout/**")
         		.antMatchers("/serviceProvider/**");
-        
+
 
     }
 

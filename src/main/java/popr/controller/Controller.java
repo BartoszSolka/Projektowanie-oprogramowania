@@ -9,7 +9,12 @@ public class Controller {
 
     @GetMapping("/")
     public String index(Model model) {
-        return "index";
+        return "/providerView/index";
+    }
+
+    @GetMapping("/providerView")
+    public String provider(Model model) {
+        return "/providerView/index";
     }
 
     @GetMapping("/login")
@@ -17,34 +22,29 @@ public class Controller {
         return "login";
     }
 
-    @GetMapping("/new-service")
+    @GetMapping("/providerView/new-service")
     public String newService(Model model) {
-        return "new-service";
+        return "providerView/new-service";
     }
 
-    @GetMapping("/info")
+    @GetMapping("/providerView/info")
     public String info(Model model) {
-        return "info";
+        return "providerView/info";
     }
 
-    @GetMapping("/order/my")
+    @GetMapping("/userView/my")
     public String myOrder(Model model) {
-        return "order/my";
+        return "userView/my";
     }
 
-    @GetMapping("/order/area")
+    @GetMapping("/userView/area")
     public String areaOrder(Model model) {
-        return "order/area";
+        return "userView/area";
     }
 
-    @GetMapping("/order/assembling")
+    @GetMapping("/userView/assembling")
     public String assemblingOrder(Model model) {
-        return "order/assembling";
-    }
-
-    @GetMapping("/order/mark")
-    public String markOrder(Model model) {
-        return "order/mark";
+        return "userView/assembling";
     }
 
     @GetMapping("/admin")
