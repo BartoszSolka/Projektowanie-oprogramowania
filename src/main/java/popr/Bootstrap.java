@@ -15,7 +15,6 @@ public class Bootstrap implements ApplicationRunner {
     private final AdminRepository adminRepository;
     private final ChangeStatusRepository changeStatusRepository;
     private final ComplaintRepository complaintRepository;
-    private final EmployeeRepository employeeRepository;
     private final UserRepository userRepository;
     private final ProviderRepository providerRepository;
     private final ProviderStatusRepository providerStatusRepository;
@@ -61,13 +60,6 @@ public class Bootstrap implements ApplicationRunner {
         provider.setActive(true);
 
         provider = providerRepository.save(provider);
-
-        Employee employee = new Employee();
-        employee.setName("Testowy pracownik");
-        employee.setProvider(provider);
-        employee.setSurname("Testowe imie");
-
-        employeeRepository.save(employee);
 
         Service service = new Service();
         service.setProvider(provider);
