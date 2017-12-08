@@ -1,7 +1,4 @@
 package popr.service;
-import popr.model.Admin;
-import popr.model.Service;
-import popr.model.ChangeStatus;
 import java.util.ArrayList;
 
 import lombok.RequiredArgsConstructor;
@@ -92,6 +89,16 @@ public class ProviderOperationsService implements ProviderOperationsInterface {
 
         return serviceRepository.save(serviceToEdit);
     }
+    
+    @Override
+    public Service updateService(Long providerId, Service serviceToEdit) {
+        if (!serviceToEdit.getProvider().getId().equals(providerId)) {
+            return null;//not able to edit
+        }
+
+        return serviceRepository.save(serviceToEdit);
+    }
+
 
     @Override
     public void deleteService(Service service) {
@@ -129,7 +136,16 @@ public class ProviderOperationsService implements ProviderOperationsInterface {
         serviceChange.setPrice(price);
         serviceChange.setEstimatedRealisationTime(estimatedRealisationTime);
         serviceChange.setService(service);
-
         return serviceChangeRepository.save(serviceChange);
     }
+
+	@Override
+	public ServiceOrder getServiceOrderDetails(Long orderId) {
+		return serviceOrderRepository.findOne(orderId);
+	}
+
+	@Override
+	public Service getService(Long serviceId) {
+		return serviceRepository.findOne(serviceId);
+	}
 }

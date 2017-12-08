@@ -9,6 +9,8 @@ import popr.model.enums.ServiceOrderStatusDict;
 import java.util.List;
 
 public interface ProviderOperationsInterface {
+	
+	ServiceOrder getServiceOrderDetails(Long orderId);
 
     List<ServiceOrderStatusDict> getAllServiceOrderStatuses();
 
@@ -37,4 +39,8 @@ public interface ProviderOperationsInterface {
 	Provider setLocation(Provider provider, Zone zone);
 
 	ServiceChange addServiceChange(Provider provider, Integer price, Integer estimatedRealisationTime, ServiceType serviceType, Service service, ServiceChangeType serviceChangeType);
+
+	Service updateService(Long providerId, Service serviceToEdit);
+	
+	Service getService(Long serviceId);
 }

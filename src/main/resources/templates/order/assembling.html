@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+
+        <nav class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand">System obsługi awarii - użytkownik</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="my.html">Moje zlecenia</a></li>
+                        <li class="active"><a href="assembling.html">Złóż nowe zlecenie</a></li>
+                        <li><a href="area.html">Zlecenia w Twojej strefie</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Typ użytkownika <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/">Użytkownik</a></li>
+                                <li><a href="../">Zleceniodawca</a></li>
+                                <li><a href="../admin">Administrator</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <div class="jumbotron">
+    <h1>Złożenie zlecenia</h1>
+    <div>
+        <div class="form-group">
+            <label for="opisZlecenia">Opis:</label>
+            <textarea class="form-control" rows="5" id="opisZlecenia"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="strefaZlecenia">Strefa:</label>
+            <input class="form-control" id="strefaZlecenia" value="01-111">
+        </div>
+        <button class="btn btn-default" onclick="dodajZlecenie()">Submit</button>
+    </div>
+            </div>
+        </div>
+
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+    var dodajZlecenie = function () {
+
+        var opisZlecenia = document.getElementById('opisZlecenia').value;
+        var strefa = document.getElementById('strefaZlecenia').value;
+
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8080/user/addOrder',
+            dataType: 'json',
+            data: {
+                description: opisZlecenia,
+                postalCode: strefa,
+                serviceID: 6,
+                providerId: 4
+            },
+            success: function (response) {
+                console.log(response);
+                window.open('http://localhost:8080/order/my.html', "_self");
+            },
+            error: function (response) {
+                console.log(response);
+                alert('Cos poszło nie tak...');
+            }
+        });
+
+    };
+</script>
+</body>
+</html>

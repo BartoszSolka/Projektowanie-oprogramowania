@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import popr.model.Service;
 import popr.model.ServiceOrder;
 import popr.model.ServiceOrderStatus;
+import popr.model.User;
 import popr.model.enums.ServiceOrderStatusDict;
 
 public interface ServiceProviderOrderManager {
@@ -16,5 +17,7 @@ public interface ServiceProviderOrderManager {
 	List<ServiceOrderStatusDict> orderStatusDictionary();
 
 	ServiceOrderStatus changeOrderStatus(ServiceOrderStatus newStatus, Long orderId);
+	
+	User fetchUserData(Long userId);
 
 }
