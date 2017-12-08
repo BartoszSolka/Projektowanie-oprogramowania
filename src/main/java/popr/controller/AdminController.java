@@ -1,17 +1,10 @@
 package popr.controller;
 
-import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import popr.interfaces.AdminOperationsInterface;
 import popr.model.*;
-
-import javax.persistence.Embedded;
-
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequestMapping("/admin")
@@ -29,15 +22,9 @@ public class AdminController implements AdminManager {
     }
 
     @Override
-    @PostMapping (path = "/addAdmin")
-    public Admin addAdmin(@RequestBody Admin admin) {
-        return adminOperationsService.addAdmin(admin);
-    }
-
-    @Override
     @PostMapping (path = "/addUser")
-    public User addUser(@RequestBody User user) {
-        return adminOperationsService.addUser(user);
+    public Person addUser(@RequestBody Person person) {
+        return adminOperationsService.addPerson(person);
     }
 
     @Override

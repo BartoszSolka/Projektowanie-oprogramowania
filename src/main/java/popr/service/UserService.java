@@ -1,20 +1,18 @@
 package popr.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import popr.model.User;
-import popr.repository.UserRepository;
+import popr.model.Person;
+import popr.repository.PersonRepository;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository userRepository;
+    private final PersonRepository personRepository;
 
-    public User readCurrent() {
+    public Person readCurrent() {
         //UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return userRepository.findByUsername("user1");
+        return personRepository.findByUsername("user1");
     }
 }

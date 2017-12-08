@@ -15,8 +15,7 @@ import java.util.List;
 public class AdminOperationsService implements AdminOperationsInterface {
 
     private final ProviderRepository providerRepository;
-    private final UserRepository userRepository;
-    private final AdminRepository adminRepository;
+    private final PersonRepository personRepository;
     private final ServiceChangeRepository serviceChangeRepository;
     private final PasswordEncoder passwordEncoder;
     private final ZoneRepository zoneRepository;
@@ -29,14 +28,9 @@ public class AdminOperationsService implements AdminOperationsInterface {
     }
 
     @Override
-    public Admin addAdmin(Admin admin) {
-        return adminRepository.save(admin);
-    }
-
-    @Override
-    public User addUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+    public Person addPerson(Person person) {
+        person.setPassword(passwordEncoder.encode(person.getPassword()));
+        return personRepository.save(person);
     }
 
     @Override

@@ -1,5 +1,5 @@
 package popr.service;
-import java.util.ArrayList;
+import popr.model.Service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,7 +21,7 @@ public class ProviderOperationsService implements ProviderOperationsInterface {
     private final ServiceRepository serviceRepository;
     private final ServiceOrderStatusRepository serviceOrderStatusRepository;
     private final ServiceChangeRepository serviceChangeRepository;
-    private final UserRepository userRepository;
+    private final PersonRepository personRepository;
     private final ServiceTypeRepository serviceTypeRepository;
     private final ProviderRepository providerRepository;
     private final ZoneRepository zoneRepository;
@@ -55,9 +55,11 @@ public class ProviderOperationsService implements ProviderOperationsInterface {
     }
 
     @Override
-    public User getUser(Long userId) {
-        return userRepository.findOne(userId);
+    public Person getUser(Long userId) {
+        return personRepository.findOne(userId);
     }
+
+
 
     @Override
     public ServiceType addServiceType(String name, String description) {
@@ -89,7 +91,7 @@ public class ProviderOperationsService implements ProviderOperationsInterface {
 
         return serviceRepository.save(serviceToEdit);
     }
-    
+
     @Override
     public Service updateService(Long providerId, Service serviceToEdit) {
         if (!serviceToEdit.getProvider().getId().equals(providerId)) {

@@ -12,10 +12,9 @@ import popr.repository.*;
 @RequiredArgsConstructor
 public class Bootstrap implements ApplicationRunner {
 
-    private final AdminRepository adminRepository;
     private final ChangeStatusRepository changeStatusRepository;
     private final ComplaintRepository complaintRepository;
-    private final UserRepository userRepository;
+    private final PersonRepository personRepository;
     private final ProviderRepository providerRepository;
     private final ProviderStatusRepository providerStatusRepository;
     private final ReportRepository reportRepository;
@@ -32,20 +31,21 @@ public class Bootstrap implements ApplicationRunner {
     }
 
     private void generate() {
-        Admin admin = new Admin();
+        Person admin = new Person();
         admin.setUsername("admin");
         admin.setPassword(passwordEncoder.encode("admin"));
+        admin.setAdmin(true);
 
-        adminRepository.save(admin);
+        personRepository.save(admin);
 
-        User user = new User();
+        Person user = new Person();
         user.setUsername("user1");
         user.setPassword(passwordEncoder.encode("user1"));
         user.setName("Jan");
         user.setSurname("Testowy");
         user.setAddress("Test address");
         user.setEmail("test@test.test");
-        user = userRepository.save(user);
+        user = personRepository.save(user);
 
         Zone zone = new Zone();
         zone.setPostalCode("01-111");
@@ -60,6 +60,13 @@ public class Bootstrap implements ApplicationRunner {
         provider.setActive(true);
 
         provider = providerRepository.save(provider);
+
+        Person employee = new Person();
+        employee.setName("Testowy pracownik");
+        employee.setProvider(provider);
+        employee.setSurname("Testowe imie");
+
+        personRepository.save(employee);
 
         Service service = new Service();
         service.setProvider(provider);

@@ -1,14 +1,12 @@
 package popr.interfaces;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import popr.model.*;
+import popr.model.Person;
+import popr.model.Provider;
 
 public interface AdminOperationsInterface {
 
     Provider addProvider(Provider provider);
-    Admin addAdmin(Admin admin);
-    User addUser(User user);
+    Person addPerson(Person person);
     void changeStatusOfChange(Long changeId, Long statusId, String description);
 
     String getZonesList();

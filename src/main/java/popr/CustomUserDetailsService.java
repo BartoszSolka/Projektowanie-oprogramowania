@@ -7,8 +7,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import popr.model.Admin;
-import popr.repository.AdminRepository;
+import popr.model.Person;
+import popr.repository.PersonRepository;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -17,12 +17,12 @@ import java.util.Optional;
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private AdminRepository adminRepository;
+    private PersonRepository personRepository;
 
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-        Optional<Admin> userFromDataBase = adminRepository.findByUsername(username);
+        Optional<Person> userFromDataBase = Optional.of(personRepository.findByUsername(username));
         return userFromDataBase
                 .map(admin -> new org.springframework.security.core.userdetails.User(admin.getUsername(),
                         admin.getPassword(), true, true, true,

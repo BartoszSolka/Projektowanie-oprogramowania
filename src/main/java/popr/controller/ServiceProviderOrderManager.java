@@ -1,15 +1,11 @@
 package popr.controller;
 
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.web.bind.annotation.PathVariable;
-
-import popr.model.Service;
+import popr.model.Person;
 import popr.model.ServiceOrder;
 import popr.model.ServiceOrderStatus;
-import popr.model.User;
 import popr.model.enums.ServiceOrderStatusDict;
+
+import java.util.List;
 
 public interface ServiceProviderOrderManager {
 	List<ServiceOrder> listAllOrders(Long serviceProviderId);
@@ -18,6 +14,6 @@ public interface ServiceProviderOrderManager {
 
 	ServiceOrderStatus changeOrderStatus(ServiceOrderStatus newStatus, Long orderId);
 	
-	User fetchUserData(Long userId);
+	Person fetchUserData(Long userId);
 
 }

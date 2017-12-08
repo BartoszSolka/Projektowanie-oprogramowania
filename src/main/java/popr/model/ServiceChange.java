@@ -44,7 +44,7 @@ public class ServiceChange {
 
     @ManyToOne
     @Expose
-    private Admin validatedBy;
+    private Person validatedBy;
 
     @OneToMany(cascade = CascadeType.ALL)
     @Expose

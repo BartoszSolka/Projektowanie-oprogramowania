@@ -20,7 +20,7 @@ public interface ProviderOperationsInterface {
 
 	ServiceOrderStatus changeServiceOrderStatus(ServiceOrderStatus newStatusOrder, Long serviceOrderId);
 
-	User getUser(Long userId);
+	Person getUser(Long userId);
 
 	ServiceType addServiceType(String name, String description);
 

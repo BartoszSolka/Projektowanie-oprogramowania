@@ -31,4 +31,7 @@ public class Provider {
     private Zone zone;
 
     private boolean isActive;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "provider")
+    List<Person> employees = new ArrayList<>();
 }

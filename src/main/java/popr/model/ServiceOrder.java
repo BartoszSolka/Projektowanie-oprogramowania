@@ -1,13 +1,11 @@
 package popr.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.time.ZonedDateTime;
 
 @Entity
@@ -41,7 +39,7 @@ public class ServiceOrder {
 
     @JsonIgnore
     @OneToOne
-    private User orderedBy;
+    private Person orderedBy;
 
     @PrePersist
     private void prePersist() {
