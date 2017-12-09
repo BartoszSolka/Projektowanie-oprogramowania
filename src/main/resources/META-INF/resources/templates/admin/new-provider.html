@@ -100,18 +100,14 @@ var dodajUslugodawce = function () {
         $.ajax({
             type: 'POST',
             url: 'http://localhost:8080/admin/addProvider',
-            dataType: 'json',
-            contentType: 'application/json',
-            data: JSON.stringify({
-                name: name,
-                nip: nip,
-                phoneNo: phoneNumber,
-                address: address,
-                zone: {
-                    id: zone,
-                    postalCode : null
-                }
-            }),
+            data: {
+                nip : nip,
+                telefon : phoneNumber,
+                siedzibaFirmy : address,
+                nazwa : name,
+                idStrefy : zone,
+                email : "email"
+            },
             success: function (response) {
                 console.log(response);
                 $("#successModal").modal();

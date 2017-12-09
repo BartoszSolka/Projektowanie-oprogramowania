@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface ZoneRepository extends JpaRepository<Zone, Long> {
 
     Zone findByPostalCode(String postalCode);
+
+    Zone findById(Long zoneId);
 }

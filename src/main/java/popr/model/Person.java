@@ -40,4 +40,5 @@ public class Person {
 
     @ManyToOne
     private Provider provider;
+
 }

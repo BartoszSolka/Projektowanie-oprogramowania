@@ -97,21 +97,13 @@ var dodajUslugodawce = function () {
         var address = document.getElementById('address').value;
         var zone = document.getElementById("zone").value;
 
+
         $.ajax({
             type: 'POST',
             url: 'http://localhost:8080/admin/addProvider',
-            dataType: 'json',
-            contentType: 'application/json',
-            data: JSON.stringify({
-                name: name,
-                nip: nip,
-                phoneNo: phoneNumber,
-                address: address,
-                zone: {
-                    id: zone,
-                    postalCode : null
-                }
-            }),
+            data: {
+                "nip": "nip"
+            },
             success: function (response) {
                 console.log(response);
                 $("#successModal").modal();

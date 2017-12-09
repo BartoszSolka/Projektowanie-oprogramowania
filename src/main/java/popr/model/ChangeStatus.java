@@ -1,5 +1,6 @@
 package popr.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.annotations.Expose;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -29,5 +30,6 @@ public class ChangeStatus {
 
     @ManyToOne
     @Expose
+    @JsonIgnore
     private ServiceChange serviceChange;
 }

@@ -49,4 +49,8 @@ public class ServiceChange {
     @OneToMany(cascade = CascadeType.ALL)
     @Expose
     private List<ChangeStatus> statuses = new ArrayList<>();
+
+    public void addStatus(ChangeStatus changeStatus) {
+        statuses.add(changeStatus);
+    }
 }

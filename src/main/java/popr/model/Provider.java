@@ -1,5 +1,6 @@
 package popr.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -26,12 +27,15 @@ public class Provider {
 
     private String address;
 
+    private String email;
+
     @ManyToOne
     @Embedded
     private Zone zone;
 
     private boolean isActive;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "provider")
     List<Person> employees = new ArrayList<>();
 }

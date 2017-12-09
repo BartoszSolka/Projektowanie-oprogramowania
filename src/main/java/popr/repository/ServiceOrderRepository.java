@@ -3,6 +3,7 @@ package popr.repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 import popr.model.Person;
 import popr.model.ServiceOrder;
 import popr.model.Zone;
@@ -18,4 +19,7 @@ public interface ServiceOrderRepository extends JpaRepository<ServiceOrder, Long
     List<ServiceOrder> findByServiceId(Long providerId);
 
     ServiceOrder findById(Long serviceId);
+
+    @Transactional
+    void deleteByServiceId(Long serviceId);
 }

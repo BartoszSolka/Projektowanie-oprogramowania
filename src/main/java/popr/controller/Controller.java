@@ -67,4 +67,14 @@ public class Controller {
         return "admin/new-user";
     }
 
+    @GetMapping("/admin/edit-provider")
+    public String adminEditProvider(Model model) {
+        return "admin/edit-provider";
+    }
+
+    @GetMapping("/admin/edit-user")
+    public String adminEditUser(Model model) {
+        return "admin/edit-user";
+    }
+
 }
