@@ -33,14 +33,14 @@ public class Bootstrap implements ApplicationRunner {
     private void generate() {
         Person admin = new Person();
         admin.setUsername("admin");
-        admin.setPassword(passwordEncoder.encode("admin"));
+        admin.setPassword(passwordEncoder.encode("test"));
         admin.setAdmin(true);
 
         personRepository.save(admin);
 
         Person user = new Person();
-        user.setUsername("user1");
-        user.setPassword(passwordEncoder.encode("user1"));
+        user.setUsername("user");
+        user.setPassword(passwordEncoder.encode("test"));
         user.setName("Jan");
         user.setSurname("Testowy");
         user.setAddress("Test address");
@@ -63,6 +63,8 @@ public class Bootstrap implements ApplicationRunner {
 
         Person employee = new Person();
         employee.setName("Testowy pracownik");
+        employee.setUsername("employee");
+        employee.setPassword("test");
         employee.setProvider(provider);
         employee.setSurname("Testowe imie");
 

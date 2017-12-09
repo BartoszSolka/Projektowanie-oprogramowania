@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <form method="post" th:action="@{/login}">
+                <div class="col-md-offset-5 col-md-3">
+                    <div class="form-login">
+                        <h4>Welcome back.</h4>
+                        <a href="/register">Register</a>
+                        <input name="username" type="text" id="userName" class="form-control input-sm chat-input" placeholder="username"/>
+                        </br>
+                        <input name="password" type="text" id="userPassword" class="form-control input-sm chat-input" placeholder="password" />
+                        </br>
+                        <div class="wrapper">
+                            <span class="group-btn">
+                                <button type="submit" class="btn">Log in</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

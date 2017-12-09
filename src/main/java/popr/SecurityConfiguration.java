@@ -56,8 +56,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable();
-                /*.formLogin()
+                .csrf().disable()
+                .formLogin()
                 .loginPage("/login")
                 .defaultSuccessUrl("/")
                 .failureUrl("/login?error")
@@ -75,7 +75,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .key("uniqueKey")
                 .and()
                 .authorizeRequests()
-                .antMatchers("/isAlive", "is-alive").permitAll()
-                .anyRequest().authenticated(); */
+                .antMatchers("/isAlive", "is-alive", "/register", "/register-success").permitAll()
+                .anyRequest().authenticated();
     }
 }

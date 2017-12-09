@@ -1,11 +1,18 @@
 package popr.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import popr.model.Person;
+import popr.service.AdminOperationsService;
 
 @org.springframework.stereotype.Controller
+@RequiredArgsConstructor
 public class Controller {
 
+    private final AdminOperationsService adminOperationsService;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -20,6 +27,23 @@ public class Controller {
     @GetMapping("/login")
     public String login(Model model) {
         return "login";
+    }
+
+    @GetMapping("/register")
+    public String register(Model model) {
+        model.addAttribute(new Person());
+        return "/register";
+    }
+
+    @PostMapping("/register")
+    public String registerPerson(@ModelAttribute Person person) {
+        adminOperationsService.addPerson(person);
+        return "redirect:/register-success";
+    }
+
+    @GetMapping("/register-success")
+    public String registerSuccess() {
+        return "/register-success";
     }
 
     @GetMapping("/providerView/new-service")

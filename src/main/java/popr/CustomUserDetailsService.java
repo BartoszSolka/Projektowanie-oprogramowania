@@ -26,7 +26,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return userFromDataBase
                 .map(admin -> new org.springframework.security.core.userdetails.User(admin.getUsername(),
                         admin.getPassword(), true, true, true,
-                        true, Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"))))
+                        true, Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"))))
                 .orElseThrow(() -> new UsernameNotFoundException("UsernameNotFound"));
     }
 }

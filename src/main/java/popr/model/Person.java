@@ -6,6 +6,7 @@ import lombok.ToString;
 import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Data
@@ -28,9 +29,11 @@ public class Person {
 
     private String address;
 
+    @NotNull
     @Column(unique = true)
     private String username;
 
+    @NotNull
     private String password;
 
     @ManyToOne
