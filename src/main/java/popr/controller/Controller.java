@@ -2,6 +2,7 @@ package popr.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -77,9 +78,7 @@ public class Controller {
     }
 
     @GetMapping("/admin")
-    public String admin(Model model) {
-        return "admin/index";
-    }
+    public String admin(Model model) {return "admin/index";}
 
     @GetMapping("/admin/new-provider")
     public String adminNewProvider(Model model) {

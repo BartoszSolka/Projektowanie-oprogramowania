@@ -34,49 +34,70 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th >ID</th>
+                <th>ID</th>
+                <th >Nazwa</th>
                 <th>Nip</th>
                 <th >Telefon</th>
-                <th >Siedziba Firmy</th>
-                <th >Lokalizacja</th>
+                <th >Adres Firmy</th>
+                <th >Email</th>
+                <th></th>
 
             </tr>
             </thead>
-            <tbody>
-            <tr>
-                <th>1</th>
-                <td>432423423</td>
-                <td>
+            <tbody id="providers">
 
-                    526789123</td>
-                 <td>Warszawa</td>
-                 <td>ul.Jana pawał 24</td>
-                <td><a href="../admin/edit-provider.html">
-                    Edytuj
-                </a></td>
-            </tr>
-            <tr>
-                <th>2</th>
-                <td>634321432</td>
-                <td>564565766</td>
-                <td>Poznań</td>
-                <td>ul.Wolnosci 35</td>
-                <td><a href="../admin/edit-provider.html">
-                    Edytuj
-                </a></td>
-            </tr>
-            <tr>
-                <th>3</th>
-                <td>976455312</td>
-                <td>703211234</td>
-                <td>Kraków</td>
-                 <td>ul.Faraona 13</td>
-                <td><a href="../admin/edit-provider.html">
-                    Edytuj
-                </a></td>
-            </tr>
             </tbody>
         </table>
+        <script>
+            var usunUslugodawce = function (id) {
+
+                $.ajax({
+                    type: 'DELETE',
+                    url: 'http://localhost:8080/admin/deleteProvider/'+id
+                })
+            }
+        </script>
+<script>
+            $.get('http://localhost:8080/admin/providers', function (data) {
+                console.log(data);
+                var tbody = document.getElementById("providers");
+                for (var i = 0; i < data.length; i++) {
+                    var tr = document.createElement("tr");
+                    var td0 = document.createElement("td");
+                    var td1 = document.createElement("td");
+                    var td2 = document.createElement("td");
+                    var td3 = document.createElement("td");
+                    var td4 = document.createElement("td");
+                    var td5 = document.createElement("td");
+                    var td7 = document.createElement("td");
+                    //var td6 = document.createElement("td");
+
+
+                    td0.textContent = data[i].id;
+                    td0.innerHTML = td0.textContent +' <button class="glyphicon glyphicon-remove" aria-hidden="true" onclick="usunUslugodawce( '+ data[i].id +')">' +
+                        '</button>';
+                    td1.textContent = data[i].name;
+                    td2.textContent = data[i].nip;
+                    td3.textContent = data[i].phoneNo;
+                    td4.textContent = data[i].address;
+                    td5.textContent = data[i].email;
+                    //td6.textContent = data[i].zone.postalCode;
+
+                    td7.innerHTML = '<a href="../admin/edit-provider">Edytuj</a></span>\n';
+
+
+                    tr.appendChild(td0);
+                    tr.appendChild(td1);
+                    tr.appendChild(td2);
+                    tr.appendChild(td3);
+                    tr.appendChild(td4);
+                    tr.appendChild(td5);
+                    //tr.appendChild(td6);
+                    tr.appendChild(td7);
+                    tbody.appendChild(tr);
+                }
+            })
+        </script>
         <a href="../admin/new-provider.html">
             Dodaj usługodawce
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
@@ -102,51 +123,55 @@
 
             </tr>
             </thead>
-            <tbody>
-            <tr>
-                <th>1</th>
-                <td>michal.skorupka@gmail.com</td>
-                <td>Michał</td>
-                <td>Skorupka</td>
-                <td>634534111</td>
-                <td>ul.Dworcowa 12</td>
-                <td>MSkorup</td>
-                <td>papusi12</td>
-                <th >1</th>
-                <td><a href="../admin/edit-user.html">
-                    Edytuj
-                </a></td>
+            <tbody id="users">
 
-            </tr>
-            <tr>
-                <th>2</th>
-                <td>konrad.frankowicz@wp.pl</td>
-                <td>Konrad</td>
-                <td>Frankowicz</td>
-                <td>634909833</td>
-                <td>ul.Dworcowa 12</td>
-                <td>KFranko</td>
-                <td>jajisnm123</td>
-                <th >4</th>
-                <td><a href="../admin/edit-user.html">
-                    Edytuj
-                </a></td>
-            </tr>
-            <tr>
-                <th>3</th>
-                <td>kasbat@o2.pl</td>
-                <td>Kasia </td>
-                <td>Batowna</td>
-                <td>654123432</td>
-                <td>ul.Fraona 10</td>
-                <td>KBatowna</td>
-                <td>kndoiwl312</td>
-                <th >1</th>
-                <td><a href="../admin/edit-user.html">
-                    Edytuj
-                </a></td>
-            </tr>
             </tbody>
+            <script>
+                $.get('http://localhost:8080/admin/users', function (data) {
+                    console.log(data);
+                    var tbody = document.getElementById("users");
+                    for (var i = 0; i < data.length; i++) {
+                        var tr = document.createElement("tr");
+                        var td0 = document.createElement("td");
+                        var td1 = document.createElement("td");
+                        var td2 = document.createElement("td");
+                        var td3 = document.createElement("td");
+                        var td4 = document.createElement("td");
+                        var td5 = document.createElement("td");
+                        var td6 = document.createElement("td");
+                        var td7 = document.createElement("td");
+                        var td8 = document.createElement("td");
+                        var td9 = document.createElement("td");
+
+
+                        td0.textContent = data[i].id;
+                        td0.innerHTML = td0.textContent +' <button class="glyphicon glyphicon-remove" aria-hidden="true" onclick="usunUslugodawce( '+ data[i].id +')">' +
+                            '</button>';
+                        td1.textContent = data[i].email;
+                        td2.textContent = data[i].name;
+                        td3.textContent = data[i].surname;
+                        td4.textContent = data[i].phoneNo;
+                        td5.textContent = data[i].address;
+                        td6.textContent = data[i].username;
+                        td7.textContent = data[i].password;
+                        td8.textContent = data[i].zone;
+                        td9.innerHTML = '<a href="../admin/edit-provider">Edytuj</a></span>\n';
+
+
+                        tr.appendChild(td0);
+                        tr.appendChild(td1);
+                        tr.appendChild(td2);
+                        tr.appendChild(td3);
+                        tr.appendChild(td4);
+                        tr.appendChild(td5);
+                        tr.appendChild(td6);
+                        tr.appendChild(td7);
+                        tr.appendChild(td8);
+                        tr.appendChild(td9);
+                        tbody.appendChild(tr);
+                    }
+                })
+            </script>
         </table>
         <a href="../admin/new-user.html">
             Dodaj użytkownika
@@ -214,6 +239,7 @@
         }
     })
 </script>
+
 
 </body>
 </html>

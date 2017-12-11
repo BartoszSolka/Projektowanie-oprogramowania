@@ -55,7 +55,7 @@
         <h4>Strefa:
             <input id="zone" style="width: 70%;">
         </h4>
-        <button type="button" class="btn btn-success" onclick="dodajUzytkownika();">Dodaj</button>
+        <button type="button" class="btn btn-success" onclick="edytujUzytkownika();">Dodaj</button>
         <div class="modal fade" id="successModal" role="dialog">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
@@ -93,7 +93,7 @@
 </div>
 
 <script>
-    var dodajUzytkownika = function () {
+    var eytujUzytkownika = function () {
         var name = document.getElementById('name').value;
         var surname = document.getElementById('surname').value;
         var email = document.getElementById('email').value;

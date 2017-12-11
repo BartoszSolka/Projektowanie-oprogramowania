@@ -105,10 +105,8 @@
 
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:8080/admin/addUser',
-            dataType: 'json',
-            contentType: 'application/json',
-            data: JSON.stringify({
+            url: 'http://localhost:8080/admin/addPerson',
+            data: {
                 email: email,
                 name: name,
                 surname: surname,
@@ -116,11 +114,9 @@
                 address: address,
                 username: username,
                 password: password,
-                zone: {
-                    id: zone,
-                    postalCode:null
-                }
-            }),
+                zone: zone
+
+            },
             success: function (response) {
                 console.log(response);
                 $("#successModal").modal();

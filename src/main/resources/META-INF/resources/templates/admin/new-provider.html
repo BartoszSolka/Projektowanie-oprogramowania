@@ -43,6 +43,9 @@
         <h4>Adres:
           <input id="address" style="width: 70%;">
         </h4>
+        <h4>Email:
+                <input id="email" style="width: 70%;">
+        </h4>
         <h4>Strefa:
           <input id="zone" style="width: 70%;">
         </h4>
@@ -96,6 +99,7 @@ var dodajUslugodawce = function () {
         var phoneNumber = document.getElementById('phoneNumber').value;
         var address = document.getElementById('address').value;
         var zone = document.getElementById("zone").value;
+        var email = document.getElementById("email").value;
 
         $.ajax({
             type: 'POST',
@@ -105,8 +109,8 @@ var dodajUslugodawce = function () {
                 telefon : phoneNumber,
                 siedzibaFirmy : address,
                 nazwa : name,
-                idStrefy : zone,
-                email : "email"
+                idStrefy :zone,
+                email : email
             },
             success: function (response) {
                 console.log(response);
