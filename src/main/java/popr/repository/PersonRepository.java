@@ -9,4 +9,6 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
 
     @Transactional
     void deleteById(Long personId);
+
+    Person findById(Long personId);
 }

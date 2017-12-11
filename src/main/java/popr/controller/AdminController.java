@@ -197,4 +197,24 @@ public class AdminController implements AdminManager {
     public List<Person> getUsers() {
         return adminOperationsService.getUsers();
     }
+
+    @Override
+    @GetMapping("/user/{userId}")
+    public Person getUser(@PathVariable Long userId) {
+        return adminOperationsService.getUserById(userId);
+    }
+
+    @Override
+    @GetMapping("/provider/{providerId}")
+    public Provider getProvider(@PathVariable Long providerId) {
+        return adminOperationsService.getProviderById(providerId);
+    }
+
+    @Override
+    @GetMapping("/zone/{zoneId}")
+    public String getPostalCode(@PathVariable Long zoneId) {
+        return adminOperationsService.getPostalCodeOfZone(zoneId);
+    }
+
+
 }

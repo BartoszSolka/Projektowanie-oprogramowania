@@ -28,5 +28,11 @@ public interface AdminOperationsInterface {
     List<Provider> getProvidersList();
 
     List<Person> getUsers();
+
+    Person getUserById(Long userId);
+
+    Provider getProviderById(Long providerId);
+
+    String getPostalCodeOfZone(Long zoneId);
 }
 

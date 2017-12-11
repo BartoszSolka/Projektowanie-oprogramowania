@@ -126,4 +126,20 @@ public class AdminOperationsService implements AdminOperationsInterface {
     public List<Person> getUsers() {
         return personRepository.findAll();
     }
+
+    @Override
+    public Person getUserById(Long userId) {
+        return personRepository.findById(userId);
+    }
+
+    @Override
+    public Provider getProviderById(Long providerId) {
+        return providerRepository.findById(providerId);
+    }
+
+    @Override
+    public String getPostalCodeOfZone(Long zoneId) {
+        Zone zone = zoneRepository.findById(zoneId);
+        return zone.getPostalCode();
+    }
 }

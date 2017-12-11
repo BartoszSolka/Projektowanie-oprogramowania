@@ -31,4 +31,7 @@ public interface AdminManager {
     void generateCalculations(Date poczatek, Date koniec);
 
     List<Person> getUsers();
+    Person getUser(Long userId);
+    Provider getProvider(Long providerId);
+    String getPostalCode(Long zoneId);
 }
