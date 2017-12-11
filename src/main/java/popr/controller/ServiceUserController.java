@@ -9,6 +9,8 @@ import popr.interfaces.ProviderOperationsInterface;
 import popr.interfaces.UserOperationsInterface;
 import popr.model.*;
 import popr.repository.ProviderRepository;
+import popr.repository.ServiceOrderRepository;
+import popr.repository.ServiceOrderStatusRepository;
 import popr.repository.ZoneRepository;
 
 import java.util.List;
@@ -19,13 +21,18 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping("/user")
 @RequiredArgsConstructor
 public class ServiceUserController implements ServiceUserManager {
+
+    private final ZoneRepository zoneRepository;
+    private final ServiceOrderRepository serviceOrderRepository;
+
     @Autowired
     private UserOperationsInterface userOperationsService;
 
     @Override
     @PostMapping(path = "/addOrder")
     public ServiceOrder createServiceOrder(String description, String address, String postalCode, Long serviceID) {
-        return userOperationsService.createServiceOrder(description, address,  postalCode, serviceID);
+        Zone zone = zoneRepository.findByPostalCode(postalCode);
+        return userOperationsService.createServiceOrder(description, address,  zone, serviceID);
     }
 
     @Override
@@ -37,7 +44,8 @@ public class ServiceUserController implements ServiceUserManager {
     @Override
     @GetMapping(path = "/zoneService", produces = APPLICATION_JSON_VALUE)
     public Page<ServiceOrder> getServiceOrdersByZone(String postalCode, Pageable pageable) {
-        return userOperationsService.getServiceOrdersByZone(postalCode, pageable);
+        Zone zone = zoneRepository.findByPostalCode(postalCode);
+        return userOperationsService.getServiceOrdersByZone(zone, pageable);
     }
 
     @Override
@@ -49,7 +57,8 @@ public class ServiceUserController implements ServiceUserManager {
     @Override
     @GetMapping(path = "/orderStatus", produces = APPLICATION_JSON_VALUE)
     public ServiceOrderStatus getServiceOrderStatus(Long orderId) {
-        return userOperationsService.getServiceOrderStatus(orderId);
+        ServiceOrder serviceOrder = serviceOrderRepository.findById(orderId);
+        return userOperationsService.getServiceOrderStatus(serviceOrder);
     }
 
     @Override

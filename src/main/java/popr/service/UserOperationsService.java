@@ -24,9 +24,9 @@ public class UserOperationsService implements UserOperationsInterface {
     private final ComplaintRepository complaintRepository;
 
     @Override
-    public ServiceOrder createServiceOrder(String description, String address, String postalCode, Long serviceId) {
+    public ServiceOrder createServiceOrder(String description, String address, Zone zone, Long serviceId) {
         popr.model.Service service = serviceRepository.findOne(serviceId);
-        Zone zone = zoneRepository.findByPostalCode(postalCode);
+
         if (service == null) {
             return null;//handle error
         }
@@ -60,8 +60,7 @@ public class UserOperationsService implements UserOperationsInterface {
     }
 
     @Override
-    public Page<ServiceOrder> getServiceOrdersByZone(String postalCode, Pageable pageable) {
-        Zone zone = zoneRepository.findByPostalCode(postalCode);
+    public Page<ServiceOrder> getServiceOrdersByZone(Zone zone, Pageable pageable) {
         return serviceOrderRepository.findByZone(zone, pageable);
     }
 
@@ -72,8 +71,7 @@ public class UserOperationsService implements UserOperationsInterface {
     }
 
     @Override
-    public ServiceOrderStatus getServiceOrderStatus(Long orderId) {
-        ServiceOrder serviceOrder = serviceOrderRepository.findById(orderId);
+    public ServiceOrderStatus getServiceOrderStatus(ServiceOrder serviceOrder) {
         return serviceOrderStatusRepository.findByServiceOrderAndCurrentIsTrue(serviceOrder);
     }
 

@@ -7,17 +7,17 @@ import popr.model.*;
 
 public interface UserOperationsInterface {
 
-    ServiceOrder createServiceOrder(String description, String address, String postalCode, Long serviceID);
+    ServiceOrder createServiceOrder(String description, String address, Zone zone, Long serviceID);
 
     Page<Service> getServices(Pageable pageable);
 
     Page<Provider> getProviders(Pageable pageable);
 
-    Page<ServiceOrder> getServiceOrdersByZone(String postalCode, Pageable pageable);
+    Page<ServiceOrder> getServiceOrdersByZone(Zone zone, Pageable pageable);
 
     Page<ServiceOrder> getServiceOrdersByUser(Pageable pageable);
 
-    ServiceOrderStatus getServiceOrderStatus(Long orderId);
+    ServiceOrderStatus getServiceOrderStatus(ServiceOrder serviceOrder);
 
     ServiceOrderStatus cancelServiceOrder(Long orderId);
 

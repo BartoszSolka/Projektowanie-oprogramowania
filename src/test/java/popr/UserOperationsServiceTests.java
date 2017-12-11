@@ -23,8 +23,9 @@ public class UserOperationsServiceTests {
 
     }
 
+    Zone zone = new Zone();
     @Test
     public void canCreateServiceOrder() throws Exception {
-        userOperationsService.createServiceOrder("test", "koszykowa 1","01-111", 1L);
+        userOperationsService.createServiceOrder("test", "koszykowa 1",zone, 1L);
     }
 }
