@@ -188,5 +188,13 @@ public class AdminController implements AdminManager {
     public void generateCalculations(Date begin, Date end) {
 
     }
+
     //iteracja 3. <--
+
+
+    @Override
+    @GetMapping("/users")
+    public List<Person> getUsers() {
+        return adminOperationsService.getUsers();
+    }
 }

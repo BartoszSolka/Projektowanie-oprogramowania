@@ -121,4 +121,9 @@ public class AdminOperationsService implements AdminOperationsInterface {
     public List<Provider> getProvidersList() {
         return providerRepository.findAll();
     }
+
+    @Override
+    public List<Person> getUsers() {
+        return personRepository.findAll();
+    }
 }

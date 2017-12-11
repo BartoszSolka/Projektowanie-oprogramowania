@@ -27,5 +27,6 @@ public interface AdminOperationsInterface {
     List<Zone> getZonesList();
     List<Provider> getProvidersList();
 
+    List<Person> getUsers();
 }
 

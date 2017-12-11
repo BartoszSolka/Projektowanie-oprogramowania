@@ -29,4 +29,6 @@ public interface AdminManager {
 
     void generateReport(Date poczatek, Date koniec);
     void generateCalculations(Date poczatek, Date koniec);
+
+    List<Person> getUsers();
 }
