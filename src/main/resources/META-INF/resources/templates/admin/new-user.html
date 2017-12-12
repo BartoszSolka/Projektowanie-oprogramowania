@@ -107,15 +107,16 @@
             type: 'POST',
             url: 'http://localhost:8080/admin/addPerson',
             data: {
-                email: email,
-                name: name,
-                surname: surname,
-                phoneNo: phoneNumber,
-                address: address,
-                username: username,
-                password: password,
-                zone: zone
-
+                email:email,
+                imie:name,
+                nazwisko:surname,
+                strefa:zone,
+                telefon:phoneNumber,
+                adres:address,
+                login:username,
+                haslo:password,
+                czyAdmin:false,
+                idUslugodawcy:4
             },
             success: function (response) {
                 console.log(response);

@@ -32,6 +32,25 @@ public class AdminOperationsService implements AdminOperationsInterface {
 
     @Override
     public void deleteProvider(String providerId) {
+        Provider provider = providerRepository.findById(Long.parseLong(providerId));
+        List<popr.model.Service> services = serviceRepository.findByProviderId(provider.getId());
+        if (!services.isEmpty()) {
+            for (popr.model.Service s : services) {
+                List<ServiceOrder> serviceOrders = serviceOrderRepository.findByServiceId(s.getId());
+                for (ServiceOrder so : serviceOrders) {
+                    List<Complaint> complaints = complaintRepository.findByServiceOrderId(so.getId());
+                    for (Complaint c : complaints) {
+                        complaintRepository.delete(c);
+                    }
+                    List<ServiceOrderStatus> serviceOrderStatuses = serviceOrderStatusRepository.findByServiceOrderId(so.getId());
+                    for (ServiceOrderStatus sos : serviceOrderStatuses) {
+                        serviceOrderStatusRepository.delete(sos);
+                    }
+                    serviceOrderRepository.delete(so);
+                }
+                serviceRepository.delete(s);
+            }
+        }
         providerRepository.delete(Long.parseLong(providerId));
     }
 

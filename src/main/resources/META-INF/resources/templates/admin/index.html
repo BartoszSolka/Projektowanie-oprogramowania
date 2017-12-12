@@ -127,6 +127,15 @@
 
             </tbody>
             <script>
+            var usunUzytkownika = function (id) {
+
+                $.ajax({
+                    type: 'DELETE',
+                    url: 'http://localhost:8080/admin/deletePerson/'+id
+                })
+            }
+
+
                 $.get('http://localhost:8080/admin/users', function (data) {
                     console.log(data);
                     var tbody = document.getElementById("users");
@@ -145,7 +154,7 @@
 
 
                         td0.textContent = data[i].id;
-                        td0.innerHTML = td0.textContent +' <button class="glyphicon glyphicon-remove" aria-hidden="true" onclick="usunUslugodawce( '+ data[i].id +')">' +
+                        td0.innerHTML = td0.textContent +' <button class="glyphicon glyphicon-remove" aria-hidden="true" onclick="usunUzytkownika( '+ data[i].id +')">' +
                             '</button>';
                         td1.textContent = data[i].email;
                         td2.textContent = data[i].name;
@@ -154,8 +163,11 @@
                         td5.textContent = data[i].address;
                         td6.textContent = data[i].username;
                         td7.textContent = data[i].password;
-                        td8.textContent = data[i].zone;
-                        td9.innerHTML = '<a href="../admin/edit-provider">Edytuj</a></span>\n';
+                        if (data[i].zone)
+                            td8.textContent = data[i].zone.id;
+                        else
+                            td8.textContent = null;
+                        td9.innerHTML = '<a href="../admin/edit-user">Edytuj</a></span>\n';
 
 
                         tr.appendChild(td0);

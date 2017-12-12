@@ -93,7 +93,7 @@
 </div>
 
 <script>
-    var eytujUzytkownika = function () {
+    var edytujUzytkownika = function () {
         var name = document.getElementById('name').value;
         var surname = document.getElementById('surname').value;
         var email = document.getElementById('email').value;
@@ -106,21 +106,18 @@
         $.ajax({
             type: 'POST',
             url: 'http://localhost:8080/admin/addUser',
-            dataType: 'json',
-            contentType: 'application/json',
-            data: JSON.stringify({
-                email: email,
-                name: name,
-                surname: surname,
-                phoneNo: phoneNumber,
-                address: address,
-                username: username,
-                password: password,
-                zone: {
-                    id: zone,
-                    postalCode:null
-                }
-            }),
+            data: {
+                email:email,
+                imie:name,
+                nazwisko:surname,
+                strefa:zone,
+                telefon:phoneNumber,
+                adres:address,
+                login:username,
+                haslo:password,
+                czyAdmin:false,
+                idUslugodawcy:4
+            },
             success: function (response) {
                 console.log(response);
                 $("#successModal").modal();
