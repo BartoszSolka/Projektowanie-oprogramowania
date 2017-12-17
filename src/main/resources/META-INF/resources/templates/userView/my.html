@@ -50,6 +50,7 @@
                 <th>Data utworzenia</th>
                 <th>Ocena</th>
                 <th>Status</th>
+                <th></th>
                 <!--<th>Komentarz</th>-->
             </tr>
             </thead>
@@ -73,6 +74,50 @@
                     Adres:<br><span id="addressModal"></span><br><br>
                     Strefa :<br><span id="zoneModal"></span><br><br>
                     Rodzaj usługi:<br><span id="serviceModal"></span><br><br>
+                    Status:<br><span id="statusModal"></span><br><br>
+                    Opis statusu:<br><span id="descModal"></span><br><br>
+                </p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="myModal3" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="descriptionModalEdit"></h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <input type="hidden" title="" id="idModalEdit">
+                    Opis:<br><input class="form-control" type="text" title="" id="descOrderModalEdit"><br><br>
+                    Adres:<br><input class="form-control" type="text" title="" id="addressModalEdit"><br><br>
+                    Strefa :<br><input class="form-control" type="text" title="" id="zoneModalEdit"><br><br>
+                    Rodzaj usługi:<br><input class="form-control" type="text" title="" id="serviceModalEdit"><br><br>
+                    Status:<br><input class="form-control" type="text" title="" id="statusModalEdit"><br><br>
+                    Opis statusu:<br><input class="form-control" type="text" title="" id="descModalEdit"><br><br>
+                </p>
+                <button class="btn" onclick="editOrder()">Wyślij</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="myModal2" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Usługa anulowana</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Usługa została anulowana.
                 </p>
             </div>
         </div>
@@ -94,7 +139,6 @@
             id: 2
         },
         success: function (response) {
-            console.log(response);
             var parentDiv = document.getElementById('mainTbody');
             for (var i = 0; i < response.content.length; i++) {
                 var tr = document.createElement('tr');
@@ -102,6 +146,7 @@
                 var td1 = document.createElement('td');
                 var td2 = document.createElement('td');
                 var td4 = document.createElement('td');
+                var td5 = document.createElement('td');
                 td0.innerHTML = "<a href='javascript(0)' onclick=\"getStatusModal(" + response.content[i].id + ",'" + response.content[i].description + "','" + response.content[i].address + "')\" type=\"button\" data-toggle=\"modal\" data-target=\"#myModal\">" + response.content[i].description + "</a>\n";
                 td1.textContent = '2017-11-19';
                 td2.textContent = response.content[i].rating === null ? 0 : response.content[i].rating;
@@ -120,12 +165,14 @@
                         return false;
                     }
                 };
-                td4.innerHTML = (response.content[i].rating === null ? "Brak" : response.content[i].rating);
+                td4.innerHTML = 0;
+                td5.innerHTML = '<button class="btn btn-primary btn-sm" onclick="cancelOrder(' + response.content[i].id + ')" type="button" data-toggle="modal" data-target="#myModal2">Anuluj</button>' + '<button class="btn btn-primary btn-sm" onclick="getEditedStatusModal(' + response.content[i].id + ',\'' + response.content[i].description + '\',\'' + response.content[i].address + '\')" type="button" data-toggle="modal" data-target="#myModal3">Edytuj</button>';
 
                 tr.appendChild(td0);
                 tr.appendChild(td1);
                 tr.appendChild(td2);
                 tr.appendChild(td4);
+                tr.appendChild(td5);
 
                 parentDiv.appendChild(tr);
             }
@@ -136,7 +183,6 @@
         }
     });
     var sendNewRate = function (value, id) {
-        console.log(value, id);
         $.ajax({
             type: 'POST',
             url: 'http://localhost:8080/user/rateOrder',
@@ -156,11 +202,69 @@
         });
     };
 
+    function cancelOrder(orderId) {
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8080/user/cancelOrder',
+            dataType: 'json',
+            data: {
+                orderId: orderId
+            },
+            success: function (response) {
+                console.log(response);
+            },
+            error: function (response) {
+                console.log(response);
+                alert('Cos poszło nie tak...');
+            }
+        });
+    }
+
+    function editOrder() {
+        var orderDescription = document.getElementById('descOrderModalEdit').valu
+        var id = document.getElementById('idModalEdit').value
+        var address = document.getElementById('addressModalEdit').value
+        var zone = document.getElementById('zoneModalEdit').value
+
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8080/user/editOrder',
+            dataType: 'json',
+            data: {
+                orderId: id,
+                description: orderDescription,
+                postalCode: zone,
+                serviceId: 6,
+                address: address
+            },
+            success: function (response) {
+                console.log(response);
+            },
+            error: function (response) {
+                console.log(response);
+                alert('Cos poszło nie tak...');
+            }
+        });
+    }
+
+    function getEditedStatusModal(statusId, description, address) {
+        document.getElementById('descriptionModalEdit').innerText = description
+        document.getElementById('descOrderModalEdit').value = description
+        document.getElementById('idModalEdit').value = statusId
+        document.getElementById('addressModalEdit').value = address
+        document.getElementById('zoneModalEdit').value = "01-001"
+        document.getElementById('serviceModalEdit').value = "Testowa usluga"
+        document.getElementById('statusModalEdit').value = "W trakcie realizacji"
+        document.getElementById('descModalEdit').value = "Ekipa naprawcza opuściła firmę"
+    }
+
     function getStatusModal(statusId, description, address) {
         document.getElementById('descriptionModal').innerText = description
         document.getElementById('addressModal').innerText = address
         document.getElementById('zoneModal').innerText = "01-001"
         document.getElementById('serviceModal').innerText = "Testowa usluga"
+        document.getElementById('statusModal').innerText = "W trakcie realizacji"
+        document.getElementById('descModal').innerText = "Ekipa naprawcza opuściła firmę"
     }
 
 </script>
