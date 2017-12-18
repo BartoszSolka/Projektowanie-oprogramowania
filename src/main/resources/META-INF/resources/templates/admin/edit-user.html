@@ -55,7 +55,7 @@
         <h4>Strefa:
             <input id="zone" style="width: 70%;">
         </h4>
-        <button type="button" class="btn btn-success" onclick="edytujUzytkownika();">Dodaj</button>
+        <button type="button" class="btn btn-success" onclick="edytujUzytkownika();">Edytuj</button>
         <div class="modal fade" id="successModal" role="dialog">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
@@ -101,11 +101,18 @@
         var address = document.getElementById('address').value;
         var username = document.getElementById("username").value;
         var password = document.getElementById("password").value;
-        var zone = document.getElementById("zone").value;
+        var index = getUrlVars()["id"];
 
+        function getUrlVars() {
+            var vars = {};
+            var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+                vars[key] = value;
+            });
+            return vars;
+        }
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:8080/admin/addUser',
+            url: 'http://localhost:8080/admin/editPerson/'+index,
             data: {
                 email:email,
                 imie:name,

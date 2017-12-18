@@ -51,7 +51,7 @@
         </h4>
 
 
-        <button type="button" class="btn btn-success" onclick="dodajUslugodawce();">Dodaj</button>
+        <button type="button" class="btn btn-success" onclick="edytujUslugodawce();">Edytuj</button>
 
         <div class="modal fade" id="successModal" role="dialog">
             <div class="modal-dialog modal-sm">
@@ -90,17 +90,25 @@
     </div>
 </div>
 <script>
-var dodajUslugodawce = function () {
+var edytujUslugodawce = function () {
 var name = document.getElementById('name').value;
 var nip = document.getElementById('nip').value;
 var phoneNumber = document.getElementById('phoneNumber').value;
 var address = document.getElementById('address').value;
 var zone = document.getElementById("zone").value;
 var email = document.getElementById("email").value;
+var index = getUrlVars()["id"];
 
+    function getUrlVars() {
+        var vars = {};
+        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+            vars[key] = value;
+        });
+        return vars;
+    }
 $.ajax({
 type: 'POST',
-url: 'http://localhost:8080/admin/addProvider',
+url: 'http://localhost:8080/admin/editProvider/'+index,
 data: {
 nip : nip,
 telefon : phoneNumber,
