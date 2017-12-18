@@ -10,6 +10,7 @@
             display: block;
             font-size: 16px;
         }
+
         .error {
             color: red;
             display: none;
@@ -59,11 +60,7 @@
                 <input class="form-control" id="strefaZlecenia" value="">
             </div>
             <label for="rodzajUslugi">Rodzaj usługi:</label>
-            <select id="rodzajUslugi" class="form-control">
-                <option value="1">Przyjęte</option>
-                <option value="2">W realizacji</option>
-                <option value="3">Zakończone</option>
-            </select>
+            <select id="rodzajUslugi" class="form-control"></select>
             <div class="form-group">
                 <label for="adres">Adres:</label>
                 <p class="error">To pole jest wymagane</p>
@@ -78,11 +75,13 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
                 <h4 class="modal-title" id="myModalLabel">Uuuuuuups...</h4>
             </div>
             <div class="modal-body">
-                W czasie łączenia z bazą wystąpił błąd. W celu szybkiej naprawy proszę skontaktować się z administratorem systemu.
+                W czasie łączenia z bazą wystąpił błąd. W celu szybkiej naprawy proszę skontaktować się z
+                administratorem systemu.
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
@@ -97,6 +96,27 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script>
+    (function () {
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:8080/user/service',
+            dataType: 'json',
+            success: function (response) {
+                var rodzajUslugi = document.getElementById('rodzajUslugi')
+                response.content.forEach(function (service) {
+                    var opt = document.createElement('option')
+                    opt.value = service.id
+                    opt.innerHTML = service.description
+                    rodzajUslugi.appendChild(opt)
+                })
+            },
+            error: function (response) {
+                console.log(response);
+                $('#myModal').modal()
+            }
+        });
+    })()
+
     var dodajZlecenie = function () {
 
         var opisZlecenia = document.getElementById('opisZlecenia');
@@ -132,7 +152,6 @@
             validForm(opisZlecenia) &&
             validForm(strefa) &&
             validForm(adres)
-
         if (isValid) {
             $.ajax({
                 type: 'POST',
@@ -140,14 +159,13 @@
                 dataType: 'json',
                 data: {
                     description: opisZlecenia.value,
-                    postalCode: strefa.value,
                     address: adres.value,
-                    serviceID: rodzajUslugi.value,
-                    providerId: 4
+                    postalCode: strefa.value,
+                    serviceID: 6
                 },
                 success: function (response) {
                     console.log(response);
-                    window.open('http://localhost:8080/order/my.html', "_self");
+                    window.open('http://localhost:8080/userView/my.html', "_self");
                 },
                 error: function (response) {
                     console.log(response);
