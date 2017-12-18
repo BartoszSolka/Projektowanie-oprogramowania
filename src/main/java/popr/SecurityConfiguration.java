@@ -47,10 +47,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/webjars/**")
                 .antMatchers("/js/**")
                 .antMatchers("/css/**")
-                .antMatchers("/layout/**")
-        		.antMatchers("/serviceProvider/**");
-
-
+                .antMatchers("/layout/**");
     }
 
     @Override

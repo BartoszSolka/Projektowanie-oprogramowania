@@ -43,4 +43,6 @@ public interface ProviderOperationsInterface {
 	Service updateService(Long providerId, Service serviceToEdit);
 	
 	Service getService(Long serviceId);
+	
+	List<Service> getServices(Long providerId);
 }

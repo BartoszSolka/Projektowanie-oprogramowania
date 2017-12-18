@@ -114,8 +114,10 @@ public class ProviderOperationsService implements ProviderOperationsInterface {
 
     @Override
     public Provider setProviderStatus(boolean isActive, Provider provider) {
-        provider.setActive(isActive);
-        return providerRepository.save(provider);
+    	Provider updatedProvider = providerRepository.findById(provider.getId());
+    	
+        updatedProvider.setActive(isActive);
+        return providerRepository.save(updatedProvider);
     }
 
     @Override
@@ -125,8 +127,9 @@ public class ProviderOperationsService implements ProviderOperationsInterface {
 
     @Override
     public Provider setLocation(Provider provider, Zone zone) {
-        provider.setZone(zone);
-        return providerRepository.save(provider);
+    	Provider updatedProvider = providerRepository.findById(provider.getId());
+    	updatedProvider.setZone(zone);
+        return providerRepository.save(updatedProvider);
     }
 
     @Override
@@ -149,5 +152,13 @@ public class ProviderOperationsService implements ProviderOperationsInterface {
 	@Override
 	public Service getService(Long serviceId) {
 		return serviceRepository.findOne(serviceId);
+	}
+
+	@Override
+	public List<Service> getServices(Long providerId) {
+		Provider provider = new Provider();
+		provider.setId(providerId);
+		
+		return serviceRepository.findByProviderId(providerId);
 	}
 }

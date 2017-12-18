@@ -2,6 +2,8 @@ package popr.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import popr.interfaces.ProviderOperationsInterface;
 import popr.model.*;
@@ -78,6 +80,58 @@ public class ServiceProviderController implements ServiceProviderOrderManager, S
 	public Service getServiceDetails(@PathVariable Long serviceId) {
 		return providerOperationsService.getService(serviceId);
 	}
-	
-	
+
+	@Override
+	@PostMapping(path="/serviceTypes")
+	public ServiceType addServiceType(String name, String description) {
+		return providerOperationsService.addServiceType(name, description);
+	}
+
+	@Override
+	@GetMapping(path="/serviceTypes")
+	public Page<ServiceType> getServiceTypes(Pageable pageable) {
+		// TODO Auto-generated method stub
+		return providerOperationsService.getServiceTypes(pageable);
+	}
+
+	@Override
+	@GetMapping(path="/{providerId}/serviceChanges")
+	public Page<ServiceChange> getServiceChanges(@PathVariable Long providerId, Pageable pageable) {
+		Provider provider = new Provider();
+		provider.setId(providerId);
+		return providerOperationsService.getServiceChangesByProvider(provider, pageable);
+	}
+
+	@Override
+	@GetMapping(path="/{providerId}")
+	public List<Service> getServices(@PathVariable long providerId) {
+		return providerOperationsService.getServices(providerId);
+	}
+
+	@Override
+	@PutMapping(path="/{providerId}/status")
+	public void setStatus(Boolean isActive, @PathVariable Long providerId) {
+		Provider provider = new Provider();
+		provider.setId(providerId);
+		providerOperationsService.setProviderStatus(isActive, provider);
+		
+	}
+
+	@Override
+	@GetMapping(path="/zones")
+	public List<Zone> getZones() {
+		// TODO Auto-generated method stub
+		return providerOperationsService.getZones();
+	}
+
+	@Override
+	@PutMapping(path="/{providerId}/zones/{zoneId}")
+	public Provider setLocation(@PathVariable Long providerId,@PathVariable Long zoneId) {
+		Provider provider = new Provider();
+		provider.setId(providerId);
+		Zone zone = new Zone();
+		zone.setId(zoneId);
+		
+		return providerOperationsService.setLocation(provider, zone);
+	}
 }
