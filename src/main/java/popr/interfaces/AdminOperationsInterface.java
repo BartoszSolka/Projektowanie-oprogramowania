@@ -4,6 +4,7 @@ import popr.model.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface AdminOperationsInterface {
 
@@ -18,8 +19,8 @@ public interface AdminOperationsInterface {
     void deleteService(String serviceId);
     void addService(Service service);
 
-    void generateReport(Date begin, Date end);
-    void generateCalculations(Date begin, Date end);
+    List<ServiceOrder> generateReport(Date poczatek, Date koniec);
+    Map<Long, Integer> generateCalculations(Date begin, Date end);
 
     void addPerson(Person person);
     void deletePerson(String personId);

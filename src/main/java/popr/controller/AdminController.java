@@ -2,7 +2,7 @@ package popr.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.method.P;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import popr.interfaces.AdminOperationsInterface;
 import popr.model.*;
@@ -12,8 +12,7 @@ import popr.repository.ZoneRepository;
 
 import java.util.Date;
 import java.util.List;
-
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/admin")
@@ -178,18 +177,6 @@ public class AdminController implements AdminManager {
         adminOperationsService.changeStatusOfChange(changeId, statusId, description);
     }
 
-    //iteracja 3. -->
-    @Override
-    public void generateReport(Date begin, Date end) {
-
-    }
-
-    @Override
-    public void generateCalculations(Date begin, Date end) {
-
-    }
-
-    //iteracja 3. <--
 
 
     @Override
@@ -216,5 +203,20 @@ public class AdminController implements AdminManager {
         return adminOperationsService.getPostalCodeOfZone(zoneId);
     }
 
+
+
+    //iteracja 3. -->
+    @Override
+    @PostMapping("/report")
+    public List<ServiceOrder> generateReport(@DateTimeFormat(pattern = "ddMMyyyy") Date poczatek, @DateTimeFormat(pattern = "ddMMyyyy") Date koniec) {
+        return adminOperationsService.generateReport(poczatek, koniec);
+    }
+
+    @Override
+    @PostMapping("/calculations")
+    public Map<Long, Integer> generateCalculations(@DateTimeFormat(pattern = "ddMMyyyy") Date poczatek, @DateTimeFormat(pattern = "ddMMyyyy") Date koniec) {
+        return adminOperationsService.generateCalculations(poczatek, koniec);
+    }
+    //iteracja 3. <--
 
 }

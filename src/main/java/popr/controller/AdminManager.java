@@ -1,11 +1,10 @@
 package popr.controller;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import popr.model.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface AdminManager {
 
@@ -27,8 +26,8 @@ public interface AdminManager {
     List<Zone> getZonesList();
     List<Provider> getProvidersList();
 
-    void generateReport(Date poczatek, Date koniec);
-    void generateCalculations(Date poczatek, Date koniec);
+    List<ServiceOrder> generateReport(Date poczatek, Date koniec);
+    Map<Long, Integer> generateCalculations(Date poczatek, Date koniec);
 
     List<Person> getUsers();
     Person getUser(Long userId);
