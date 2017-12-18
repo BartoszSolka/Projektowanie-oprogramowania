@@ -6,9 +6,12 @@ import popr.interfaces.AdminOperationsInterface;
 import popr.model.*;
 import popr.repository.*;
 
-import java.util.ArrayList;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 @Service
 @RequiredArgsConstructor
@@ -105,15 +108,6 @@ public class AdminOperationsService implements AdminOperationsInterface {
         serviceRepository.save(service);
     }
 
-    @Override
-    public void generateReport(Date begin, Date end) {
-
-    }
-
-    @Override
-    public void generateCalculations(Date begin, Date end) {
-
-    }
 
     @Override
     public void addPerson(Person person) {
@@ -160,5 +154,31 @@ public class AdminOperationsService implements AdminOperationsInterface {
     public String getPostalCodeOfZone(Long zoneId) {
         Zone zone = zoneRepository.findById(zoneId);
         return zone.getPostalCode();
+    }
+
+
+    @Override
+    public List<ServiceOrder> generateReport(Date begin, Date end) {
+        ZonedDateTime b = ZonedDateTime.ofInstant(begin.toInstant(), ZoneId.systemDefault());
+        ZonedDateTime e = ZonedDateTime.ofInstant(end.toInstant(), ZoneId.systemDefault());
+        System.out.println(b);
+        System.out.println(e);
+        List<ServiceOrder> sorders = serviceOrderRepository.findByDateBeginEnd(b, e);
+        return sorders;
+    }
+
+    @Override
+    public Map<Long, Integer> generateCalculations(Date begin, Date end) {
+        ZonedDateTime b = ZonedDateTime.ofInstant(begin.toInstant(), ZoneId.systemDefault());
+        ZonedDateTime e = ZonedDateTime.ofInstant(end.toInstant(), ZoneId.systemDefault());
+        System.out.println(b);
+        System.out.println(e);
+        List<ServiceOrder> sorders = serviceOrderRepository.findByDateBeginEnd(b, e);
+        Map<Long, Integer> p = new TreeMap<>();
+        for (ServiceOrder s : sorders) {
+            popr.model.Service ser = serviceRepository.findById(s.getService().getId());
+            p.put(ser.getProvider().getId(), ser.getPrice());
+        }
+        return p;
     }
 }
