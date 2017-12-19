@@ -49,6 +49,12 @@ public class ServiceUserController implements ServiceUserManager {
     }
 
     @Override
+    @GetMapping(path = "/zones", produces = APPLICATION_JSON_VALUE)
+    public Page<Zone> getZones(Pageable pageable) {
+        return zoneRepository.findAll(pageable);
+    }
+
+    @Override
     @GetMapping(path = "/userService", produces = APPLICATION_JSON_VALUE)
     public Page<ServiceOrder> getServiceOrdersByUser(Pageable pageable) {
         return userOperationsService.getServiceOrdersByUser(pageable);
