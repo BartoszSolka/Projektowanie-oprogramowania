@@ -5,6 +5,23 @@
     <title>Title</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+        .has-error p, .has-error-mark .error-mark {
+            display: block;
+            font-size: 16px;
+        }
+
+        .has-error-mark input {
+            border-color: #a94442;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        }
+
+        .error, .error-mark {
+            color: red;
+            display: none;
+        }
+
+    </style>
 </head>
 <body>
 
@@ -64,16 +81,22 @@
                 <h4 class="modal-title" id="myModalLabel">Oceń zlecenie</h4>
             </div>
             <div class="modal-body">
-                <input type="hidden" id="endedRateId">
-                <label for="endedRateDescription">
-                    Opis
-                    <input class="form-control" type="text" id="endedRateDescription">
-                </label>
-                <br>
-                <label for="endedRateMark">
-                    Ocena
-                    <input class="form-control" max="10" type="number" id="endedRateMark">
-                </label>
+                <div class="form-group">
+                    <input type="hidden" id="endedRateId">
+                    <label for="endedRateDescription">
+                        Opis
+                        <input class="form-control" type="text" id="endedRateDescription">
+                        <p class="error">To pole jest wymagane</p>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="endedRateMark">
+                        Ocena
+                        <input class="form-control" max="10" type="number" id="endedRateMark">
+                        <p class="error">To pole jest wymagane</p>
+                        <p class="error-mark">Wartość musi być pomiędzy 1 a 5</p>
+                    </label>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Powrót</button>
@@ -98,7 +121,6 @@
             postalCode: '01-111'
         },
         success: function (response) {
-            console.log(response);
             userServiceResponse = response
             var parentDiv = document.getElementById('mainTbody');
             for (var i = 0; i < response.content.length; i++) {
@@ -118,7 +140,7 @@
                 td3.textContent = '00-001';
                 td4.textContent = response.content[i].ratingDescription;
 
-                td5.innerHTML = '<button type="button" onclick="openModalRate('+userServiceResponse.content[i].id+')" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Oceń</button>'
+                td5.innerHTML = '<button type="button" onclick="openModalRate(' + userServiceResponse.content[i].id + ')" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Oceń</button>'
                 tr.appendChild(td0);
                 tr.appendChild(td1);
                 tr.appendChild(td2);
@@ -135,27 +157,57 @@
             alert('Cos poszło nie tak...');
         }
     });
-    function openModalRate (id) {
+
+    function openModalRate(id) {
         document.getElementById('endedRateId').value = id
     }
+
+    function validMark(inputDOMElement) {
+        if (inputDOMElement.value < 1 || inputDOMElement.value > 5) {
+            inputDOMElement.parentNode.classList.add('has-error-mark')
+            return false
+        } else {
+            inputDOMElement.parentNode.classList.remove('has-error-mark')
+            return true
+        }
+    }
+
+    function validForm(inputDOMElement) {
+        if (!inputDOMElement.value) {
+            inputDOMElement.parentNode.classList.add('has-error')
+            return false
+        } else {
+            inputDOMElement.parentNode.classList.remove('has-error')
+            return true
+        }
+    }
+
     function sendRate() {
-        $.ajax({
-            type: 'POST',
-            url: 'http://localhost:8080/user/rateOrder',
-            dataType: 'json',
-            data: {
-                orderId: document.getElementById('endedRateId').value,
-                description: document.getElementById('endedRateDescription').value,
-                rating: document.getElementById('endedRateMark').value
-            },
-            success: function (response) {
-                location.reload();
-            },
-            error: function (response) {
-                console.log(response);
-                alert('Cos poszło nie tak...');
-            }
-        });
+        var endedRateDescription = document.getElementById('endedRateDescription')
+        var endedRateMark = document.getElementById('endedRateMark')
+        validForm(endedRateDescription)
+        validForm(endedRateMark)
+        validMark(endedRateMark)
+
+        var isValid = validForm(endedRateDescription) & validForm(endedRateMark) & validMark(endedRateMark)
+        if (isValid)
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8080/user/rateOrder',
+                dataType: 'json',
+                data: {
+                    orderId: document.getElementById('endedRateId').value,
+                    description: document.getElementById('endedRateDescription').value,
+                    rating: document.getElementById('endedRateMark').value
+                },
+                success: function (response) {
+                    location.reload();
+                },
+                error: function (response) {
+                    console.log(response);
+                    alert('Cos poszło nie tak...');
+                }
+            });
     }
 </script>
 </body>

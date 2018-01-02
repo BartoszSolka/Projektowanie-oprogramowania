@@ -56,8 +56,9 @@
             </div>
             <div class="form-group">
                 <label for="strefaZlecenia">Strefa:</label>
-                <p class="error">To pole jest wymagane</p>
-                <input class="form-control" id="strefaZlecenia" value="">
+                <!--<p class="error">To pole jest wymagane</p>-->
+                <!--<input class="form-control" id="strefaZlecenia" value="">-->
+                <select id="strefaZlecenia" class="form-control"></select>
             </div>
             <label for="rodzajUslugi">Rodzaj usługi:</label>
             <select id="rodzajUslugi" class="form-control"></select>
@@ -115,6 +116,25 @@
                 $('#myModal').modal()
             }
         });
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:8080/user/zones',
+            dataType: 'json',
+            success: function (response) {
+                console.log(response)
+                var strefaZlecenia = document.getElementById('strefaZlecenia')
+                response.content.forEach(function (code) {
+                    var opt = document.createElement('option')
+                    opt.value = code.postalCode
+                    opt.innerHTML = code.postalCode
+                    strefaZlecenia.appendChild(opt)
+                })
+            },
+            error: function (response) {
+                console.log(response);
+                $('#myModal').modal()
+            }
+        });
     })()
 
     var dodajZlecenie = function () {
@@ -144,7 +164,6 @@
                 return false
             }
         }
-
         validForm(opisZlecenia)
         validForm(strefa)
         validForm(adres)
