@@ -27,6 +27,8 @@
                 <li class="active"><a href="/providerView">Strona główna</a></li>
                 <li><a href="/providerView/new-service">Zarządzaj</a></li>
                 <li onclick="openModalForNewService();"><a href="#">Złóż nowe zlecenie</a></li>
+                <li onclick="openModalForNewLocation();"><a href="#">Udostępnij lokalizacje</a></li>
+                <li onclick="openModalForStopActivity();"><a href="#">Zatrzymaj aktywność</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
@@ -43,6 +45,7 @@
 </nav>
 <div class="container">
     <div class="jumbotron">
+        <h4 style="position:relative;bottom:40px">Obecna lokalizacja: <span id="currentLocation">01-111</span></h4>
         <h2>Moje zlecenia</h2>
         <table class="table table-striped">
             <thead>
@@ -109,6 +112,45 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" onclick='openModalForStatusEditing();'>Aktualizuj status</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="newLocationModal" role="dialog">
+        <div class="modal-dialog modal-sm" style="width:400px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Udostępnij lokalizacje</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="modalLocation">Lokalizacja:</label>
+                        <input type="text" class="form-control" id="modalLocation">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick='updateLocation();'>Zapisz</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="stopActivityModal" role="dialog">
+        <div class="modal-dialog modal-sm" style="width:400px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Zatrzymaj aktywność</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Czy na pewno chcesz zatrzymać swoją aktywność?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick='stopActivity();'>Tak</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Nie</button>
                 </div>
             </div>
         </div>
@@ -215,6 +257,7 @@
                             <span id='statusEditSelected'>W trakcie realizacji</span>
                             <span class="caret"></span></button>
                         <ul class="dropdown-menu" id="modalStateEdit">
+                            <li><a href="#">Anulowane</a></li>
                             <li><a href="#">Brak</a></li>
                             <li><a href="#">W trakcie realizacji</a></li>
                             <li><a href="#">Zakończono realizację</a></li>
@@ -427,6 +470,13 @@
     var openModalForOrderEditing = function () {
         $("#orderModalEdit").modal();
     };
+    var openModalForNewLocation = function () {
+        $("#newLocationModal").modal();
+    };
+    var openModalForStopActivity = function () {
+        $("#stopActivityModal").modal();
+    };
+
     var openModalForOrderDeleting = function (index) {
         $("#deleteOrderInfoModal").modal();
         document.getElementById('deleteOrderInfoModalButton').onclick = function () {
@@ -470,6 +520,16 @@
         serviceAddress.value = '';
         serviceZone.value = '';
         serviceOrder.value = '';
+    };
+
+    var updateLocation = function () {
+        document.getElementById('currentLocation').textContent = document.getElementById('modalLocation').value.trim();
+        document.getElementById('currentLocation').style.color = 'inherit';
+    };
+
+    var stopActivity = function () {
+        document.getElementById('currentLocation').textContent = 'Nie aktywny';
+        document.getElementById('currentLocation').style.color = 'red';
     };
 
     var updateOrder = function () {
