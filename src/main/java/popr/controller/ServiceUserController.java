@@ -12,6 +12,7 @@ import popr.repository.ProviderRepository;
 import popr.repository.ServiceOrderRepository;
 import popr.repository.ServiceOrderStatusRepository;
 import popr.repository.ZoneRepository;
+import popr.service.UserService;
 
 import java.util.List;
 
@@ -24,6 +25,8 @@ public class ServiceUserController implements ServiceUserManager {
 
     private final ZoneRepository zoneRepository;
     private final ServiceOrderRepository serviceOrderRepository;
+    private final ServiceOrderStatusRepository serviceOrderStatusRepository;
+    private final UserService userService;
 
     @Autowired
     private UserOperationsInterface userOperationsService;
@@ -56,8 +59,9 @@ public class ServiceUserController implements ServiceUserManager {
 
     @Override
     @GetMapping(path = "/userService", produces = APPLICATION_JSON_VALUE)
-    public Page<ServiceOrder> getServiceOrdersByUser(Pageable pageable) {
-        return userOperationsService.getServiceOrdersByUser(pageable);
+    public Page<ServiceOrderStatus> getServiceOrdersByUser(Pageable pageable) {
+        Person user = userService.readCurrent();
+        return serviceOrderStatusRepository.findByServiceOrderOrderedByAndCurrentIsTrue(user, pageable);
     }
 
     @Override
