@@ -26,6 +26,7 @@
             <ul class="nav navbar-nav">
                 <li class="active"><a href="/providerView">Strona główna</a></li>
                 <li><a href="/providerView/new-service">Zarządzaj</a></li>
+                <li onclick="openModalForNewService();"><a href="#">Złóż nowe zlecenie</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
@@ -112,6 +113,40 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="newServiceModal" role="dialog">
+        <div class="modal-dialog modal-sm" style="width:400px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Dodaj nowe zlecenie</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="modalNewServiceDescription">Opis zlecenia:</label>
+                        <input type="text" class="form-control" id="modalNewServiceDescription">
+                    </div>
+                    <div class="form-group">
+                        <label for="modalNewServiceZone">Strefa:</label>
+                        <input type="text" class="form-control" id="modalNewServiceZone">
+                    </div>
+                    <div class="form-group">
+                        <label for="modalNewServiceOrder">Rodzaj usługi:</label>
+                        <input type="text" class="form-control" id="modalNewServiceOrder">
+                    </div>
+                    <div class="form-group">
+                        <label for="modalNewServiceAddress">Adres:</label>
+                        <input type="text" class="form-control" id="modalNewServiceAddress">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick='createNewService();'>Zapisz</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="orderModal" role="dialog">
         <div class="modal-dialog modal-sm" style="width:400px;">
             <div class="modal-content">
@@ -348,7 +383,7 @@
             torder.appendChild(tr);
         }
     };
-    var addServiceToView = function (data) {
+    var addServiceToView = function (data, putIndex) {
         for (var i = 0; i < data.length; i++) {
             var tr = document.createElement("tr");
             var td0 = document.createElement("td");
@@ -358,7 +393,7 @@
             tr.appendChild(td0);
             tr.appendChild(td1);
             tr.className = 'orderRow';
-            tr.dataset.orderIndex = i;
+            tr.dataset.orderIndex = putIndex === undefined ? i : putIndex;
             tr.onclick = function () {
                 var dataObj = daneMockup[this.dataset.orderIndex];
                 document.getElementById('statusModal').dataset.currentIndex = this.dataset.orderIndex;
@@ -386,6 +421,9 @@
     var openModalForStatusEditing = function () {
         $("#statusModal").modal();
     };
+    var openModalForNewService = function () {
+        $("#newServiceModal").modal();
+    };
     var openModalForOrderEditing = function () {
         $("#orderModalEdit").modal();
     };
@@ -408,6 +446,30 @@
         document.getElementById('modalStateDescription').textContent = statusDescription;
         daneMockup[document.getElementById('statusModal').dataset.currentIndex].state = status;
         daneMockup[document.getElementById('statusModal').dataset.currentIndex].stateDescription = statusDescription;
+    };
+
+    var createNewService = function () {
+        var serviceDescription = document.getElementById('modalNewServiceDescription');
+        var serviceAddress = document.getElementById('modalNewServiceZone');
+        var serviceZone = document.getElementById('modalNewServiceAddress');
+        var serviceOrder = document.getElementById('modalNewServiceOrder');
+
+        var serviceDataObj = {
+            id: (parseInt(daneMockup[daneMockup.length-1].id)+1),
+            description: serviceDescription.value.trim(),
+            zone: serviceZone.value.trim(),
+            address: serviceAddress.value.trim(),
+            order: serviceOrder.value.trim(),
+            state: 'Brak',
+            stateDescription: '-',
+            userNumber: '-'
+        };
+        daneMockup.push(serviceDataObj);
+        addServiceToView([serviceDataObj], daneMockup.length-1);
+        serviceDescription.value = '';
+        serviceAddress.value = '';
+        serviceZone.value = '';
+        serviceOrder.value = '';
     };
 
     var updateOrder = function () {
