@@ -48,12 +48,6 @@
 <div class="container">
     <div class="jumbotron">
         <h1>Moje zlecenia</h1>
-        <form>
-            <label for="search">
-                <input id="search" class="form-control" type="text">
-            </label>
-            <button type="submit" class="btn btn-default">Filtruj</button>
-        </form>
         <table class="table table-condensed table-hover table-bordered">
             <thead>
             <tr>
@@ -85,7 +79,7 @@
                     Strefa :<br><span id="zoneModal"></span><br><br>
                     Rodzaj usługi:<br><span id="serviceModal"></span><br><br>
                     Status:<br><span id="statusModal"></span><br><br>
-                    Opis statusu:<br><span id="descModal"></span><br><br>
+                    <!--Opis statusu:<br><span id="descModal"></span><br><br>-->
                 </p>
                 <div id="complaintContainer">
 
@@ -237,12 +231,14 @@
             for (var i = 0; i < response.content.length; i++) {
                 if (response.content[i].orderStatusDict !== 'CANCELED') {
                     var orderStatus = response.content[i].orderStatusDict === null ? 'Brak' : response.content[i].orderStatusDict;
+                    var serviceDesc = response.content[i].serviceOrder.service.description
+
                     var tr = document.createElement('tr');
                     var td0 = document.createElement('td');
                     var td2 = document.createElement('td');
                     var td4 = document.createElement('td');
                     var td5 = document.createElement('td');
-                    td0.innerHTML = "<a href='javascript(0)' onclick=\"getStatusModal(" + response.content[i].serviceOrder.id + ",'" + response.content[i].serviceOrder.description + "','" + response.content[i].serviceOrder.address + "','" + orderStatus +"')\" type=\"button\" data-toggle=\"modal\" data-target=\"#myModal\">" + response.content[i].serviceOrder.description + "</a>\n";
+                    td0.innerHTML = "<a href='javascript(0)' onclick=\"getStatusModal(" + response.content[i].serviceOrder.id + ",'" + response.content[i].serviceOrder.description + "','" + response.content[i].serviceOrder.address + "','" + orderStatus + "','" + serviceDesc + "')\" type=\"button\" data-toggle=\"modal\" data-target=\"#myModal\">" + response.content[i].serviceOrder.description + "</a>\n";
                     td2.textContent = response.content[i].serviceOrder.rating === null ? 0 : response.content[i].serviceOrder.rating;
                     td2.contentEditable = 'true';
                     td2.setAttribute('data-id', response.content[i].serviceOrder.id);
@@ -286,7 +282,6 @@
                 rating: value
             },
             success: function (response) {
-                console.log(response);
                 location.reload();
             },
             error: function (response) {
@@ -305,7 +300,6 @@
                 orderId: orderId
             },
             success: function (response) {
-                console.log(response);
                 location.reload();
             },
             error: function (response) {
@@ -350,7 +344,6 @@
                     address: address.value
                 },
                 success: function (response) {
-                    console.log(response);
                     window.open('http://localhost:8080/userView/my.html', "_self");
                 },
                 error: function (response) {
@@ -370,13 +363,13 @@
 //        document.getElementById('descModalEdit').value = "Ekipa naprawcza opuściła firmę"
     }
 
-    function getStatusModal(statusId, description, address, status) {
+    function getStatusModal(statusId, description, address, status, service) {
         document.getElementById('descriptionModal').innerText = description
         document.getElementById('addressModal').innerText = address
         document.getElementById('zoneModal').innerText = "11-110"
-        document.getElementById('serviceModal').innerText = "Testowa usluga"
+        document.getElementById('serviceModal').innerText = service
         document.getElementById('statusModal').innerText = status
-        document.getElementById('descModal').innerText = "Ekipa naprawcza opuściła firmę"
+//        document.getElementById('descModal').innerText = "Ekipa naprawcza opuściła firmę"
         var complaint = document.getElementById('complaintContainer')
         complaint.innerHTML = "<button class=\"btn btn-primary btn-sm\" type=\"button\" data-toggle=\"modal\" data-target=\"#myModalComplaint\" onclick=\"setModalComplaint(" + statusId + ")\" >Złóż reklamacje</button>"
     }
@@ -388,8 +381,6 @@
     function complaintOrder() {
         var idModalComplaint = document.getElementById('idModalComplaint')
         var descOrderModalComplaint = document.getElementById('descOrderModalComplaint')
-        console.log(idModalComplaint.value)
-        console.log(descOrderModalComplaint.value)
         validForm(descOrderModalComplaint)
         if (validForm(descOrderModalComplaint)) {
             $.ajax({
@@ -401,7 +392,6 @@
                     orderId: idModalComplaint.value
                 },
                 success: function (response) {
-                    console.log(response);
                     location.reload();
                 },
                 error: function (response) {

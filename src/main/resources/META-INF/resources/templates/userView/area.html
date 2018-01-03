@@ -36,7 +36,13 @@
 </nav>
 <div class="container">
     <div class="jumbotron">
-        <h1>Zlecenia w strefie 01-111</h1>
+        <h1>Zlecenia w strefie <span id="zone">01-111</span></h1>
+
+        <label for="search">
+            <input id="search" class="form-control" type="text">
+        </label>
+        <button id="filter" type="submit" class="btn btn-default" onclick="filter()">Filtruj</button>
+
         <table class="table table-condensed table-hover table-bordered">
             <thead>
             <tr>
@@ -93,6 +99,46 @@
             alert('Cos poszło nie tak...');
         }
     });
+    function filter() {
+        var searchZone = document.getElementById('search')
+        document.getElementById('mainTbody').innerHTML = ''
+        document.getElementById('zone').innerText = searchZone.value
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:8080/user/zoneService',
+            dataType: 'json',
+            data: {
+                postalCode: searchZone.value
+            },
+            success: function (response) {
+                console.log(response);
+                var parentDiv = document.getElementById('mainTbody');
+                for (var i = 0; i < response.content.length; i++) {
+                    var tr = document.createElement('tr');
+                    var td0 = document.createElement('td');
+                    var td2 = document.createElement('td');
+                    var td4 = document.createElement('td');
+
+                    td0.textContent = response.content[i].description;
+                    td2.className = 'dropdown';
+
+                    td2.textContent = response.content[i].rating;
+                    td4.textContent = 'Brak';
+
+                    tr.appendChild(td0);
+                    tr.appendChild(td2);
+                    tr.appendChild(td4);
+
+                    parentDiv.appendChild(tr);
+                }
+
+            },
+            error: function (response) {
+                console.log(response);
+                alert('Cos poszło nie tak...');
+            }
+        });
+    }
 </script>
 </body>
 </html>
