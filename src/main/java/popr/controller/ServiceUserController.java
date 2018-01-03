@@ -8,10 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import popr.interfaces.ProviderOperationsInterface;
 import popr.interfaces.UserOperationsInterface;
 import popr.model.*;
-import popr.repository.ProviderRepository;
-import popr.repository.ServiceOrderRepository;
-import popr.repository.ServiceOrderStatusRepository;
-import popr.repository.ZoneRepository;
+import popr.repository.*;
 import popr.service.UserService;
 
 import java.util.List;
@@ -27,6 +24,7 @@ public class ServiceUserController implements ServiceUserManager {
     private final ServiceOrderRepository serviceOrderRepository;
     private final ServiceOrderStatusRepository serviceOrderStatusRepository;
     private final UserService userService;
+    private final ComplaintRepository complaintRepository;
 
     @Autowired
     private UserOperationsInterface userOperationsService;
@@ -93,5 +91,12 @@ public class ServiceUserController implements ServiceUserManager {
     @PostMapping(path = "/complaint")
     public Complaint createComplaint(String complaint, Long orderId) {
         return userOperationsService.createComplaint(complaint, orderId);
+    }
+
+    @Override
+    @GetMapping(path = "/orderComplaint", produces = APPLICATION_JSON_VALUE)
+    public Page<Complaint> getComplaint(Long orderId, Pageable pageable) {
+        ServiceOrder serviceOrder = serviceOrderRepository.findById(orderId);
+        return complaintRepository.findByServiceOrder(serviceOrder, pageable);
     }
 }

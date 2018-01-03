@@ -1,5 +1,6 @@
 package popr.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -19,6 +20,7 @@ public class Complaint {
 
     private String description;
 
+    @JsonIgnore
     private ZonedDateTime creationDate;
 
     private boolean current = true;
@@ -26,6 +28,7 @@ public class Complaint {
     @ManyToOne(optional = false)
     private ServiceOrder serviceOrder;
 
+    @JsonIgnore
     @ManyToOne(optional = false)
     private Person createdBy;
 

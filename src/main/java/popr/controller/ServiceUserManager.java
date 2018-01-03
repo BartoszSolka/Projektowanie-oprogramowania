@@ -29,4 +29,6 @@ public interface ServiceUserManager {
 
     Complaint createComplaint(String description, Long orderId);
 
+    Page<Complaint> getComplaint(Long orderId, Pageable pageable);
+
 }
