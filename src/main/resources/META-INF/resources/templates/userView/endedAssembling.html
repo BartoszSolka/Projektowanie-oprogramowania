@@ -58,9 +58,7 @@
             <thead>
             <tr>
                 <th>Opis</th>
-                <th>Data utworzenia</th>
                 <th>Ocena</th>
-                <th>Strefa</th>
                 <th>Opis oceny</th>
                 <th></th>
             </tr>
@@ -124,31 +122,27 @@
             userServiceResponse = response
             var parentDiv = document.getElementById('mainTbody');
             for (var i = 0; i < response.content.length; i++) {
-                var tr = document.createElement('tr');
-                var td0 = document.createElement('td');
-                var td1 = document.createElement('td');
-                var td2 = document.createElement('td');
-                var td3 = document.createElement('td');
-                var td4 = document.createElement('td');
-                var td5 = document.createElement('td');
+                if (response.content[i].orderStatusDict === 'CANCELED') {
+                    var tr = document.createElement('tr');
+                    var td0 = document.createElement('td');
+                    var td2 = document.createElement('td');
+                    var td4 = document.createElement('td');
+                    var td5 = document.createElement('td');
 
-                td0.textContent = response.content[i].description;
-                td1.textContent = '2017-11-19';
-                td2.className = 'dropdown';
+                    td0.textContent = response.content[i].serviceOrder.description;
+                    td2.className = 'dropdown';
 
-                td2.textContent = response.content[i].rating;
-                td3.textContent = '00-001';
-                td4.textContent = response.content[i].ratingDescription;
+                    td2.textContent = response.content[i].serviceOrder.rating;
+                    td4.textContent = response.content[i].serviceOrder.ratingDescription;
 
-                td5.innerHTML = '<button type="button" onclick="openModalRate(' + userServiceResponse.content[i].id + ')" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Oceń</button>'
-                tr.appendChild(td0);
-                tr.appendChild(td1);
-                tr.appendChild(td2);
-                tr.appendChild(td3);
-                tr.appendChild(td4);
-                tr.appendChild(td5);
+                    td5.innerHTML = '<button type="button" onclick="openModalRate(' + userServiceResponse.content[i].serviceOrder.id + ')" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Oceń</button>'
+                    tr.appendChild(td0);
+                    tr.appendChild(td2);
+                    tr.appendChild(td4);
+                    tr.appendChild(td5);
 
-                parentDiv.appendChild(tr);
+                    parentDiv.appendChild(tr);
+                }
             }
 
         },
