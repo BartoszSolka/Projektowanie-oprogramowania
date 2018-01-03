@@ -48,17 +48,10 @@
 <div class="container">
     <div class="jumbotron">
         <h1>Moje zlecenia</h1>
-        <form>
-            <label for="search">
-                <input id="search" class="form-control" type="text">
-            </label>
-            <button type="submit" class="btn btn-default">Filtruj</button>
-        </form>
         <table class="table table-condensed table-hover table-bordered">
             <thead>
             <tr>
                 <th>Opis</th>
-                <th>Data utworzenia</th>
                 <th>Ocena</th>
                 <th>Status</th>
                 <th></th>
@@ -86,8 +79,14 @@
                     Strefa :<br><span id="zoneModal"></span><br><br>
                     Rodzaj usługi:<br><span id="serviceModal"></span><br><br>
                     Status:<br><span id="statusModal"></span><br><br>
-                    Opis statusu:<br><span id="descModal"></span><br><br>
+                    Reklamacje:
+                    <!--Opis statusu:<br><span id="descModal"></span><br><br>-->
+                <ul id="orderComplaintList"></ul>
+                <br>
                 </p>
+                <div id="complaintContainer">
+
+                </div>
             </div>
         </div>
 
@@ -128,6 +127,26 @@
 
     </div>
 </div>
+<div id="myModalComplaint" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Złóż reklamacje</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" title="" id="idModalComplaint">
+                <div class="form-group">
+                    <label for="descOrderModalComplaint">Opis:</label>
+                    <input class="form-control" type="text" id="descOrderModalComplaint">
+                    <p class="error">To pole jest wymagane</p>
+                </div>
+                <button class="btn" onclick="complaintOrder()">Wyślij</button>
+            </div>
+        </div>
+
+    </div>
+</div>
 
 <div id="myModal2" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -153,6 +172,19 @@
 
 <script>
     (function () {
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:8080/user/orderComplaint',
+            dataType: 'json',
+            data: {orderId: 7},
+            success: function (response) {
+                console.log('test')
+                console.log(response)
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
 //        $.ajax({
 //            type: 'GET',
 //            url: 'http://localhost:8080/user/service',
@@ -200,40 +232,42 @@
         success: function (response) {
             var parentDiv = document.getElementById('mainTbody');
             for (var i = 0; i < response.content.length; i++) {
-                var tr = document.createElement('tr');
-                var td0 = document.createElement('td');
-                var td1 = document.createElement('td');
-                var td2 = document.createElement('td');
-                var td4 = document.createElement('td');
-                var td5 = document.createElement('td');
-                td0.innerHTML = "<a href='javascript(0)' onclick=\"getStatusModal(" + response.content[i].id + ",'" + response.content[i].description + "','" + response.content[i].address + "')\" type=\"button\" data-toggle=\"modal\" data-target=\"#myModal\">" + response.content[i].description + "</a>\n";
-                td1.textContent = '2017-11-19';
-                td2.textContent = response.content[i].rating === null ? 0 : response.content[i].rating;
-                td2.contentEditable = 'true';
-                td2.setAttribute('data-id', response.content[i].id);
-                td2.onkeypress = function () {
-                    if (event.keyCode === 13) {
-                        sendNewRate(this.textContent, this.getAttribute('data-id'));
-                    }
-                    if (this.textContent === '0' && event.keyCode === 48) {
-                        event.preventDefault();
-                        this.textContent = 0;
-                        return;
-                    }
-                    if (event.keyCode < 48 || event.keyCode > 57 || this.textContent > 0 || this.textContent < -1) {
-                        return false;
-                    }
-                };
-                td4.innerHTML = 0;
-                td5.innerHTML = '<button class="btn btn-primary btn-sm" onclick="cancelOrder(' + response.content[i].id + ')" type="button" data-toggle="modal" data-target="#myModal2">Anuluj</button>' + ' <button class="btn btn-primary btn-sm" onclick="getEditedStatusModal(' + response.content[i].id + ',\'' + response.content[i].description + '\',\'' + response.content[i].address + '\')" type="button" data-toggle="modal" data-target="#myModal3">Edytuj</button>';
+                if (response.content[i].orderStatusDict !== 'CANCELED') {
+                    var orderStatus = response.content[i].orderStatusDict === null ? 'Brak' : response.content[i].orderStatusDict;
+                    var serviceDesc = response.content[i].serviceOrder.service.description
 
-                tr.appendChild(td0);
-                tr.appendChild(td1);
-                tr.appendChild(td2);
-                tr.appendChild(td4);
-                tr.appendChild(td5);
+                    var tr = document.createElement('tr');
+                    var td0 = document.createElement('td');
+                    var td2 = document.createElement('td');
+                    var td4 = document.createElement('td');
+                    var td5 = document.createElement('td');
+                    td0.innerHTML = "<a href='javascript(0)' onclick=\"getStatusModal(" + response.content[i].serviceOrder.id + ",'" + response.content[i].serviceOrder.description + "','" + response.content[i].serviceOrder.address + "','" + orderStatus + "','" + serviceDesc + "')\" type=\"button\" data-toggle=\"modal\" data-target=\"#myModal\">" + response.content[i].serviceOrder.description + "</a>\n";
+                    td2.textContent = response.content[i].serviceOrder.rating === null ? 0 : response.content[i].serviceOrder.rating;
+                    td2.contentEditable = 'true';
+                    td2.setAttribute('data-id', response.content[i].serviceOrder.id);
+                    td2.onkeypress = function () {
+                        if (event.keyCode === 13) {
+                            sendNewRate(this.textContent, this.getAttribute('data-id'));
+                        }
+                        if (this.textContent === '0' && event.keyCode === 48) {
+                            event.preventDefault();
+                            this.textContent = 0;
+                            return;
+                        }
+                        if (event.keyCode < 48 || event.keyCode > 57 || this.textContent > 0 || this.textContent < -1) {
+                            return false;
+                        }
+                    };
+                    td4.innerHTML = orderStatus
+                    td5.innerHTML = '<button class="btn btn-primary btn-sm" onclick="cancelOrder(' + response.content[i].serviceOrder.id + ')" type="button" data-toggle="modal" data-target="#myModal2">Anuluj</button>' + ' <button class="btn btn-primary btn-sm" onclick="getEditedStatusModal(' + response.content[i].serviceOrder.id + ',\'' + response.content[i].serviceOrder.description + '\',\'' + response.content[i].serviceOrder.address + '\')" type="button" data-toggle="modal" data-target="#myModal3">Edytuj</button>';
 
-                parentDiv.appendChild(tr);
+                    tr.appendChild(td0);
+                    tr.appendChild(td2);
+                    tr.appendChild(td4);
+                    tr.appendChild(td5);
+
+                    parentDiv.appendChild(tr);
+                }
             }
 
         },
@@ -251,7 +285,6 @@
                 rating: value
             },
             success: function (response) {
-                console.log(response);
                 location.reload();
             },
             error: function (response) {
@@ -270,7 +303,7 @@
                 orderId: orderId
             },
             success: function (response) {
-                console.log(response);
+                location.reload();
             },
             error: function (response) {
                 console.log(response);
@@ -314,7 +347,6 @@
                     address: address.value
                 },
                 success: function (response) {
-                    console.log(response);
                     window.open('http://localhost:8080/userView/my.html', "_self");
                 },
                 error: function (response) {
@@ -334,13 +366,62 @@
 //        document.getElementById('descModalEdit').value = "Ekipa naprawcza opuściła firmę"
     }
 
-    function getStatusModal(statusId, description, address) {
+    function getStatusModal(statusId, description, address, status, service) {
         document.getElementById('descriptionModal').innerText = description
         document.getElementById('addressModal').innerText = address
         document.getElementById('zoneModal').innerText = "11-110"
-        document.getElementById('serviceModal').innerText = "Testowa usluga"
-        document.getElementById('statusModal').innerText = "W trakcie realizacji"
-        document.getElementById('descModal').innerText = "Ekipa naprawcza opuściła firmę"
+        document.getElementById('serviceModal').innerText = service
+        document.getElementById('statusModal').innerText = status
+//        document.getElementById('descModal').innerText = "Ekipa naprawcza opuściła firmę"
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:8080/user/orderComplaint',
+            dataType: 'json',
+            data: {orderId: statusId},
+            success: function (response) {
+                console.log(response)
+                var orderComplaintList = document.getElementById('orderComplaintList')
+                orderComplaintList.innerHTML = ''
+                for (var i = 0; i < response.content.length; i++) {
+                    var li = document.createElement('li')
+                    li.innerHTML = response.content[i].description
+                    orderComplaintList.appendChild(li)
+                }
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+        var complaint = document.getElementById('complaintContainer')
+        complaint.innerHTML = "<button class=\"btn btn-primary btn-sm\" type=\"button\" data-toggle=\"modal\" data-target=\"#myModalComplaint\" onclick=\"setModalComplaint(" + statusId + ")\" >Złóż reklamacje</button>"
+    }
+
+    function setModalComplaint(id) {
+        document.getElementById('idModalComplaint').value = id
+    }
+
+    function complaintOrder() {
+        var idModalComplaint = document.getElementById('idModalComplaint')
+        var descOrderModalComplaint = document.getElementById('descOrderModalComplaint')
+        validForm(descOrderModalComplaint)
+        if (validForm(descOrderModalComplaint)) {
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8080/user/complaint',
+                dataType: 'json',
+                data: {
+                    complaint: descOrderModalComplaint.value,
+                    orderId: idModalComplaint.value
+                },
+                success: function (response) {
+                    location.reload();
+                },
+                error: function (response) {
+                    console.log(response);
+                    alert('Cos poszło nie tak...');
+                }
+            });
+        }
     }
 
 </script>

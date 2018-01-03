@@ -33,7 +33,6 @@ public class ServiceOrder {
     @ManyToOne(optional = false)
     private Zone zone;
 
-    @JsonIgnore
     @ManyToOne
     private Service service;
 
