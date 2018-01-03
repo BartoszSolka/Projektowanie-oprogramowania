@@ -32,7 +32,7 @@ public interface ServiceProviderServiceManager {
 	
 	List<Service> getServices(long providerId);
 	
-	void setStatus(Boolean isActive, Long providerId);
+	Provider setStatus(Boolean isActive, Long providerId);
 	
 	List<Zone> getZones();
 	

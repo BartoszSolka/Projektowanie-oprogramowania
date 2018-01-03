@@ -103,17 +103,20 @@ public class ServiceProviderController implements ServiceProviderOrderManager, S
 	}
 
 	@Override
-	@GetMapping(path="/{providerId}")
+	@GetMapping(path="/{providerId}/services")
 	public List<Service> getServices(@PathVariable long providerId) {
 		return providerOperationsService.getServices(providerId);
 	}
 
 	@Override
 	@PutMapping(path="/{providerId}/status")
-	public void setStatus(Boolean isActive, @PathVariable Long providerId) {
+	public Provider setStatus(Boolean isActive, @PathVariable Long providerId) {
+		if(!validId(providerId) || isActive == null) {
+			return null;
+		}
 		Provider provider = new Provider();
 		provider.setId(providerId);
-		providerOperationsService.setProviderStatus(isActive, provider);
+		return providerOperationsService.setProviderStatus(isActive, provider);
 		
 	}
 
@@ -127,11 +130,18 @@ public class ServiceProviderController implements ServiceProviderOrderManager, S
 	@Override
 	@PutMapping(path="/{providerId}/zones/{zoneId}")
 	public Provider setLocation(@PathVariable Long providerId,@PathVariable Long zoneId) {
+		if(!validId(providerId) || !validId(zoneId)) {
+			return null;
+		}
 		Provider provider = new Provider();
 		provider.setId(providerId);
 		Zone zone = new Zone();
 		zone.setId(zoneId);
 		
 		return providerOperationsService.setLocation(provider, zone);
+	}
+
+	private boolean validId(Long id) {
+		return id != null && id > 0;
 	}
 }
