@@ -79,7 +79,10 @@
                     Strefa :<br><span id="zoneModal"></span><br><br>
                     Rodzaj usługi:<br><span id="serviceModal"></span><br><br>
                     Status:<br><span id="statusModal"></span><br><br>
+                    Reklamacje:
                     <!--Opis statusu:<br><span id="descModal"></span><br><br>-->
+                <ul id="orderComplaintList"></ul>
+                <br>
                 </p>
                 <div id="complaintContainer">
 
@@ -171,7 +174,7 @@
     (function () {
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:8080/user/userService',
+            url: 'http://localhost:8080/user/orderComplaint',
             dataType: 'json',
             data: {orderId: 7},
             success: function (response) {
@@ -370,6 +373,25 @@
         document.getElementById('serviceModal').innerText = service
         document.getElementById('statusModal').innerText = status
 //        document.getElementById('descModal').innerText = "Ekipa naprawcza opuściła firmę"
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:8080/user/orderComplaint',
+            dataType: 'json',
+            data: {orderId: statusId},
+            success: function (response) {
+                console.log(response)
+                var orderComplaintList = document.getElementById('orderComplaintList')
+                orderComplaintList.innerHTML = ''
+                for (var i = 0; i < response.content.length; i++) {
+                    var li = document.createElement('li')
+                    li.innerHTML = response.content[i].description
+                    orderComplaintList.appendChild(li)
+                }
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
         var complaint = document.getElementById('complaintContainer')
         complaint.innerHTML = "<button class=\"btn btn-primary btn-sm\" type=\"button\" data-toggle=\"modal\" data-target=\"#myModalComplaint\" onclick=\"setModalComplaint(" + statusId + ")\" >Złóż reklamacje</button>"
     }
