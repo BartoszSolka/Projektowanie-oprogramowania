@@ -9,6 +9,8 @@ import popr.interfaces.ProviderOperationsInterface;
 import popr.interfaces.UserOperationsInterface;
 import popr.model.*;
 import popr.repository.*;
+import popr.service.MailService;
+import popr.service.MailServiceImpl;
 import popr.service.UserService;
 
 import java.util.List;
@@ -25,6 +27,7 @@ public class ServiceUserController implements ServiceUserManager {
     private final ServiceOrderStatusRepository serviceOrderStatusRepository;
     private final UserService userService;
     private final ComplaintRepository complaintRepository;
+    private final MailServiceImpl mailService;
 
     @Autowired
     private UserOperationsInterface userOperationsService;

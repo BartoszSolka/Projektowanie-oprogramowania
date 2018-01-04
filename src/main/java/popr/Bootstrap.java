@@ -58,6 +58,7 @@ public class Bootstrap implements ApplicationRunner {
         provider.setZone(zone);
         provider.setPhoneNo("+48111222333");
         provider.setActive(true);
+        provider.setEmail("nowak9185@gmail.com");
 
         provider = providerRepository.save(provider);
 

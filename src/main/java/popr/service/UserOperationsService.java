@@ -22,11 +22,13 @@ public class UserOperationsService implements UserOperationsInterface {
     private final ZoneRepository zoneRepository;
     private final ProviderRepository providerRepository;
     private final ComplaintRepository complaintRepository;
+    private final MailServiceImpl mailService;
 
     @Override
     public ServiceOrder createServiceOrder(String description, String address, Zone zone, Long serviceId) {
         popr.model.Service service = serviceRepository.findOne(serviceId);
-
+        String providerEmail  = service.getProvider().getEmail();
+        String mailContent;
         if (service == null) {
             return null;//handle error
         }
@@ -46,6 +48,8 @@ public class UserOperationsService implements UserOperationsInterface {
         serviceOrderStatus.setServiceOrder(serviceOrder);
         serviceOrderStatus = serviceOrderStatusRepository.save(serviceOrderStatus);
 
+        mailContent = ("Opis: " + serviceOrder.getDescription() + " Strefa: " + serviceOrder.getZone().getPostalCode() + " Rodzaj usługi: " +serviceOrder.getService().getDescription() + " Adres: " + serviceOrder.getAddress() );
+        mailService.sendEmail(mailContent, providerEmail);
         return serviceOrder;
     }
 

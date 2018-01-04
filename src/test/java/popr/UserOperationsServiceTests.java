@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import popr.model.*;
 import popr.model.enums.ServiceOrderStatusDict;
 import popr.repository.*;
+import popr.service.MailServiceImpl;
 import popr.service.UserOperationsService;
 import popr.service.UserService;
 
@@ -39,6 +40,8 @@ public class UserOperationsServiceTests {
     private ProviderRepository providerRepository;
 
     private ComplaintRepository complaintRepository;
+
+    private MailServiceImpl mailServiceImpl;
 
     @InjectMocks
     private UserOperationsService userOperationsService;
@@ -83,7 +86,7 @@ public class UserOperationsServiceTests {
         userService = mock(UserService.class);
 
         userOperationsService = new UserOperationsService(serviceOrderRepository, serviceOrderStatusRepository,
-                serviceRepository, userService, zoneRepository, providerRepository, complaintRepository);
+                serviceRepository, userService, zoneRepository, providerRepository, complaintRepository, mailServiceImpl);
     }
 
     @Test
