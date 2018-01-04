@@ -4,10 +4,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import popr.model.*;
@@ -16,6 +16,8 @@ import popr.repository.*;
 import popr.service.MailServiceImpl;
 import popr.service.UserOperationsService;
 import popr.service.UserService;
+
+import java.util.ArrayList;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
@@ -55,12 +57,16 @@ public class UserOperationsServiceTests {
     public void setUp() throws Exception {
         service = new Service();
         service.setId(1L);
+        service.setProvider(new Provider());
 
         zone = new Zone();
         zone.setPostalCode("01-111");
 
+        mailServiceImpl = mock(MailServiceImpl.class);
+
         serviceOrder = new ServiceOrder();
         serviceOrder.setId(1L);
+        serviceOrder.setService(service);
 
         serviceOrderStatus = new ServiceOrderStatus();
 
@@ -68,6 +74,8 @@ public class UserOperationsServiceTests {
         when(serviceRepository.findOne(anyLong())).thenReturn(service);
         when(serviceRepository.findById(anyLong())).thenReturn(service);
 
+        providerRepository = mock(ProviderRepository.class);
+        when(providerRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(new ArrayList<>()));
 
         serviceOrderStatusRepository = mock(ServiceOrderStatusRepository.class);
         when(serviceOrderStatusRepository.findByServiceOrderAndCurrentIsTrue(any(ServiceOrder.class))).thenReturn(serviceOrderStatus);
@@ -139,5 +147,32 @@ public class UserOperationsServiceTests {
         ServiceOrderStatus serviceOrderStatus = userOperationsService.cancelServiceOrder(serviceOrder.getId());
 
         assert serviceOrderStatus.getOrderStatusDict().equals(ServiceOrderStatusDict.CANCELED);
+    }
+
+    @Test
+    public void canGetProviders() throws Exception {
+        Pageable pageable = new PageRequest(0, 10);
+        userOperationsService.getProviders(pageable);
+    }
+
+    @Test
+    public void canGetServices() throws Exception {
+        Pageable pageable = new PageRequest(0, 10);
+        userOperationsService.getServices(pageable);
+    }
+
+    @Test
+    public void canGetServiceOrdersByZone() throws Exception {
+        Zone zone = new Zone();
+        zone.setId(1L);
+        Pageable pageable = new PageRequest(0, 10);
+        userOperationsService.getServiceOrdersByZone(zone, pageable);
+    }
+
+    @Test
+    public void canGetServiceOrderStatus() throws Exception {
+        ServiceOrder serviceOrder = new ServiceOrder();
+        serviceOrder.setId(1L);
+        userOperationsService.getServiceOrderStatus(serviceOrder);
     }
 }
