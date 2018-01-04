@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-@Service
+@org.springframework.stereotype.Service
 @RequiredArgsConstructor
 public class AdminOperationsService implements AdminOperationsInterface {
 
@@ -161,8 +161,8 @@ public class AdminOperationsService implements AdminOperationsInterface {
     public List<ServiceOrder> generateReport(Date begin, Date end) {
         ZonedDateTime b = ZonedDateTime.ofInstant(begin.toInstant(), ZoneId.systemDefault());
         ZonedDateTime e = ZonedDateTime.ofInstant(end.toInstant(), ZoneId.systemDefault());
-        System.out.println(b);
-        System.out.println(e);
+        //System.out.println(b);
+        //System.out.println(e);
         List<ServiceOrder> sorders = serviceOrderRepository.findByDateBeginEnd(b, e);
         return sorders;
     }
@@ -171,13 +171,18 @@ public class AdminOperationsService implements AdminOperationsInterface {
     public Map<Long, Integer> generateCalculations(Date begin, Date end) {
         ZonedDateTime b = ZonedDateTime.ofInstant(begin.toInstant(), ZoneId.systemDefault());
         ZonedDateTime e = ZonedDateTime.ofInstant(end.toInstant(), ZoneId.systemDefault());
-        System.out.println(b);
-        System.out.println(e);
+        //System.out.println(b);
+        //System.out.println(e);
         List<ServiceOrder> sorders = serviceOrderRepository.findByDateBeginEnd(b, e);
         Map<Long, Integer> p = new TreeMap<>();
         for (ServiceOrder s : sorders) {
             popr.model.Service ser = serviceRepository.findById(s.getService().getId());
-            p.put(ser.getProvider().getId(), ser.getPrice());
+            Integer cost;
+            if (p.containsKey(ser.getProvider().getId()))
+                cost = p.get(ser.getProvider().getId());
+            else
+                cost = 0;
+            p.put(ser.getProvider().getId(), cost + ser.getPrice());
         }
         return p;
     }
