@@ -243,7 +243,7 @@
                     var td2 = document.createElement('td');
                     var td4 = document.createElement('td');
                     var td5 = document.createElement('td');
-                    td0.innerHTML = "<a href='javascript(0)' onclick=\"getStatusModal(" + response.content[i].serviceOrder.id + ",'" + response.content[i].serviceOrder.description + "','" + response.content[i].serviceOrder.address + "','" + orderStatus + "','" + serviceDesc + "','" + descModal + "')\" type=\"button\" data-toggle=\"modal\" data-target=\"#myModal\">" + response.content[i].serviceOrder.description + "</a>\n";
+                    td0.innerHTML = "<a href='#' onclick=\"getStatusModal(" + response.content[i].serviceOrder.id + ",'" + response.content[i].serviceOrder.description + "','" + response.content[i].serviceOrder.address + "','" + orderStatus + "','" + serviceDesc + "','" + descModal + "')\" type=\"button\" data-toggle=\"modal\" data-target=\"#myModal\">" + response.content[i].serviceOrder.description + "</a>\n";
                     td2.textContent = response.content[i].serviceOrder.rating === null ? 0 : response.content[i].serviceOrder.rating;
                     td2.contentEditable = 'true';
                     td2.setAttribute('data-id', response.content[i].serviceOrder.id);
