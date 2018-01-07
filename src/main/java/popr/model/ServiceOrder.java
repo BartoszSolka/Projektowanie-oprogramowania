@@ -36,7 +36,7 @@ public class ServiceOrder {
     @ManyToOne
     private Service service;
 
-    @JsonIgnore
+    //@JsonIgnore
     @OneToOne
     private Person orderedBy;
 

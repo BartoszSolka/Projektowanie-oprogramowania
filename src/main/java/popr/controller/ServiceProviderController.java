@@ -48,8 +48,7 @@ public class ServiceProviderController implements ServiceProviderOrderManager, S
 	@Override
 	@GetMapping(path="/orders/{orderId}")
 	public ServiceOrder getServiceOrderDetails(@PathVariable Long orderId) {
-		// TODO Auto-generated method stub
-		return null;
+		return providerOperationsService.getServiceOrderDetails(orderId);
 	}
 
 	@Override
