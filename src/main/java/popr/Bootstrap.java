@@ -49,7 +49,47 @@ public class Bootstrap implements ApplicationRunner {
 
         Zone zone = new Zone();
         zone.setPostalCode("01-111");
-        zone = zoneRepository.save(zone);
+        zoneRepository.save(zone);
+
+        Zone zone2 = new Zone();
+        zone2.setPostalCode("01-112");
+        zoneRepository.save(zone2);
+
+        zone2 = new Zone();
+        zone2.setPostalCode("01-113");
+        zoneRepository.save(zone2);
+
+        zone2 = new Zone();
+        zone2.setPostalCode("01-114");
+        zoneRepository.save(zone2);
+
+        zone2 = new Zone();
+        zone2.setPostalCode("01-115");
+        zoneRepository.save(zone2);
+
+        zone2 = new Zone();
+        zone2.setPostalCode("01-116");
+        zoneRepository.save(zone2);
+
+        zone2 = new Zone();
+        zone2.setPostalCode("01-117");
+        zoneRepository.save(zone2);
+
+        zone2 = new Zone();
+        zone2.setPostalCode("01-118");
+        zoneRepository.save(zone2);
+
+        zone2 = new Zone();
+        zone2.setPostalCode("01-119");
+        zoneRepository.save(zone2);
+
+        zone2 = new Zone();
+        zone2.setPostalCode("01-121");
+        zoneRepository.save(zone2);
+
+        zone2 = new Zone();
+        zone2.setPostalCode("01-122");
+        zoneRepository.save(zone2);
 
         Provider provider = new Provider();
         provider.setName("Testowy uslugodawca");
@@ -65,11 +105,19 @@ public class Bootstrap implements ApplicationRunner {
         Person employee = new Person();
         employee.setName("Testowy pracownik");
         employee.setUsername("employee");
-        employee.setPassword("test");
+        employee.setPassword(passwordEncoder.encode("test"));
         employee.setProvider(provider);
         employee.setSurname("Testowe imie");
 
+        Person employee2 = new Person();
+        employee2.setName("Testowy pracownik2");
+        employee2.setUsername("employee2");
+        employee2.setPassword(passwordEncoder.encode("test"));
+        employee2.setProvider(provider);
+        employee2.setSurname("Testowe imie2");
+
         personRepository.save(employee);
+        personRepository.save(employee2);
 
         Service service = new Service();
         service.setProvider(provider);
@@ -77,6 +125,13 @@ public class Bootstrap implements ApplicationRunner {
         service.setEstimatedRealisationTime(5);
         service.setPrice(1000);
         service = serviceRepository.save(service);
+
+        Service service2 = new Service();
+        service2.setProvider(provider);
+        service2.setDescription("Usługa ścinania drzewa");
+        service2.setEstimatedRealisationTime(50);
+        service2.setPrice(500);
+        service2 = serviceRepository.save(service2);
 
         ServiceOrder serviceOrder = new ServiceOrder();
         serviceOrder.setService(service);
@@ -91,6 +146,20 @@ public class Bootstrap implements ApplicationRunner {
         ServiceOrderStatus serviceOrderStatus = new ServiceOrderStatus();
         serviceOrderStatus.setServiceOrder(serviceOrder);
         serviceOrderStatus = serviceOrderStatusRepository.save(serviceOrderStatus);
+
+        ServiceOrder serviceOrder2 = new ServiceOrder();
+        serviceOrder2.setService(service2);
+        serviceOrder2.setAddress("Piękna 12");
+        serviceOrder2.setDescription("Testowa usługa2");
+        serviceOrder2.setRating(5);
+        serviceOrder2.setRatingDescription("Super, daję 5/5");
+        serviceOrder2.setZone(zone);
+        serviceOrder2.setOrderedBy(user);
+        serviceOrder2 = serviceOrderRepository.save(serviceOrder2);
+
+        ServiceOrderStatus serviceOrderStatus2 = new ServiceOrderStatus();
+        serviceOrderStatus2.setServiceOrder(serviceOrder2);
+        serviceOrderStatus2 = serviceOrderStatusRepository.save(serviceOrderStatus2);
 
         Complaint complaint = new Complaint();
         complaint.setCreatedBy(user);
