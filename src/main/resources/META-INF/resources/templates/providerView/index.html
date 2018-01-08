@@ -26,7 +26,7 @@
             <ul class="nav navbar-nav">
                 <li class="active"><a href="/providerView">Strona główna</a></li>
                 <li><a href="/providerView/new-service">Zarządzaj</a></li>
-                <li onclick="openModalForNewService();"><a href="#">Złóż nowe zlecenie</a></li>
+                <!--<li onclick="openModalForNewService();"><a href="#">Złóż nowe zlecenie</a></li>-->
                 <li onclick="openModalForNewLocation();"><a href="#">Udostępnij lokalizacje</a></li>
                 <li onclick="openModalForStopActivity();"><a href="#">Zatrzymaj aktywność</a></li>
             </ul>
@@ -126,8 +126,9 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="modalLocation">Lokalizacja:</label>
-                        <input type="text" class="form-control" id="modalLocation">
+                        <label style="width:100%" for="modalLocation">Lokalizacja:</label>
+                        <select class="form-control" id="modalLocation">
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -328,62 +329,10 @@
 
 </div>
 <script>
-    /*$.get('http://localhost:8080/serviceProvider/4/orders', function (data) {
-        console.log(data);
-    });*/
-    var daneMockup = [
-        {
-            id: '3',
-            description: 'Drzewo blokuje drogę',
-            zone: '01-515',
-            address: 'ul. Piękna 2',
-            order: 'Udrożnienie drogi',
-            state: 'w trakcie realizacji',
-            stateDescription: 'Ekipa opuściła firmę',
-            userNumber: '+48 123 456 789'
-        },
-        {
-            id: '4',
-            description: 'Drzewo blokuje drogę 2',
-            zone: '01-613',
-            address: 'ul. Stara 21',
-            order: 'Udrożnienie drogi',
-            state: 'w trakcie realizacji',
-            stateDescription: '',
-            userNumber: '507 777 333'
-        },
-        {
-            id: '5',
-            description: 'Wyrwany znak',
-            zone: '02-116',
-            address: 'ul. Twarda 3',
-            order: 'Udrożnienie drogi',
-            state: 'Zakończono realizację',
-            stateDescription: 'Sukces',
-            userNumber: '+48 999 456 789'
-        }
-    ];
-
-    var daneMockupOrder = [
-        {
-            id: '7',
-            order: 'Oczyszczenie zablokowanej drogi',
-            description: 'Wybrać w przypadku blokady przejazdu na drodze',
-            price: '500',
-            time: '2 dni'
-        },
-        {
-            id: '8',
-            order: 'Naprawa znaków drogowych',
-            description: 'Wybrać w przypadku konieczności wymiany lub naprawy znaku drogowego.',
-            price: '1000',
-            time: '5 dni'
-        }
-    ];
     var tbody = document.getElementById('tbody');
     var torder = document.getElementById('torder');
 
-    var addOrderToView = function (data) {
+    var addServiceToView = function (data) {
         for (var i = 0; i < data.length; i++) {
             var tr = document.createElement("tr");
             var td0 = document.createElement("td");
@@ -407,26 +356,26 @@
             tr.className = 'orderRow';
             tr.dataset.orderIndex = i;
             tr.onclick = function () {
-                var dataObj = daneMockupOrder[this.dataset.orderIndex];
+                var dataObj = objServiceArray[this.dataset.orderIndex];
                 document.getElementById('orderModal').dataset.currentIndex = this.dataset.orderIndex;
 
-                document.getElementById('modalOrder').textContent = dataObj.order;
+                document.getElementById('modalOrder').textContent = dataObj.orderType;
                 document.getElementById('modalOrderDescription').textContent = dataObj.description;
                 document.getElementById('modalOrderPrice').textContent = dataObj.price;
-                document.getElementById('modalOrderTime').textContent = dataObj.time;
+                document.getElementById('modalOrderTime').textContent = dataObj.estimatedRealisationTime;
 
 
-                document.getElementById('modalOrderEdit').value = dataObj.order;
+                document.getElementById('modalOrderEdit').value = dataObj.orderType;
                 document.getElementById('modalOrderDescriptionEdit').value = dataObj.description;
                 document.getElementById('modalOrderPriceEdit').value = dataObj.price;
-                document.getElementById('modalOrderTimeEdit').value = dataObj.time;
+                document.getElementById('modalOrderTimeEdit').value = dataObj.estimatedRealisationTime;
 
                 $("#orderModal").modal();
             };
             torder.appendChild(tr);
         }
     };
-    var addServiceToView = function (data, putIndex) {
+    var addOrderToView = function (data, putIndex) {
         for (var i = 0; i < data.length; i++) {
             var tr = document.createElement("tr");
             var td0 = document.createElement("td");
@@ -438,11 +387,11 @@
             tr.className = 'orderRow';
             tr.dataset.orderIndex = putIndex === undefined ? i : putIndex;
             tr.onclick = function () {
-                var dataObj = daneMockup[this.dataset.orderIndex];
+                var dataObj = objArray[this.dataset.orderIndex];
                 document.getElementById('statusModal').dataset.currentIndex = this.dataset.orderIndex;
                 document.getElementById('modalOpis').textContent = dataObj.description;
                 document.getElementById('modalStrefa').textContent = dataObj.zone;
-                document.getElementById('modalUsluga').textContent = dataObj.order;
+                document.getElementById('modalUsluga').textContent = dataObj.service;
                 document.getElementById('modalAdres').textContent = dataObj.address;
                 document.getElementById('modalState').textContent = dataObj.state;
                 document.getElementById('modalStateDescription').textContent = dataObj.stateDescription;
@@ -471,6 +420,12 @@
         $("#orderModalEdit").modal();
     };
     var openModalForNewLocation = function () {
+        var select = document.getElementById('modalLocation');
+        for(var i = 0;i<zonesArray.length;i++){
+            var option = document.createElement('option');
+            option.textContent = zonesArray[i].postalCode;
+            select.appendChild(option);
+        }
         $("#newLocationModal").modal();
     };
     var openModalForStopActivity = function () {
@@ -480,7 +435,18 @@
     var openModalForOrderDeleting = function (index) {
         $("#deleteOrderInfoModal").modal();
         document.getElementById('deleteOrderInfoModalButton').onclick = function () {
-            deleteOrderRow(torder.children[index]);
+            var serviceId = objServiceArray[index].id;
+            $.ajax({
+                url: 'http://localhost:8080/serviceProvider/services/' + serviceId,
+                type: 'DELETE',
+                success: function(data) {
+                    console.log('WORKS');
+                    deleteOrderRow(torder.children[index]);
+                },
+                error: function (data) {
+                    console.log('ERROR', data);
+                }
+            });
         };
     };
 
@@ -494,8 +460,8 @@
 
         document.getElementById('modalState').textContent = status;
         document.getElementById('modalStateDescription').textContent = statusDescription;
-        daneMockup[document.getElementById('statusModal').dataset.currentIndex].state = status;
-        daneMockup[document.getElementById('statusModal').dataset.currentIndex].stateDescription = statusDescription;
+        objArray[document.getElementById('statusModal').dataset.currentIndex].state = status;
+        objArray[document.getElementById('statusModal').dataset.currentIndex].stateDescription = statusDescription;
     };
 
     var createNewService = function () {
@@ -505,7 +471,7 @@
         var serviceOrder = document.getElementById('modalNewServiceOrder');
 
         var serviceDataObj = {
-            id: (parseInt(daneMockup[daneMockup.length-1].id)+1),
+            id: (parseInt(objArray[objArray.length-1].id)+1),
             description: serviceDescription.value.trim(),
             zone: serviceZone.value.trim(),
             address: serviceAddress.value.trim(),
@@ -514,8 +480,8 @@
             stateDescription: '-',
             userNumber: '-'
         };
-        daneMockup.push(serviceDataObj);
-        addServiceToView([serviceDataObj], daneMockup.length-1);
+        objArray.push(serviceDataObj);
+        addServiceToView([serviceDataObj], objArray.length-1);
         serviceDescription.value = '';
         serviceAddress.value = '';
         serviceZone.value = '';
@@ -523,8 +489,30 @@
     };
 
     var updateLocation = function () {
-        document.getElementById('currentLocation').textContent = document.getElementById('modalLocation').value.trim();
-        document.getElementById('currentLocation').style.color = 'inherit';
+        var newZone = document.getElementById('modalLocation').value;
+        var newZoneId;
+        for(var i = 0;i<zonesArray.length;i++){
+            if(zonesArray[i].postalCode == newZone){
+                newZoneId = zonesArray[i].id;
+                break;
+            }
+        }
+        $.ajax({
+            url: 'http://localhost:8080/serviceProvider/' + id + '/zones/' + newZoneId,
+            type: 'PUT',
+            data: {
+            },
+            success: function(data) {
+                console.log('OK');
+                document.getElementById('currentLocation').textContent = document.getElementById('modalLocation').value.trim();
+                document.getElementById('currentLocation').style.color = 'inherit';
+            },
+            error: function (data) {
+                console.log('ERROR');
+            }
+        });
+
+
     };
 
     var stopActivity = function () {
@@ -575,28 +563,131 @@
 
 
         if(checked){
-            document.getElementById('modalOrder').textContent = order;
-            document.getElementById('modalOrderDescription').textContent = description;
-            document.getElementById('modalOrderPrice').textContent = price;
-            document.getElementById('modalOrderTime').textContent = time;
-
             var dataIndex = document.getElementById('orderModal').dataset.currentIndex;
-            daneMockupOrder[dataIndex].order = order;
-            daneMockupOrder[dataIndex].description = description;
-            daneMockupOrder[dataIndex].price = price;
-            daneMockupOrder[dataIndex].time = time;
+            var serviceId = objServiceArray[dataIndex].id;
+            $.ajax({
+                url: 'http://localhost:8080/serviceProvider/' + id + '/services/' + serviceId,
+                type: 'PUT',
+                data: {
+                    providerId: id,
+                    serviceId: serviceId,
+                    service: {
+                        id: serviceId,
+                        title: order,
+                        description: description,
+                        price: price,
+                        estimatedRealisationTime: time
+                    }
+                },
+                success: function(data) {
+                    console.log('WORKS');
 
-            torder.children[document.getElementById('orderModal').dataset.currentIndex].children[1].textContent = order;
-            $("#successOrderEditModal").modal();
+                    document.getElementById('modalOrder').textContent = order;
+                    document.getElementById('modalOrderDescription').textContent = description;
+                    document.getElementById('modalOrderPrice').textContent = price;
+                    document.getElementById('modalOrderTime').textContent = time;
+                    objServiceArray[dataIndex].order = order;
+                    objServiceArray[dataIndex].description = description;
+                    objServiceArray[dataIndex].price = price;
+                    objServiceArray[dataIndex].time = time;
+                    torder.children[document.getElementById('orderModal').dataset.currentIndex].children[1].textContent = order;
+                    $("#successOrderEditModal").modal();
+                },
+                error: function (data) {
+                    console.log('ERROR');
+                    $("#failOrderEditModal").modal();
+                }
+            });
         } else {
             $("#failOrderEditModal").modal();
         }
 
 
     };
+    var id = 4;
+    var objArray = [];
+    var objServiceArray = [];
+    var zonesArray = [];
+    var currentZone = '01-111';
+    $.get('http://localhost:8080/serviceProvider/' + id + '/orders', function (data) {
+        console.log('Orders', data);
+        prepareOrderDataObj(data);
+    });
+    $.get('http://localhost:8080/serviceProvider/' + id + '/services', function (data) {
+        console.log('Services', data);
+        prepareServiceDataObj(data);
+     });
+    $.get('http://localhost:8080/serviceProvider/zones', function (data) {
+        console.log('Zones array', data);
+        zonesArray = data;
+    });
+    /*$.get('http://localhost:8080/serviceProvider/' + id + '/services/6', function (data) {
+     console.log('service details', data);
+     });
+     $.get('http://localhost:8080/serviceProvider/orders/7', function (data) {
+     console.log(data);
+     });
+     $.get('http://localhost:8080/serviceProvider/' + id + '/serviceChanges', function (data) {
+     console.log(data);
+     });
+     $.get('http://localhost:8080/serviceProvider/serviceTypes', function (data) {
+     console.log(data);
+     });*/
+    var prepareOrderDataObj = function (data) {
+        for(var i = 0; i<data.length;i++){
+            var obj = {
+                id: data[i].id,
+                description: data[i].description,
+                address: data[i].address,
+                service: data[i].service.description,
+                zone: '',
+                state: '',
+                stateDescription: '',
+                userNumber: data[i].orderedBy.phoneNo
+            };
+            objArray.push(obj);
+        }
+        addOrderToView(objArray);
+        //addOrderToView(daneMockupOrder);
+    };
+    var prepareServiceDataObj = function (data) {
+        for(var i = 0; i<data.length;i++){
+            var obj = {
+                id: data[i].id,
+                description: data[i].description,
+                price: data[i].price,
+                estimatedRealisationTime: data[i].estimatedRealisationTime,
+                orderType: data[i].title
+            };
+            objServiceArray.push(obj);
+        }
+        addServiceToView(objServiceArray);
+    };
+    /*var daneMockup = [
+        {
+            id: '3',
+            description: 'Drzewo blokuje drogę',
+            zone: '01-515',
+            address: 'ul. Piękna 2',
+            order: 'Udrożnienie drogi',
+            state: 'w trakcie realizacji',
+            stateDescription: 'Ekipa opuściła firmę',
+            userNumber: '+48 123 456 789'
+        }
+    ];*/
 
-    addServiceToView(daneMockup);
-    addOrderToView(daneMockupOrder);
+    var daneMockupOrder = [
+        {
+            id: '7',
+            order: 'Oczyszczenie zablokowanej drogi',
+            description: 'Wybrać w przypadku blokady przejazdu na drodze',
+            price: '500',
+            time: '2 dni'
+        }
+    ];
+
+
+
 </script>
 </body>
 </html>

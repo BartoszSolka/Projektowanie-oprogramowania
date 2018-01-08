@@ -1,5 +1,6 @@
 popr\controller\AdminManager.class
 popr\model\Provider.class
+popr\service\MailService.class
 popr\repository\ServiceOrderRepository.class
 popr\repository\PersonRepository.class
 popr\model\Service.class
@@ -18,6 +19,8 @@ popr\model\ProviderStatus.class
 popr\model\Report.class
 popr\controller\ServiceUserController.class
 popr\service\ZoneService.class
+popr\service\MailServiceImpl$1.class
+popr\service\MailServiceImpl.class
 popr\controller\ServiceProviderController.class
 popr\model\QZone.class
 popr\model\QReport.class
@@ -28,6 +31,7 @@ popr\repository\ServiceChangeRepository.class
 popr\model\QService.class
 popr\model\QServiceChange.class
 popr\model\ServiceType.class
+popr\service\AppConfig.class
 popr\repository\ProviderRepository.class
 popr\model\ServiceOrderStatus.class
 popr\model\ServiceOrder.class

@@ -18,6 +18,7 @@ C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\interfac
 C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\model\Report.java
 C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\repository\ServiceOrderRepository.java
 C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\PoprApplication.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\service\AppConfig.java
 C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\service\ProviderOperationsService.java
 C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\model\ProviderStatus.java
 C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\repository\ServiceRepository.java
@@ -48,7 +49,9 @@ C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\service\
 C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\interfaces\ProviderOperationsInterface.java
 C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\model\Complaint.java
 C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\repository\ComplaintRepository.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\service\MailService.java
 C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\target\generated-sources\java\popr\model\QServiceChange.java
+C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\service\MailServiceImpl.java
 C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\target\generated-sources\java\popr\model\QServiceOrder.java
 C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\model\ChangeStatus.java
 C:\Users\Paweł\Desktop\Projektowanie-oprogramowania\src\main\java\popr\model\Provider.java
