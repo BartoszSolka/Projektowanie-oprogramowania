@@ -41,7 +41,7 @@ public class MailServiceImpl implements MailService {
                 mimeMessage.setRecipient(Message.RecipientType.TO,
                         new InternetAddress(providerEmail));
                 mimeMessage.setText(mailContent);
-                mimeMessage.setSubject("Przypisano zlecenie");
+                mimeMessage.setSubject("Powiadomienie system obsługi awarii");
             }
         };
         return preparator;

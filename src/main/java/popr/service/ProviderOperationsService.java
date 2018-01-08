@@ -25,7 +25,7 @@ public class ProviderOperationsService implements ProviderOperationsInterface {
     private final ServiceTypeRepository serviceTypeRepository;
     private final ProviderRepository providerRepository;
     private final ZoneRepository zoneRepository;
-
+    private final MailServiceImpl mailService;
     @Override
     public List<ServiceOrder> getServiceOrdersByProviderId(Long providerId) {
     	List<Service> services = serviceRepository.findByProviderId(providerId);
@@ -46,7 +46,11 @@ public class ProviderOperationsService implements ProviderOperationsInterface {
     	ServiceOrder updatedServiceOrder = new ServiceOrder();
     	updatedServiceOrder.setId(serviceOrderId);
     	newStatusOrder.setServiceOrder(updatedServiceOrder);
-    	return serviceOrderStatusRepository.save(newStatusOrder);
+        String mailContent;
+        mailContent = ("Zmieniono status zlecenia" + "\n" + "Opis: " + updatedServiceOrder.getDescription() + "\n" + "Nowy status: " + newStatusOrder.getOrderStatusDict() + "\n" + "Opis nowwego statusu: " + newStatusOrder.getComment());
+        mailService.sendEmail(mailContent, updatedServiceOrder.getOrderedBy().getEmail());
+
+        return serviceOrderStatusRepository.save(newStatusOrder);
     }
 
     @Override

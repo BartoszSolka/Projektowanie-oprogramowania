@@ -48,7 +48,7 @@ public class UserOperationsService implements UserOperationsInterface {
         serviceOrderStatus.setServiceOrder(serviceOrder);
         serviceOrderStatus = serviceOrderStatusRepository.save(serviceOrderStatus);
 
-        mailContent = ("Opis: " + serviceOrder.getDescription() + " Strefa: " + serviceOrder.getZone().getPostalCode() + " Rodzaj usługi: " +serviceOrder.getService().getDescription() + " Adres: " + serviceOrder.getAddress() );
+        mailContent = ("Przypisano zlecenie" + "\n" + "Opis: " + serviceOrder.getDescription() + "\n" +  " Strefa: " + serviceOrder.getZone().getPostalCode() + "\n" +  " Rodzaj usługi: " +serviceOrder.getService().getDescription() + "\n" +  " Adres: " + serviceOrder.getAddress() );
         mailService.sendEmail(mailContent, providerEmail);
         return serviceOrder;
     }
@@ -87,7 +87,7 @@ public class UserOperationsService implements UserOperationsInterface {
         serviceOrderStatus.setOrderStatusDict(ServiceOrderStatusDict.CANCELED);
 
         Service service = serviceOrder.getService();
-        String mailContent = ("Anulowano zlecenie" + "\n" + "Opis: " + serviceOrder.getDescription() + " Strefa: " + serviceOrder.getZone().getPostalCode() + " Rodzaj usługi: " +serviceOrder.getService().getDescription() + " Adres: " + serviceOrder.getAddress() );
+        String mailContent = ("Anulowano zlecenie" + "\n" + "Opis: " + serviceOrder.getDescription() + "\n" +  " Strefa: " + serviceOrder.getZone().getPostalCode() + "\n" +  " Rodzaj usługi: " +serviceOrder.getService().getDescription() + "\n" +  " Adres: " + serviceOrder.getAddress() );
         mailService.sendEmail(mailContent, service.getProvider().getEmail());
         return serviceOrderStatusRepository.save(serviceOrderStatus);
     }

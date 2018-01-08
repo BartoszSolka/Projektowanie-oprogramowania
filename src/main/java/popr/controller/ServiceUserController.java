@@ -96,6 +96,7 @@ public class ServiceUserController implements ServiceUserManager {
         return userOperationsService.createComplaint(complaint, orderId);
     }
 
+
     @Override
     @GetMapping(path = "/orderComplaint", produces = APPLICATION_JSON_VALUE)
     public Page<Complaint> getComplaint(Long orderId, Pageable pageable) {
