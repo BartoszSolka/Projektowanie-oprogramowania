@@ -29,32 +29,164 @@
 </nav>
 <div class="container">
     <div class="jumbotron">
-        <h2>Dodaj Użytkownika</h2>
+        <h2>Edytuj Użytkownika</h2>
         <br><br>
-        <h4>Email:
-            <input id="email" style="width: 70%;">
-        </h4>
-        <h4>Imie:
-            <input  id="name" style="width: 70%;">
-        </h4>
-        <h4>Nazwisko:
-            <input  id="surname" style="width: 70%;">
-        </h4>
-        <h4>Telefon:
-            <input  id="phoneNumber" style="width: 70%;">
-        </h4>
-        <h4>Adres:
-            <input id="address" style="width: 70%;">
-        </h4>
-        <h4>Login:
-            <input id="username" style="width: 70%;">
-        </h4>
-        <h4>Hasło:
-            <input id="password"   style="width: 70%;">
-        </h4>
-        <h4>Strefa:
-            <input id="zone" style="width: 70%;">
-        </h4>
+
+        <div id="user"></div>
+
+        <script>
+            var index = getUrlVars()["id"];
+            function getUrlVars() {
+                var vars = {};
+                var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+                    vars[key] = value;
+                });
+                return vars;
+            }
+            $.get('http://localhost:8080/admin/user/'+index, function (data) {
+                console.log(data);
+                var div = document.getElementById("user");
+                var input0 = document.createElement("input");
+                var att0 = document.createAttribute("id");
+                var btt0 = document.createAttribute("style");
+                att0.value = "name";
+                btt0.value = "width: 70%;";
+                input0.setAttributeNode(att0);
+                input0.setAttributeNode(btt0);
+                var input1 = document.createElement("input");
+                var att1 = document.createAttribute("id");
+                var btt1 = document.createAttribute("style");
+                btt1.value = "width: 70%;";
+                att1.value = "nip";
+                input1.setAttributeNode(att1);
+                input1.setAttributeNode(btt1);
+                var input2 = document.createElement("input");
+                var att2 = document.createAttribute("id");
+                var btt2 = document.createAttribute("style");
+                btt2.value = "width: 70%;";
+                att2.value = "phoneNumber";
+                input2.setAttributeNode(att2);
+                input2.setAttributeNode(btt2);
+                var input3 = document.createElement("input");
+                var att3 = document.createAttribute("id");
+                var btt3 = document.createAttribute("style");
+                btt3.value = "width: 70%;";
+                att3.value = "address";
+                input3.setAttributeNode(att3);
+                input3.setAttributeNode(btt3);
+                var input4 = document.createElement("input");
+                var att4 = document.createAttribute("id");
+                var btt4 = document.createAttribute("style");
+                btt4.value = "width: 70%;";
+                att4.value = "email";
+                input4.setAttributeNode(att4);
+                input4.setAttributeNode(btt4);
+                var input5 = document.createElement("input");
+                var att5 = document.createAttribute("id");
+                var btt5 = document.createAttribute("style");
+                btt5.value = "width: 70%;";
+                att5.value = "zone";
+                input5.setAttributeNode(att5);
+                input5.setAttributeNode(btt5);
+                var input6 = document.createElement("input");
+                var att6 = document.createAttribute("id");
+                var btt6 = document.createAttribute("style");
+                btt6.value = "width: 70%;";
+                att6.value = "zone";
+                input6.setAttributeNode(att6);
+                input6.setAttributeNode(btt6);
+
+
+
+
+//                var input7 = document.createElement("input");
+//                var att7 = document.createAttribute("id");
+//                var btt7 = document.createAttribute("style");
+//                btt7.value = "width: 70%;";
+//                att7.value = "zone";
+//                input7.setAttributeNode(att7);
+//                input7.setAttributeNode(btt7);
+//                input7.value = data.zone;
+//                text8= document.createTextNode('Strefa:' );
+//                s7 = document.createElement("h4");
+//                s7.appendChild(text8);
+//                div.appendChild(s5);
+//                div.appendChild(input5);
+
+
+
+//                var input8 = document.createElement("input");
+//                var att8 = document.createAttribute("id");
+//                var btt8 = document.createAttribute("style");
+//                btt8.value = "width: 70%;";
+//                att8.value = "zone";
+//                input8.setAttributeNode(att8);
+//                input8.setAttributeNode(btt8);
+
+
+
+                input1.value = data.name;
+                input2.value = data.surname;
+                input3.value = data.phoneNo;
+                input4.value = data.address;
+                input0.value = data.email;
+
+                input5.value = data.username;
+                input6.value = data.password;
+
+
+                s = document.createElement("h4");
+                s1 = document.createElement("h4");
+                s2 = document.createElement("h4");
+                s3 = document.createElement("h4");
+                s4 = document.createElement("h4");
+                s5 = document.createElement("h4");
+                s6 = document.createElement("h4");
+
+
+
+
+                text1= document.createTextNode('Email:' );
+                text2= document.createTextNode('Nazwa:' );
+                text3= document.createTextNode('Nazwisko:' );
+                text4= document.createTextNode('Telefon:' );
+                text5= document.createTextNode('Adres:' );
+                text6= document.createTextNode('Login:' );
+                text7= document.createTextNode('Hasło:' );
+
+
+
+
+                s.appendChild(text1);
+                div.appendChild(s);
+                div.appendChild(input0);
+
+
+                s1.appendChild(text2);
+                div.appendChild(s1);
+                div.appendChild(input1);
+                s2.appendChild(text3);
+                div.appendChild(s2);
+                div.appendChild(input2);
+                s3.appendChild(text4);
+                div.appendChild(s3);
+                div.appendChild(input3);
+                s4.appendChild(text5);
+                div.appendChild(s4);
+                div.appendChild(input4);
+                s5.appendChild(text6);
+                div.appendChild(s5);
+                div.appendChild(input5);
+                s6.appendChild(text7);
+                div.appendChild(s5);
+                div.appendChild(input5);
+
+
+
+
+            })
+        </script>
+
         <button type="button" class="btn btn-success" onclick="edytujUzytkownika();">Edytuj</button>
         <div class="modal fade" id="successModal" role="dialog">
             <div class="modal-dialog modal-sm">
@@ -101,7 +233,8 @@
         var address = document.getElementById('address').value;
         var username = document.getElementById("username").value;
         var password = document.getElementById("password").value;
-        var index = getUrlVars()["id"];
+//        var zone = document.getElementById("zone").value;
+
 
         function getUrlVars() {
             var vars = {};
@@ -110,6 +243,7 @@
             });
             return vars;
         }
+        var index = getUrlVars()["id"];
         $.ajax({
             type: 'POST',
             url: 'http://localhost:8080/admin/editPerson/'+index,
@@ -117,7 +251,7 @@
                 email:email,
                 imie:name,
                 nazwisko:surname,
-                strefa:zone,
+//                strefa:zone,
                 telefon:phoneNumber,
                 adres:address,
                 login:username,

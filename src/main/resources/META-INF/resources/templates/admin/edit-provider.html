@@ -29,27 +29,117 @@
 </nav>
 <div class="container">
     <div class="jumbotron">
-        <h2>Dodaj usługodawce</h2>
+        <h2>Edytuj usługodawce</h2>
         <br><br>
-        <h4>Nazwa:
-            <input id="name" style="width: 70%;">
-        </h4>
-        <h4>NIP:
-            <input id="nip" style="width: 70%;">
-        </h4>
-        <h4>Telefon:
-            <input id="phoneNumber" style="width: 70%;">
-        </h4>
-        <h4>Adres:
-            <input id="address" style="width: 70%;">
-        </h4>
-        <h4>Email:
-            <input id="email" style="width: 70%;">
-        </h4>
-        <h4>Strefa:
-            <input id="zone" style="width: 70%;">
-        </h4>
+        <div id="provider"></div>
 
+        <script>
+            var index = getUrlVars()["id"];
+            function getUrlVars() {
+                var vars = {};
+                var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+                    vars[key] = value;
+                });
+                return vars;
+            }
+            $.get('http://localhost:8080/admin/provider/'+index, function (data) {
+                console.log(data);
+                var div = document.getElementById("provider");
+                    var input0 = document.createElement("input");
+                    var att0 = document.createAttribute("id");
+                    var btt0 = document.createAttribute("style");
+                    att0.value = "name";
+                    btt0.value = "width: 70%;";
+                    input0.setAttributeNode(att0);
+                    input0.setAttributeNode(btt0);
+                    var input1 = document.createElement("input");
+                var att1 = document.createAttribute("id");
+                var btt1 = document.createAttribute("style");
+                btt1.value = "width: 70%;";
+                att1.value = "nip";
+                    input1.setAttributeNode(att1);
+                    input1.setAttributeNode(btt1);
+                    var input2 = document.createElement("input");
+                var att2 = document.createAttribute("id");
+                var btt2 = document.createAttribute("style");
+                btt2.value = "width: 70%;";
+                    att2.value = "phoneNumber";
+                    input2.setAttributeNode(att2);
+                    input2.setAttributeNode(btt2);
+                    var input3 = document.createElement("input");
+                var att3 = document.createAttribute("id");
+                var btt3 = document.createAttribute("style");
+                btt3.value = "width: 70%;";
+                    att3.value = "address";
+                    input3.setAttributeNode(att3);
+                    input3.setAttributeNode(btt3);
+                    var input4 = document.createElement("input");
+                var att4 = document.createAttribute("id");
+                var btt4 = document.createAttribute("style");
+                btt4.value = "width: 70%;";
+                    att4.value = "email";
+                    input4.setAttributeNode(att4);
+                    input4.setAttributeNode(btt4);
+                    var input5 = document.createElement("input");
+                var att5 = document.createAttribute("id");
+                var btt5 = document.createAttribute("style");
+                btt5.value = "width: 70%;";
+                    att5.value = "zone";
+                    input5.setAttributeNode(att5);
+                    input5.setAttributeNode(btt5);
+
+
+
+                input0.value = data.name;
+                input1.value = data.nip;
+                input2.value = data.phoneNo;
+                input3.value = data.address;
+                input4.value = data.email;
+                input5.value = data.zone.postalCode;
+
+                    s = document.createElement("h4");
+                s1 = document.createElement("h4");
+                s2 = document.createElement("h4");
+                s3 = document.createElement("h4");
+                s4 = document.createElement("h4");
+                s5 = document.createElement("h4");
+
+
+                    text1= document.createTextNode('Nazwa:' );
+                text2= document.createTextNode('Nip:' );
+                text3= document.createTextNode('Telefon:' );
+                text4= document.createTextNode('Adres:' );
+                text5= document.createTextNode('Email:' );
+                text6= document.createTextNode('Strefa:' );
+
+
+
+
+                    s.appendChild(text1);
+                    div.appendChild(s);
+                    div.appendChild(input0);
+
+
+                s1.appendChild(text2);
+                div.appendChild(s1);
+                div.appendChild(input1);
+                s2.appendChild(text3);
+                div.appendChild(s2);
+                div.appendChild(input2);
+                s3.appendChild(text4);
+                div.appendChild(s3);
+                div.appendChild(input3);
+                s4.appendChild(text5);
+                div.appendChild(s4);
+                div.appendChild(input4);
+                s5.appendChild(text6);
+                div.appendChild(s5);
+                div.appendChild(input5);
+
+
+
+            })
+        </script>
 
         <button type="button" class="btn btn-success" onclick="edytujUslugodawce();">Edytuj</button>
 
@@ -91,14 +181,13 @@
 </div>
 <script>
 var edytujUslugodawce = function () {
-var name = document.getElementById('name').value;
-var nip = document.getElementById('nip').value;
-var phoneNumber = document.getElementById('phoneNumber').value;
-var address = document.getElementById('address').value;
-var zone = document.getElementById("zone").value;
-var email = document.getElementById("email").value;
-var index = getUrlVars()["id"];
-
+    var name = document.getElementById('name').value;
+    var nip = document.getElementById('nip').value;
+    var phoneNumber = document.getElementById('phoneNumber').value;
+    var address = document.getElementById('address').value;
+    var zone = document.getElementById("zone").value;
+    var email = document.getElementById("email").value;
+    var index = getUrlVars()["id"];
     function getUrlVars() {
         var vars = {};
         var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
@@ -127,7 +216,7 @@ $("#failModal").modal();
 }
 });
 
-};
+}
 
 </script>
 </body>
