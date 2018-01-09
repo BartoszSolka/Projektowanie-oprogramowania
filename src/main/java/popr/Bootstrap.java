@@ -23,6 +23,7 @@ public class Bootstrap implements ApplicationRunner {
     private final ServiceRepository serviceRepository;
     private final ZoneRepository zoneRepository;
     private final ServiceOrderStatusRepository serviceOrderStatusRepository;
+    private final ServiceTypeRepository serviceTypeRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -119,18 +120,27 @@ public class Bootstrap implements ApplicationRunner {
         personRepository.save(employee);
         personRepository.save(employee2);
 
+        ServiceType serviceType = new ServiceType();
+        serviceType.setDescription("Testowy opis typu usługi");
+        serviceType.setName("Tesowa nazwa usługi");
+        serviceType = serviceTypeRepository.save(serviceType);
+
         Service service = new Service();
+        service.setTitle("Testowy opis usługi 1");
         service.setProvider(provider);
         service.setDescription("Usługa zdejmowania kota z drzewa");
         service.setEstimatedRealisationTime(5);
         service.setPrice(1000);
+        service.setServiceType(serviceType);
         service = serviceRepository.save(service);
 
         Service service2 = new Service();
+        service2.setTitle("Testowy opis usługi 2");
         service2.setProvider(provider);
         service2.setDescription("Usługa ścinania drzewa");
         service2.setEstimatedRealisationTime(50);
         service2.setPrice(500);
+        service2.setServiceType(serviceType);
         service2 = serviceRepository.save(service2);
 
         ServiceOrder serviceOrder = new ServiceOrder();
