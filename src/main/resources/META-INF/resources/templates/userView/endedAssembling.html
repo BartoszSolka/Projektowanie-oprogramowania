@@ -122,7 +122,7 @@
             userServiceResponse = response
             var parentDiv = document.getElementById('mainTbody');
             for (var i = 0; i < response.content.length; i++) {
-                if (response.content[i].orderStatusDict === 'CANCELED') {
+                if (response.content[i].orderStatusDict === 'COMPLETED') {
                     var tr = document.createElement('tr');
                     var td0 = document.createElement('td');
                     var td2 = document.createElement('td');

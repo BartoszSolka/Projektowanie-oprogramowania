@@ -233,7 +233,7 @@
         success: function (response) {
             var parentDiv = document.getElementById('mainTbody');
             for (var i = 0; i < response.content.length; i++) {
-                if (response.content[i].orderStatusDict !== 'CANCELED') {
+                if (response.content[i].orderStatusDict !== 'CANCELED' && response.content[i].orderStatusDict !== 'COMPLETED') {
                     var orderStatus = response.content[i].orderStatusDict === null ? 'Brak' : response.content[i].orderStatusDict;
                     var descModal = response.content[i].comment === null ? 'Brak' : response.content[i].comment;
                     var serviceDesc = response.content[i].serviceOrder.service.description
