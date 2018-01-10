@@ -15,6 +15,8 @@ public interface ComplaintRepository extends JpaRepository<Complaint, Long> {
 
     Page<Complaint> findByServiceOrder(ServiceOrder serviceOrder, Pageable pageable);
 
+    Page<Complaint> findByCreatedBy(Person person, Pageable pageable);
+
     @Transactional
     void deleteByServiceOrderId(Long serviceId);
 

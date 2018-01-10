@@ -29,7 +29,7 @@ public class ServiceOrder {
 
     private Integer rating;
 
-    @JsonIgnore
+    //@JsonIgnore
     @ManyToOne(optional = false)
     private Zone zone;
 
