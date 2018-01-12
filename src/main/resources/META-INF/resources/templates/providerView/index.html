@@ -329,6 +329,24 @@
 
 </div>
 <script>
+    jQuery.each( [ "put", "delete" ], function( i, method ) {
+        jQuery[ method ] = function( url, data, callback, type ) {
+            if ( jQuery.isFunction( data ) ) {
+                type = type || callback;
+                callback = data;
+                data = undefined;
+            }
+
+            return jQuery.ajax({
+                url: url,
+                type: method,
+                dataType: type,
+                data: data,
+                success: callback
+            });
+        };
+    });
+
     var tbody = document.getElementById('tbody');
     var torder = document.getElementById('torder');
 
@@ -343,7 +361,7 @@
             deleteButton.dataset.trIndex = i;
             deleteButton.onclick = function () {
                 event.stopPropagation();
-                openModalForOrderDeleting(this.dataset.trIndex);
+                openModalForOrderDeleting(this.dataset.trIndex, this);
             };
             deleteButton.textContent = 'Usuń';
             td0.textContent = data[i].id;
@@ -432,26 +450,15 @@
         $("#stopActivityModal").modal();
     };
 
-    var openModalForOrderDeleting = function (index) {
+    var openModalForOrderDeleting = function (index, element) {
+        var tr = element.parentNode.parentNode;
         $("#deleteOrderInfoModal").modal();
         document.getElementById('deleteOrderInfoModalButton').onclick = function () {
             var serviceId = objServiceArray[index].id;
-            $.ajax({
-                url: 'http://localhost:8080/serviceProvider/services/' + serviceId,
-                type: 'DELETE',
-                success: function(data) {
-                    console.log('WORKS');
-                    deleteOrderRow(torder.children[index]);
-                },
-                error: function (data) {
-                    console.log('ERROR', data);
-                }
+            $.delete('http://localhost:8080/serviceProvider/' + id + '/services/' + serviceId, function (data) {
+                tr.parentNode.removeChild(tr);
             });
         };
-    };
-
-    var deleteOrderRow = function (elem) {
-        elem.style.display = 'none';
     };
 
     var updateStatus = function () {
@@ -604,7 +611,7 @@
 
 
     };
-    var id = 4;
+    var id = 14;
     var objArray = [];
     var objServiceArray = [];
     var zonesArray = [];
@@ -676,7 +683,7 @@
         }
     ];*/
 
-    var daneMockupOrder = [
+    /*var daneMockupOrder = [
         {
             id: '7',
             order: 'Oczyszczenie zablokowanej drogi',
@@ -684,7 +691,7 @@
             price: '500',
             time: '2 dni'
         }
-    ];
+    ];*/
 
 
 
