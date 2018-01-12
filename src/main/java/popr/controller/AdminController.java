@@ -203,7 +203,11 @@ public class AdminController implements AdminManager {
         return adminOperationsService.getPostalCodeOfZone(zoneId);
     }
 
-
+    @Override
+    @GetMapping("/zoneid/{postalCode}")
+    public Long getPostalCodeId(@PathVariable String postalCode) {
+        return adminOperationsService.getIdOfPostalCode(postalCode);
+    }
 
     //iteracja 3. -->
     @Override
