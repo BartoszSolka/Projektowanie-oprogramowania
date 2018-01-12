@@ -29,7 +29,7 @@ public class Provider {
 
     private String email;
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.EAGER)
     @Embedded
     private Zone zone;
 

@@ -45,4 +45,6 @@ public interface ProviderOperationsInterface {
 	Service getService(Long serviceId);
 	
 	List<Service> getServices(Long providerId);
+	
+	Zone getZone(Long providerId);
 }

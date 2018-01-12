@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import popr.interfaces.ProviderOperationsInterface;
 import popr.model.*;
+import popr.model.enums.ServiceChangeType;
 import popr.model.enums.ServiceOrderStatusDict;
 
 import java.util.List;
@@ -58,16 +59,25 @@ public class ServiceProviderController implements ServiceProviderOrderManager, S
 	}
 
 	@Override
-	@DeleteMapping(path = "/services/{serviceId}")
-	public void removeService(@PathVariable Long serviceId) {
+	@DeleteMapping(path = "/{providerId}/services/{serviceId}")
+	public void removeService(@PathVariable Long providerId, @PathVariable Long serviceId) {
+		if(!validId(providerId) || !validId(serviceId)) {
+			return;
+		}
 		Service serviceToDelete = new Service();
 		serviceToDelete.setId(serviceId);
+		Provider provider = new Provider();
+		provider.setId(providerId);
+		serviceToDelete.setProvider(provider);
 		providerOperationsService.deleteService(serviceToDelete);
 	}
 
 	@Override
 	@PutMapping(path="/{providerId}/services/{serviceId}")
 	public Service editService(@PathVariable Long providerId, @PathVariable Long serviceId, @RequestBody Service service) {
+		if(!validId(providerId)) {
+			return null;
+		}
 		service.setId(serviceId);
 		Provider provider = new Provider();
 		provider.setId(providerId);
@@ -78,6 +88,9 @@ public class ServiceProviderController implements ServiceProviderOrderManager, S
 	@Override
 	@GetMapping(path="/{providerId}/services/{serviceId}")
 	public Service getServiceDetails(@PathVariable Long serviceId) {
+		if(!validId(serviceId)) {
+			return null;
+		}
 		return providerOperationsService.getService(serviceId);
 	}
 
@@ -97,6 +110,9 @@ public class ServiceProviderController implements ServiceProviderOrderManager, S
 	@Override
 	@GetMapping(path="/{providerId}/serviceChanges")
 	public Page<ServiceChange> getServiceChanges(@PathVariable Long providerId, Pageable pageable) {
+		if(!validId(providerId)) {
+			return null;
+		}
 		Provider provider = new Provider();
 		provider.setId(providerId);
 		return providerOperationsService.getServiceChangesByProvider(provider, pageable);
@@ -105,6 +121,7 @@ public class ServiceProviderController implements ServiceProviderOrderManager, S
 	@Override
 	@GetMapping(path="/{providerId}/services")
 	public List<Service> getServices(@PathVariable long providerId) {
+		
 		return providerOperationsService.getServices(providerId);
 	}
 
@@ -126,6 +143,15 @@ public class ServiceProviderController implements ServiceProviderOrderManager, S
 		// TODO Auto-generated method stub
 		return providerOperationsService.getZones();
 	}
+	
+	@Override
+	@GetMapping(value="/{providerId}/zones")
+	public Zone getLocation(@PathVariable Long providerId) {
+		if(!validId(providerId)) {
+			return null;
+		}
+		return providerOperationsService.getZone(providerId);
+	}
 
 	@Override
 	@PutMapping(path="/{providerId}/zones/{zoneId}")
@@ -143,5 +169,13 @@ public class ServiceProviderController implements ServiceProviderOrderManager, S
 
 	private boolean validId(Long id) {
 		return id != null && id > 0;
+	}
+
+	@Override
+	@PostMapping(path="{providerId}/serviceChanges")
+	public ServiceChange addServiceChange(@PathVariable Long providerId, Integer price, Integer estimatedRealisationTime, @RequestBody ServiceType serviceType, @RequestBody Service service, @RequestBody ServiceChangeType serviceChangeType) {
+		Provider provider = new Provider();
+		provider.setId(providerId);
+		return providerOperationsService.addServiceChange(provider, price, estimatedRealisationTime, serviceType, service, serviceChangeType);
 	}
 }

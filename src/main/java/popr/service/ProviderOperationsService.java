@@ -1,7 +1,7 @@
 package popr.service;
-import popr.model.Service;
-
 import lombok.RequiredArgsConstructor;
+
+import org.hibernate.criterion.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import popr.interfaces.ProviderOperationsInterface;
@@ -26,6 +26,8 @@ public class ProviderOperationsService implements ProviderOperationsInterface {
     private final ProviderRepository providerRepository;
     private final ZoneRepository zoneRepository;
     private final MailServiceImpl mailService;
+    private final ComplaintRepository complaintRepository;
+    
     @Override
     public List<ServiceOrder> getServiceOrdersByProviderId(Long providerId) {
     	List<Service> services = serviceRepository.findByProviderId(providerId);
@@ -108,7 +110,16 @@ public class ProviderOperationsService implements ProviderOperationsInterface {
 
     @Override
     public void deleteService(Service service) {
-        serviceRepository.delete(service);
+    	
+    	if(service != null) {
+    		serviceOrderRepository.findByServiceId(service.getId()).stream().forEach(so -> {
+    			complaintRepository.deleteByServiceOrderId(so.getId());
+    			serviceOrderStatusRepository.deleteByServiceOrderId(so.getId());
+    		});
+    		
+        	serviceOrderRepository.deleteByServiceId(service.getId());
+    		serviceRepository.delete(service);
+    	}
     }
 
     @Override
@@ -165,4 +176,14 @@ public class ProviderOperationsService implements ProviderOperationsInterface {
 		
 		return serviceRepository.findByProviderId(providerId);
 	}
+
+	@Override
+	public Zone getZone(Long providerId) {
+		Provider provider = providerRepository.findOne(providerId);
+		if(provider == null) {
+			return null;
+		} else return provider.getZone();
+	}
+	
+	
 }

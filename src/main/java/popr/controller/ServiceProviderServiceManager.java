@@ -11,6 +11,7 @@ import popr.model.ServiceChange;
 import popr.model.ServiceOrder;
 import popr.model.ServiceType;
 import popr.model.Zone;
+import popr.model.enums.ServiceChangeType;
 
 public interface ServiceProviderServiceManager {
 	
@@ -19,8 +20,6 @@ public interface ServiceProviderServiceManager {
 	ServiceOrder getServiceOrderDetails(Long serviceId);
 	
 	Service getServiceDetails(Long serviceId);
-	
-	void removeService(Long serviceId);
 
 	Service editService(Long providerId, Long serviceId, Service service);
 	
@@ -37,4 +36,11 @@ public interface ServiceProviderServiceManager {
 	List<Zone> getZones();
 	
 	Provider setLocation(Long providerId, Long zoneId);
+	
+	Zone getLocation(Long providerId);
+	
+	ServiceChange addServiceChange(Long providerId, Integer price, Integer estimatedRealisationTime, ServiceType serviceType, Service service, ServiceChangeType serviceChangeType);
+
+	void removeService(Long providerId, Long serviceId);
+
 }
