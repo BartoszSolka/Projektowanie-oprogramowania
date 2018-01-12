@@ -1,7 +1,6 @@
 package popr.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 import popr.interfaces.AdminOperationsInterface;
 import popr.model.*;
 import popr.repository.*;
@@ -156,13 +155,18 @@ public class AdminOperationsService implements AdminOperationsInterface {
         return zone.getPostalCode();
     }
 
+    @Override
+    public Long getIdOfPostalCode(String postalCode) {
+        Zone zone = zoneRepository.findByPostalCode(postalCode);
+        return zone.getId();
+    }
+
 
     @Override
     public List<ServiceOrder> generateReport(Date begin, Date end) {
         ZonedDateTime b = ZonedDateTime.ofInstant(begin.toInstant(), ZoneId.systemDefault());
         ZonedDateTime e = ZonedDateTime.ofInstant(end.toInstant(), ZoneId.systemDefault());
-        //System.out.println(b);
-        //System.out.println(e);
+
         List<ServiceOrder> sorders = serviceOrderRepository.findByDateBeginEnd(b, e);
         return sorders;
     }
@@ -171,8 +175,7 @@ public class AdminOperationsService implements AdminOperationsInterface {
     public Map<Long, Integer> generateCalculations(Date begin, Date end) {
         ZonedDateTime b = ZonedDateTime.ofInstant(begin.toInstant(), ZoneId.systemDefault());
         ZonedDateTime e = ZonedDateTime.ofInstant(end.toInstant(), ZoneId.systemDefault());
-        //System.out.println(b);
-        //System.out.println(e);
+
         List<ServiceOrder> sorders = serviceOrderRepository.findByDateBeginEnd(b, e);
         Map<Long, Integer> p = new TreeMap<>();
         for (ServiceOrder s : sorders) {

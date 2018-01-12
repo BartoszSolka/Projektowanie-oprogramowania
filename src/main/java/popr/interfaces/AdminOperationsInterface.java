@@ -35,5 +35,7 @@ public interface AdminOperationsInterface {
     Provider getProviderById(Long providerId);
 
     String getPostalCodeOfZone(Long zoneId);
+
+    Long getIdOfPostalCode(String postalCode);
 }
 

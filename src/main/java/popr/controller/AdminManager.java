@@ -33,4 +33,5 @@ public interface AdminManager {
     Person getUser(Long userId);
     Provider getProvider(Long providerId);
     String getPostalCode(Long zoneId);
+    Long getPostalCodeId(String postalCode);
 }
