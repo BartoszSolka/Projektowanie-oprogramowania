@@ -167,7 +167,7 @@ public class ProviderOperationsService implements ProviderOperationsInterface {
 	}
 	
 	@Override
-	public ServiceChange addServiceChange(Long providerId, ServiceChange serviceChange) {
+	public ServiceChange addServiceChange(ServiceChange serviceChange) {
 		return serviceChangeRepository.save(serviceChange);
 	}
 

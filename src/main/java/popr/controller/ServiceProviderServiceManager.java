@@ -40,7 +40,7 @@ public interface ServiceProviderServiceManager {
 	Zone getLocation(Long providerId);
 
 	void removeService(Long providerId, Long serviceId);
-	
-	ServiceChange addServiceChange(Long providerId, ServiceChange serviceChange);
+
+	ServiceChange addServiceChange(ServiceChange serviceChange);
 
 }

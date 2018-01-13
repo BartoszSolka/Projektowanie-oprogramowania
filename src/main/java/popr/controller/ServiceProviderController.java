@@ -173,9 +173,9 @@ public class ServiceProviderController implements ServiceProviderOrderManager, S
 	}
 
 	@Override
-	@PostMapping(path="{providerId}/serviceChanges")
-	public ServiceChange addServiceChange(@PathVariable Long providerId, @RequestBody ServiceChange serviceChange) {
-		return providerOperationsService.addServiceChange(providerId, serviceChange);
+	@PostMapping(path="/serviceChanges")
+	public ServiceChange addServiceChange(@RequestBody ServiceChange serviceChange) {
+		return providerOperationsService.addServiceChange(serviceChange);
 	}
 	
 	@GetMapping(path="/serviceChangeTypes")
