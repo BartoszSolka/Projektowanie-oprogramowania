@@ -365,7 +365,7 @@
             };
             deleteButton.textContent = 'Usuń';
             td0.textContent = data[i].id;
-            td1.textContent = data[i].order;
+            td1.textContent = data[i].orderType;
             td2.appendChild(deleteButton);
 
             tr.appendChild(td0);
@@ -664,7 +664,7 @@
                 description: data[i].description,
                 price: data[i].price,
                 estimatedRealisationTime: data[i].estimatedRealisationTime,
-                orderType: data[i].title
+                orderType: data[i].serviceType.name + ' ' + data[i].serviceType.description
             };
             objServiceArray.push(obj);
         }
