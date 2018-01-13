@@ -27,8 +27,6 @@ public interface ServiceUserManager {
 
     ServiceOrder rateServiceOrder(Long orderId, Integer rating, String description);
 
-    Complaint createComplaint(String description, Long orderId);
-
-    Page<Complaint> getComplaint(Pageable pageable);
+    ServiceOrder createComplaint(String description, Long orderId);
 
 }

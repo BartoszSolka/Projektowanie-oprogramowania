@@ -138,7 +138,7 @@ public class UserOperationsServiceTests {
     @Test
     public void canCreateComplaint() throws Exception {
         String description = "niefajne";
-        Complaint complaint = userOperationsService.createComplaint(description, serviceOrder.getId());
+        ServiceOrder complaint = userOperationsService.createComplaint(description, serviceOrder.getId());
         assert complaint.getDescription().equals(description);
     }
 

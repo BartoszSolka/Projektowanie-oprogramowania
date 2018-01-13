@@ -92,15 +92,9 @@ public class ServiceUserController implements ServiceUserManager {
 
     @Override
     @PostMapping(path = "/complaint")
-    public Complaint createComplaint(String complaint, Long orderId) {
+    public ServiceOrder createComplaint(String complaint, Long orderId) {
         return userOperationsService.createComplaint(complaint, orderId);
     }
 
 
-    @Override
-    @GetMapping(path = "/orderComplaint", produces = APPLICATION_JSON_VALUE)
-    public Page<Complaint> getComplaint(Pageable pageable) {
-        Person user = userService.readCurrent();
-        return complaintRepository.findByCreatedBy(user, pageable);
-    }
 }

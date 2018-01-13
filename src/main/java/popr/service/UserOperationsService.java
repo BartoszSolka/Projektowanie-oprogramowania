@@ -46,6 +46,7 @@ public class UserOperationsService implements UserOperationsInterface {
         ServiceOrderStatus serviceOrderStatus = new ServiceOrderStatus();
 
         serviceOrderStatus.setServiceOrder(serviceOrder);
+        serviceOrderStatus.setOrderStatusDict(ServiceOrderStatusDict.NEW);
         serviceOrderStatus = serviceOrderStatusRepository.save(serviceOrderStatus);
 
         mailContent = ("Przypisano zlecenie" + "\n" + "Opis: " + serviceOrder.getDescription() + "\n" +  " Strefa: " + serviceOrder.getZone().getPostalCode() + "\n" +  " Rodzaj usługi: " +serviceOrder.getService().getDescription() + "\n" +  " Adres: " + serviceOrder.getAddress() );
@@ -123,14 +124,24 @@ public class UserOperationsService implements UserOperationsInterface {
     }
 
     @Override
-    public Complaint createComplaint(String description, Long orderId){
+    public ServiceOrder createComplaint(String description, Long orderId){
         ServiceOrder serviceOrder = serviceOrderRepository.findById(orderId);
-        Complaint complaint = new Complaint();
+        ServiceOrder complaintServiceOrder = new ServiceOrder();
 
-        complaint.setDescription(description);
-        complaint.setServiceOrder(serviceOrder);
-        complaint.setCreatedBy(userService.readCurrent());
 
-        return complaintRepository.save(complaint);
+        complaintServiceOrder.setDescription("[REKLAMACJA - " + serviceOrder.getDescription() + "] " + description);
+        complaintServiceOrder.setCreationDate(ZonedDateTime.now());
+        complaintServiceOrder.setAddress(serviceOrder.getAddress());
+        complaintServiceOrder.setZone(serviceOrder.getZone());
+        complaintServiceOrder.setService(serviceOrder.getService());
+        complaintServiceOrder.setOrderedBy(serviceOrder.getOrderedBy());
+        complaintServiceOrder = serviceOrderRepository.save(complaintServiceOrder);
+
+        ServiceOrderStatus serviceOrderStatus = new ServiceOrderStatus();
+        serviceOrderStatus.setServiceOrder(complaintServiceOrder);
+        serviceOrderStatus.setOrderStatusDict(ServiceOrderStatusDict.COMPLAIN);
+        serviceOrderStatus = serviceOrderStatusRepository.save(serviceOrderStatus);
+
+        return complaintServiceOrder;
     }
 }

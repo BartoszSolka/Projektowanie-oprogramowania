@@ -25,5 +25,5 @@ public interface UserOperationsInterface {
 
     ServiceOrder rateServiceOrder(Long orderId, Integer rating, String description);
 
-    Complaint createComplaint(String description, Long orderId);
+    ServiceOrder createComplaint(String description, Long orderId);
 }
