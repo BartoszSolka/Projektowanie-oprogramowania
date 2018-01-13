@@ -38,7 +38,7 @@ public class ServiceChange {
     @Expose
     private Integer estimatedRealisationTime;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = true)
     @Expose
     private Service service;
 
