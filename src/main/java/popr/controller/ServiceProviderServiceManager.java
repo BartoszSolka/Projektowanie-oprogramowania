@@ -38,9 +38,9 @@ public interface ServiceProviderServiceManager {
 	Provider setLocation(Long providerId, Long zoneId);
 	
 	Zone getLocation(Long providerId);
-	
-	ServiceChange addServiceChange(Long providerId, Integer price, Integer estimatedRealisationTime, ServiceType serviceType, Service service, ServiceChangeType serviceChangeType);
 
 	void removeService(Long providerId, Long serviceId);
+	
+	ServiceChange addServiceChange(Long providerId, ServiceChange serviceChange);
 
 }

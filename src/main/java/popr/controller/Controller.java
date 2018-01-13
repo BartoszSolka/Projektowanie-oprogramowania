@@ -99,5 +99,4 @@ public class Controller {
     public String adminEditUser(Model model) {
         return "admin/edit-user";
     }
-
 }

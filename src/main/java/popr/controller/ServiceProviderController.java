@@ -10,6 +10,7 @@ import popr.model.*;
 import popr.model.enums.ServiceChangeType;
 import popr.model.enums.ServiceOrderStatusDict;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -173,9 +174,12 @@ public class ServiceProviderController implements ServiceProviderOrderManager, S
 
 	@Override
 	@PostMapping(path="{providerId}/serviceChanges")
-	public ServiceChange addServiceChange(@PathVariable Long providerId, Integer price, Integer estimatedRealisationTime, @RequestBody ServiceType serviceType, @RequestBody Service service, @RequestBody ServiceChangeType serviceChangeType) {
-		Provider provider = new Provider();
-		provider.setId(providerId);
-		return providerOperationsService.addServiceChange(provider, price, estimatedRealisationTime, serviceType, service, serviceChangeType);
+	public ServiceChange addServiceChange(@PathVariable Long providerId, @RequestBody ServiceChange serviceChange) {
+		return providerOperationsService.addServiceChange(providerId, serviceChange);
+	}
+	
+	@GetMapping(path="/serviceChangeTypes")
+	public List<ServiceChangeType> get() {
+		return Arrays.asList(ServiceChangeType.values());
 	}
 }

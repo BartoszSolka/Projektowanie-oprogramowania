@@ -47,4 +47,6 @@ public interface ProviderOperationsInterface {
 	List<Service> getServices(Long providerId);
 	
 	Zone getZone(Long providerId);
+
+	ServiceChange addServiceChange(Long provider, ServiceChange serviceChange);
 }
