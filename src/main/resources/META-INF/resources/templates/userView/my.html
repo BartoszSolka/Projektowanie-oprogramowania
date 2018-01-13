@@ -80,8 +80,6 @@
                     Rodzaj usługi:<br><span id="serviceModal"></span><br><br>
                     Status:<br><span id="statusModal"></span><br><br>
                     Opis statusu:<br><span id="descModal"></span><br><br>
-                    Reklamacje:
-                <ul id="orderComplaintList"></ul>
                 <br>
                 </p>
                 <div id="complaintContainer">
@@ -237,13 +235,14 @@
                     var orderStatus = response.content[i].orderStatusDict === null ? 'Brak' : response.content[i].orderStatusDict;
                     var descModal = response.content[i].comment === null ? 'Brak' : response.content[i].comment;
                     var serviceDesc = response.content[i].serviceOrder.service.description
+                    var zone = response.content[i].serviceOrder.zone.postalCode
 
                     var tr = document.createElement('tr');
                     var td0 = document.createElement('td');
                     var td2 = document.createElement('td');
                     var td4 = document.createElement('td');
                     var td5 = document.createElement('td');
-                    td0.innerHTML = "<a href='#' onclick=\"getStatusModal(" + response.content[i].serviceOrder.id + ",'" + response.content[i].serviceOrder.description + "','" + response.content[i].serviceOrder.address + "','" + orderStatus + "','" + serviceDesc + "','" + descModal + "')\" type=\"button\" data-toggle=\"modal\" data-target=\"#myModal\">" + response.content[i].serviceOrder.description + "</a>\n";
+                    td0.innerHTML = "<a href='#' onclick=\"getStatusModal(" + response.content[i].serviceOrder.id + ",'" + response.content[i].serviceOrder.description + "','" + response.content[i].serviceOrder.address + "','" + orderStatus + "','" + serviceDesc + "','" + descModal + "','"+ zone +"')\" type=\"button\" data-toggle=\"modal\" data-target=\"#myModal\">" + response.content[i].serviceOrder.description + "</a>\n";
                     td2.textContent = response.content[i].serviceOrder.rating === null ? 0 : response.content[i].serviceOrder.rating;
                     td2.contentEditable = 'true';
                     td2.setAttribute('data-id', response.content[i].serviceOrder.id);
@@ -369,32 +368,13 @@
 //        document.getElementById('descModalEdit').value = "Ekipa naprawcza opuściła firmę"
     }
 
-    function getStatusModal(statusId, description, address, status, service, descModal) {
+    function getStatusModal(statusId, description, address, status, service, descModal, zone) {
         document.getElementById('descriptionModal').innerText = description
         document.getElementById('addressModal').innerText = address
-        document.getElementById('zoneModal').innerText = "11-110"
+        document.getElementById('zoneModal').innerText = zone
         document.getElementById('serviceModal').innerText = service
         document.getElementById('statusModal').innerText = status
         document.getElementById('descModal').innerText = descModal
-        $.ajax({
-            type: 'GET',
-            url: 'http://localhost:8080/user/orderComplaint',
-            dataType: 'json',
-            data: {orderId: statusId},
-            success: function (response) {
-                console.log(response)
-                var orderComplaintList = document.getElementById('orderComplaintList')
-                orderComplaintList.innerHTML = ''
-                for (var i = 0; i < response.content.length; i++) {
-                    var li = document.createElement('li')
-                    li.innerHTML = response.content[i].description
-                    orderComplaintList.appendChild(li)
-                }
-            },
-            error: function (response) {
-                console.log(response);
-            }
-        });
         var complaint = document.getElementById('complaintContainer')
         complaint.innerHTML = "<button class=\"btn btn-primary btn-sm\" type=\"button\" data-toggle=\"modal\" data-target=\"#myModalComplaint\" onclick=\"setModalComplaint(" + statusId + ")\" >Złóż reklamacje</button>"
     }

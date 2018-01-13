@@ -70,8 +70,6 @@
                     Adres:<br><span id="addressModal"></span><br><br>
                     Strefa :<br><span id="zoneModal"></span><br><br>
                     Rodzaj usługi:<br><span id="serviceModal"></span><br><br>
-                    Reklamacje:
-                <ul id="orderComplaintList"></ul>
                 <br>
                 </p>
                 <div id="complaintContainer">
@@ -100,12 +98,13 @@
             var parentDiv = document.getElementById('mainTbody');
             for (var i = 0; i < response.content.length; i++) {
                 var serviceDesc = response.content[i].service.description
+                var zone = response.content[i].zone.postalCode
                 var tr = document.createElement('tr');
                 var td0 = document.createElement('td');
                 var td2 = document.createElement('td');
                 var td4 = document.createElement('td');
 
-                td0.innerHTML = "<a href='#' onclick=\"getStatusModal(" + response.content[i].id + ",'" + response.content[i].description + "','" + response.content[i].address + "','" + "" + "','" + serviceDesc + "','" + "" + "')\" type=\"button\" data-toggle=\"modal\" data-target=\"#myModal\">" + response.content[i].description + "</a>\n";
+                td0.innerHTML = "<a href='#' onclick=\"getStatusModal(" + response.content[i].id + ",'" + response.content[i].description + "','" + response.content[i].address + "','" + "" + "','" + serviceDesc + "','" + "" + "','"+ zone +"')\" type=\"button\" data-toggle=\"modal\" data-target=\"#myModal\">" + response.content[i].description + "</a>\n";
                 td2.className = 'dropdown';
 
                 td2.textContent = response.content[i].rating;
@@ -125,32 +124,13 @@
         }
     });
 
-    function getStatusModal(statusId, description, address, status, service, descModal) {
+    function getStatusModal(statusId, description, address, status, service, descModal, zone) {
         document.getElementById('descriptionModal').innerText = description
         document.getElementById('addressModal').innerText = address
-        document.getElementById('zoneModal').innerText = "11-110"
+        document.getElementById('zoneModal').innerText = zone
         document.getElementById('serviceModal').innerText = service
 //        document.getElementById('statusModal').innerText = status
 //        document.getElementById('descModal').innerText = descModal
-        $.ajax({
-            type: 'GET',
-            url: 'http://localhost:8080/user/orderComplaint',
-            dataType: 'json',
-            data: {orderId: statusId},
-            success: function (response) {
-                console.log(response)
-                var orderComplaintList = document.getElementById('orderComplaintList')
-                orderComplaintList.innerHTML = ''
-                for (var i = 0; i < response.content.length; i++) {
-                    var li = document.createElement('li')
-                    li.innerHTML = response.content[i].description
-                    orderComplaintList.appendChild(li)
-                }
-            },
-            error: function (response) {
-                console.log(response);
-            }
-        });
     }
 
     function filter() {
@@ -169,13 +149,14 @@
                 var parentDiv = document.getElementById('mainTbody');
                 for (var i = 0; i < response.content.length; i++) {
                     var serviceDesc = response.content[i].service.description
+                    var zone = response.content[i].zone.postalCode
 
                     var tr = document.createElement('tr');
                     var td0 = document.createElement('td');
                     var td2 = document.createElement('td');
                     var td4 = document.createElement('td');
 
-                    td0.innerHTML = "<a href='#' onclick=\"getStatusModal(" + response.content[i].id + ",'" + response.content[i].description + "','" + response.content[i].address + "','" + "" + "','" + serviceDesc + "','" + "" + "')\" type=\"button\" data-toggle=\"modal\" data-target=\"#myModal\">" + response.content[i].description + "</a>\n";
+                    td0.innerHTML = "<a href='#' onclick=\"getStatusModal(" + response.content[i].id + ",'" + response.content[i].description + "','" + response.content[i].address + "','" + "" + "','" + serviceDesc + "','" + "" + "','"+ zone +"')\" type=\"button\" data-toggle=\"modal\" data-target=\"#myModal\">" + response.content[i].description + "</a>\n";
                     td2.className = 'dropdown';
 
                     td2.textContent = response.content[i].rating;
