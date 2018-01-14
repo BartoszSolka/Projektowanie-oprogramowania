@@ -79,6 +79,9 @@
             <tr>
                 <th>#</th>
                 <th>Rodzaj zmiany</th>
+                <th>Nazwa</th>
+                <th>Cena (zł)</th>
+                <th>Czas (godziny)</th>
                 <th>Status</th>
             </tr>
             </thead>
@@ -107,7 +110,7 @@
                     <p>Numer telefonu użytkownika: <span id="modalUserNumber"></span></p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" onclick='openModalForStatusEditing();'>Aktualizuj status</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick='openModalForStatusEditing();'>Aktualizuj status</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
                 </div>
             </div>
@@ -216,26 +219,20 @@
                     <h4 class="modal-title">Aktualizuj status</h4>
                 </div>
                 <div class="modal-body">
-                    <label for="modalStateEditDiv">Status:</label>
-                    <div class="dropdown" id="modalStateEditDiv">
-                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-                            <span id='statusEditSelected'>W trakcie realizacji</span>
-                            <span class="caret"></span></button>
-                        <ul class="dropdown-menu" id="modalStateEdit">
-                            <li><a href="#">W trakcie realizacji</a></li>
-                            <li><a href="#">Zakończono realizację</a></li>
-                            <li><a href="#">Anulowane</a></li>
-                            <li><a href="#">Reklamowany</a></li>
-                            <li><a href="#">Nowy</a></li>
-                        </ul>
-                    </div>
+                    <label for="modalStateEdit">Status:</label>
+                        <select class="form-control" id="modalStateEdit">
+                            <option>W trakcie realizacji</option>
+                            <option>Zakończono realizację</option>
+                            <option>Anulowane</option>
+                            <option>Reklamowany</option>
+                            <option>Nowy</option></select>
                     <div class="form-group">
                         <label for="modalStateDescriptionEdit">Opis statusu:</label>
                         <input type="text" class="form-control" id="modalStateDescriptionEdit">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="updateStatus();">Zatwierdź</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="updateStatus(this);">Zatwierdź</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
                 </div>
             </div>
@@ -376,11 +373,31 @@
                 document.getElementById('modalStrefa').textContent = dataObj.zone;
                 document.getElementById('modalUsluga').textContent = dataObj.service;
                 document.getElementById('modalAdres').textContent = dataObj.address;
-                document.getElementById('modalState').textContent = dataObj.state;
+                if(dataObj.state){
+                    switch(dataObj.state){
+                        case 'IN_PROGRESS':
+                            document.getElementById('modalState').textContent = 'W trakcie realizacji';
+                            break;
+                        case 'COMPLETED':
+                            document.getElementById('modalState').textContent = 'Zakończono realizację';
+                            break;
+                        case 'CANCELED':
+                            document.getElementById('modalState').textContent = 'Anulowane';
+                            break;
+                        case 'COMPLAIN':
+                            document.getElementById('modalState').textContent = 'Reklamowany';
+                            break;
+                        case 'NEW':
+                            document.getElementById('modalState').textContent = 'Nowy';
+                            break;
+                    }
+                } else {
+                    document.getElementById('modalState').textContent = '';
+                }
+
+                document.getElementById('modalStateEdit').value = document.getElementById('modalState').textContent;
                 document.getElementById('modalStateDescription').textContent = dataObj.stateDescription;
                 document.getElementById('modalUserNumber').textContent = dataObj.userNumber;
-
-                document.getElementById('statusEditSelected').textContent = dataObj.state;
                 document.getElementById('modalStateDescriptionEdit').value = dataObj.stateDescription;
 
                 $('.dropdown-menu a').click(function(){
@@ -444,14 +461,34 @@
         };
     };
 
-    var updateStatus = function () {
-        var status = document.getElementById('statusEditSelected').textContent;
+    var updateStatus = function (ele) {
+        var status = document.getElementById('modalStateEdit').options.selectedIndex;
         var statusDescription = document.getElementById('modalStateDescriptionEdit').value;
+        var orderId = objArray[ele.parentNode.parentNode.parentNode.parentNode.dataset.currentIndex].id;
+        var orderStatusId = objArray[ele.parentNode.parentNode.parentNode.parentNode.dataset.currentIndex].statusId;
+        console.log(orderId, orderStatusId);
+        var dataObj = {
+            id: orderStatusId,
+            orderStatusDict: status,
+            comment: statusDescription,
+            current: true,
+            serviceOrder: {
+                id: orderId
+            }
+        };
+        $.ajax({
+            url: 'http://localhost:8080/serviceProvider/' + id + '/orders/' + orderId,
+            type: 'PUT',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(dataObj),
+            success: function(data) {
+                console.log('OK');
+            },
+            error: function (data) {
+                console.log('ERROR');
+            }
+        });
 
-        document.getElementById('modalState').textContent = status;
-        document.getElementById('modalStateDescription').textContent = statusDescription;
-        objArray[document.getElementById('statusModal').dataset.currentIndex].state = status;
-        objArray[document.getElementById('statusModal').dataset.currentIndex].stateDescription = statusDescription;
     };
 
     var updateLocation = function () {
@@ -563,7 +600,7 @@
             $.ajax({
                 type: "POST",
                 dataType: 'json',
-                contentType:"application/json; charset=utf-8",
+                contentType: "application/json; charset=utf-8",
                 url: 'http://localhost:8080/serviceProvider/serviceChanges',
                 data: JSON.stringify(test),
                 success: function (data) {
@@ -593,9 +630,6 @@
         init();
     });
     var init = function () {
-        $.get('http://localhost:8080/serviceProvider/ordersStatuses', function (data) {
-            console.log('statusy', data);
-        });
         $.get('http://localhost:8080/serviceProvider/' + id, function (data) {
              console.log('dane providera:', data);
              if(data.active){
@@ -608,8 +642,13 @@
              }
         });
         $.get('http://localhost:8080/serviceProvider/' + id + '/orders', function (data) {
-            console.log('Orders', data);
-            prepareOrderDataObj(data);
+            $.get('http://localhost:8080/serviceProvider/ordersStatuses', function (data2) {
+                console.log('Orders', data);
+                console.log('statusy', data2);
+                prepareOrderDataObj(data, data2);
+
+            });
+
         });
         $.get('http://localhost:8080/serviceProvider/' + id + '/services', function (data) {
             console.log('Services', data);
@@ -626,7 +665,7 @@
         });
     };
 
-    var prepareOrderDataObj = function (data) {
+    var prepareOrderDataObj = function (data, data2) {
         for(var i = 0; i<data.length;i++){
             var obj = {
                 id: data[i].id,
@@ -634,9 +673,10 @@
                 address: data[i].address,
                 service: data[i].service.description,
                 zone: data[i].zone.postalCode,
-                state: '',
-                stateDescription: '',
-                userNumber: data[i].orderedBy.phoneNo
+                state: data2[i].orderStatusDict,
+                stateDescription: data2[i].comment,
+                userNumber: data[i].orderedBy.phoneNo,
+                statusId: data2[i].id
             };
             objArray.push(obj);
         }
@@ -646,30 +686,44 @@
     var prepareChangesDataObj = function (data) {
         var table = document.getElementById('tchanges');
         for(var i = 0;i<data.length;i++){
-            if(data[i].validatedBy === null){
-                var tr = document.createElement('tr');
-                var tdType = document.createElement('td');
-                var tdId = document.createElement('td');
-                var tdStatus = document.createElement('td');
 
-                tdId.textContent = data[i].id;
+            var tr = document.createElement('tr');
+            var tdType = document.createElement('td');
+            var tdName = document.createElement('td');
+            var tdPrice = document.createElement('td');
+            var tdTime = document.createElement('td');
+            var tdId = document.createElement('td');
+            var tdStatus = document.createElement('td');
+
+            tdId.textContent = data[i].id;
+            tdName.textContent = data[i].service.serviceType.name;
+            tdPrice.textContent = data[i].service.price;
+            tdTime.textContent = data[i].service.estimatedRealisationTime;
+            if(data[i].validatedBy === null){
                 tdStatus.textContent = 'Oczekiwanie na akceptacje';
-                switch (data[i].serviceChangeType){
-                    case 'ADD':
-                        tdType.textContent = 'Dodawanie nowej usługi';
-                        break;
-                    case 'EDIT':
-                        tdType.textContent = 'Edycja usługi';
-                        break;
-                    case 'DELETE':
-                        tdType.textContent = 'Usuwanie usługi';
-                        break;
-                }
-                tr.appendChild(tdId);
-                tr.appendChild(tdType);
-                tr.appendChild(tdStatus);
-                table.appendChild(tr);
+            } else {
+                tdStatus.textContent = 'Zaakceptowana';
             }
+
+            switch (data[i].serviceChangeType){
+                case 'ADD':
+                    tdType.textContent = 'Dodawanie nowej usługi';
+                    break;
+                case 'EDIT':
+                    tdType.textContent = 'Edycja usługi';
+                    break;
+                case 'DELETE':
+                    tdType.textContent = 'Usuwanie usługi';
+                    break;
+            }
+            tr.appendChild(tdId);
+            tr.appendChild(tdType);
+            tr.appendChild(tdName);
+            tr.appendChild(tdPrice);
+            tr.appendChild(tdTime);
+            tr.appendChild(tdStatus);
+            table.appendChild(tr);
+
         }
     };
 
