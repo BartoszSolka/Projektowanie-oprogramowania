@@ -99,19 +99,18 @@
 
 
 
-//                var input7 = document.createElement("input");
-//                var att7 = document.createAttribute("id");
-//                var btt7 = document.createAttribute("style");
-//                btt7.value = "width: 70%;";
-//                att7.value = "zone";
-//                input7.setAttributeNode(att7);
-//                input7.setAttributeNode(btt7);
-//                input7.value = data.zone;
-//                text8= document.createTextNode('Strefa:' );
-//                s7 = document.createElement("h4");
-//                s7.appendChild(text8);
-//                div.appendChild(s5);
-//                div.appendChild(input5);
+                var input7 = document.createElement("input");
+                var att7 = document.createAttribute("id");
+                var btt7 = document.createAttribute("style");
+                btt7.value = "width: 70%;";
+                att7.value = "zone";
+                input7.setAttributeNode(att7);
+                input7.setAttributeNode(btt7);
+                input7.value = data.zone;
+                text8= document.createTextNode('Strefa:' );
+                s7 = document.createElement("h4");
+                s7.appendChild(text8);
+
 
 
 
@@ -180,7 +179,8 @@
                 s6.appendChild(text7);
                 div.appendChild(s5);
                 div.appendChild(input5);
-
+                div.appendChild(s7);
+                div.appendChild(input7);
 
 
 
@@ -233,8 +233,7 @@
         var address = document.getElementById('address').value;
         var username = document.getElementById("username").value;
         var password = document.getElementById("password").value;
-//        var zone = document.getElementById("zone").value;
-
+        var zone = document.getElementById("zone").value;
 
         function getUrlVars() {
             var vars = {};
@@ -251,7 +250,7 @@
                 email:email,
                 imie:name,
                 nazwisko:surname,
-//                strefa:zone,
+                strefa:zone,
                 telefon:phoneNumber,
                 adres:address,
                 login:username,

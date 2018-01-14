@@ -90,9 +90,7 @@
     </div>
 </div>
 <script>
-    /**
- * Created by Paweł on 13.11.2017.
- */
+
 var dodajUslugodawce = function () {
         var name = document.getElementById('name').value;
         var nip = document.getElementById('nip').value;
@@ -109,7 +107,7 @@ var dodajUslugodawce = function () {
                 telefon : phoneNumber,
                 siedzibaFirmy : address,
                 nazwa : name,
-                idStrefy :zone,
+                kodStrefy :zone,
                 email : email
             },
             success: function (response) {

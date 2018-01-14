@@ -40,6 +40,7 @@
                 <th >Telefon</th>
                 <th >Adres Firmy</th>
                 <th >Email</th>
+                <th >Strefa</th>
                 <th></th>
 
             </tr>
@@ -69,7 +70,7 @@
                     var td4 = document.createElement("td");
                     var td5 = document.createElement("td");
                     var td7 = document.createElement("td");
-                    //var td6 = document.createElement("td");
+                    var td6 = document.createElement("td");
 
 
                     td0.textContent = data[i].id;
@@ -80,7 +81,7 @@
                     td3.textContent = data[i].phoneNo;
                     td4.textContent = data[i].address;
                     td5.textContent = data[i].email;
-                    //td6.textContent = data[i].zone.postalCode;
+                    td6.textContent = data[i].zone.postalCode;
 
                     td7.innerHTML = '<a target="_blank" ' +
                         'href="localhost:8080/admin/edit-provider/?id='
@@ -94,7 +95,7 @@
                     tr.appendChild(td3);
                     tr.appendChild(td4);
                     tr.appendChild(td5);
-                    //tr.appendChild(td6);
+                    tr.appendChild(td6);
                     tr.appendChild(td7);
                     tbody.appendChild(tr);
                 }
