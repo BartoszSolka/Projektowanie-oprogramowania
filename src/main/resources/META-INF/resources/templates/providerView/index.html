@@ -244,11 +244,14 @@
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal" onclick="location.reload()">&times;</button>
                     <h4 class="modal-title">Usługa zedytowana pomyślnie</h4>
                 </div>
+                <div class="modal-body">
+                    <p>Aby zmiany zostały wdrożone należy poczekać na akceptację.</p>
+                </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="$('#orderModalEdit').modal('toggle');">Zamknij</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="$('#orderModalEdit').modal('toggle');location.reload()">Zamknij</button>
                 </div>
             </div>
         </div>
