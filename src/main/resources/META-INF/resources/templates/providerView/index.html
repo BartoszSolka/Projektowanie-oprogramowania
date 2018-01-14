@@ -496,6 +496,20 @@
             },
             success: function(data) {
                 console.log('OK');
+                $.ajax({
+                    url: 'http://localhost:8080/serviceProvider/' + id + '/status',
+                    type: 'PUT',
+                    data: {
+                        isActive: true
+                    },
+                    success: function(data) {
+                        console.log('OK');
+                        isProviderActive = true;
+                    },
+                    error: function (data) {
+                        console.log('ERROR');
+                    }
+                });
                 document.getElementById('currentLocation').textContent = document.getElementById('modalLocation').value.trim();
                 document.getElementById('currentLocation').style.color = 'inherit';
             },
@@ -516,6 +530,7 @@
             },
             success: function(data) {
                 console.log('OK');
+                isProviderActive = false;
                 document.getElementById('currentLocation').textContent = 'Nie aktywny';
                 document.getElementById('currentLocation').style.color = 'red';
             },
@@ -596,6 +611,7 @@
     var objArray = [];
     var objServiceArray = [];
     var zonesArray = [];
+    var isProviderActive = true;
 
     $.get('http://localhost:8080/userInfo/', function (data) {
         console.log(data);
@@ -603,8 +619,16 @@
         init();
     });
     var init = function () {
-        $.get('http://localhost:8080/serviceProvider/' + id + '/zones', function (data) {
-            document.getElementById('currentLocation').textContent = data.postalCode;
+        $.get('http://localhost:8080/serviceProvider/' + id, function (data) {
+             console.log('dane providera:', data);
+             if(data.active){
+                 isProviderActive = true;
+                 document.getElementById('currentLocation').textContent = data.zone.postalCode;
+             } else {
+                 isProviderActive = false;
+                 document.getElementById('currentLocation').textContent = 'Nie aktywny';
+                 document.getElementById('currentLocation').style.color = 'red';
+             }
         });
         $.get('http://localhost:8080/serviceProvider/' + id + '/orders', function (data) {
             console.log('Orders', data);
