@@ -41,6 +41,7 @@ public class UserOperationsService implements UserOperationsInterface {
         serviceOrder.setZone(zone);
         serviceOrder.setService(service);
         serviceOrder.setOrderedBy(userService.readCurrent());
+        serviceOrder.setProvider(service.getProvider());
         serviceOrder = serviceOrderRepository.save(serviceOrder);
 
         ServiceOrderStatus serviceOrderStatus = new ServiceOrderStatus();
@@ -135,6 +136,7 @@ public class UserOperationsService implements UserOperationsInterface {
         complaintServiceOrder.setZone(serviceOrder.getZone());
         complaintServiceOrder.setService(serviceOrder.getService());
         complaintServiceOrder.setOrderedBy(serviceOrder.getOrderedBy());
+        complaintServiceOrder.setProvider(serviceOrder.getProvider());
         complaintServiceOrder = serviceOrderRepository.save(complaintServiceOrder);
 
         ServiceOrderStatus serviceOrderStatus = new ServiceOrderStatus();
