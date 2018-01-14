@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -39,6 +40,9 @@ public class ServiceOrder {
     @ManyToOne
     @JsonIgnore
     private Provider provider;
+    
+    @OneToMany(mappedBy="serviceOrder", cascade=CascadeType.ALL)
+    private List<ServiceOrderStatus> statuses;
 
     //@JsonIgnore
     @OneToOne

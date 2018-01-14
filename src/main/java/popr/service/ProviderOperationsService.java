@@ -61,23 +61,31 @@ public class ProviderOperationsService implements ProviderOperationsInterface {
 
 	@Override
 	public ServiceOrderStatus changeServiceOrderStatus(ServiceOrderStatus newStatusOrder, Long serviceOrderId) {
+
+		newStatusOrder.setId(null);
 		ServiceOrder updatedServiceOrder = serviceOrderRepository.findOne(newStatusOrder.getServiceOrder().getId());
 		if(updatedServiceOrder == null) {
 			return null;
 		}
-		newStatusOrder.setServiceOrder(updatedServiceOrder);
+		updatedServiceOrder.getStatuses().stream().forEach(status -> {
+			status.setCurrent(false);
+			serviceOrderStatusRepository.save(status);
+		});
+		newStatusOrder.setCurrent(true);
+		updatedServiceOrder.getStatuses().add(newStatusOrder);
 		String mailContent;
 		mailContent = ("Zmieniono status zlecenia" + "\n" + "Opis: " + updatedServiceOrder.getDescription() == null ? "" : updatedServiceOrder.getDescription() + "\n"
 				+ "Nowy status: " + newStatusOrder.getOrderStatusDict() == null ? "" : newStatusOrder.getOrderStatusDict() + "\n" + "Opis nowego statusu: "
 				+ newStatusOrder.getComment() == null ? "" : newStatusOrder.getComment());
 		mailService.sendEmail(mailContent, updatedServiceOrder.getOrderedBy().getEmail());
-		ServiceOrderStatus serviceOrderStatus;
+		//ServiceOrderStatus serviceOrderStatus;
 		try {
-			serviceOrderStatus = serviceOrderStatusRepository.save(newStatusOrder);
+			serviceOrderRepository.save(updatedServiceOrder);
+			//serviceOrderStatusRepository.save(newStatusOrder);
 		} catch (Exception e) {
 			return null;
 		}
-		return serviceOrderStatus;
+		return newStatusOrder;
 	}
 
 	@Override
