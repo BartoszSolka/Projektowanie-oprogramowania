@@ -23,11 +23,23 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
         Optional<Person> userFromDataBase = Optional.of(personRepository.findByUsername(username));
+        String role = getRole(userFromDataBase.get());
         return userFromDataBase
-                .map(admin -> new org.springframework.security.core.userdetails.User(admin.getUsername(),
-                        admin.getPassword(), true, true, true,
-                        true, Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"))))
+                .map(person -> new org.springframework.security.core.userdetails.User(person.getUsername(),
+                        person.getPassword(), true, true, true,
+                        true, Arrays.asList(new SimpleGrantedAuthority(role))))
                 .orElseThrow(() -> new UsernameNotFoundException("UsernameNotFound"));
+    }
+
+    private String getRole(Person userFromDataBase) {
+
+        if (userFromDataBase.isAdmin()) {
+            return "ROLE_ADMIN";
+        } else if (userFromDataBase.getProvider() != null) {
+            return "ROLE_PROVIDER";
+        } else {
+            return "ROLE_USER";
+        }
     }
 }
 
