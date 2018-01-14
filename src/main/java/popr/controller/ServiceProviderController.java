@@ -21,6 +21,22 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class ServiceProviderController implements ServiceProviderOrderManager, ServiceProviderServiceManager {
 	@Autowired
 	private ProviderOperationsInterface providerOperationsService;
+	
+	@GetMapping(path = "/{providerId}")
+	public Provider getProvider(@PathVariable Long providerId) {
+		if(!validId(providerId)) {
+			return null;
+		}
+		return providerOperationsService.getProvider(providerId);
+	}
+	
+	@GetMapping(path = "/ordersStatuses/{orderStatusId}")
+	public ServiceOrderStatus getOrderStatus(@PathVariable Long orderStatusId) {
+		if(!validId(orderStatusId)) {
+			return null;
+		}
+		return providerOperationsService.getServiceOrderStatus(orderStatusId);
+	}
 
 	@Override
 	@PostMapping(path = "/{providerId}/services")

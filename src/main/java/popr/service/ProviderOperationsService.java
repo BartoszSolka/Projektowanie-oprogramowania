@@ -11,6 +11,8 @@ import popr.model.enums.ServiceChangeType;
 import popr.model.enums.ServiceOrderStatusDict;
 import popr.repository.*;
 
+import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -196,6 +198,17 @@ public class ProviderOperationsService implements ProviderOperationsInterface {
 			return null;
 		} else
 			return provider.getZone();
+	}
+
+	@Override
+	public Provider getProvider(Long id) {
+		return providerRepository.findOne(id);
+	}
+
+	@Override
+	public ServiceOrderStatus getServiceOrderStatus(Long orderStatusId) {
+		// TODO Auto-generated method stub
+		return serviceOrderStatusRepository.findOne(orderStatusId);
 	}
 
 }
