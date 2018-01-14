@@ -22,6 +22,9 @@ public class ServiceProviderController implements ServiceProviderOrderManager, S
 	@Autowired
 	private ProviderOperationsInterface providerOperationsService;
 
+//	TODO tu można zmienić zamiast {providerId} w ścierzce to znaleźć providera do którego przypisany jest obecny użytkownik
+//	użytkownika można pobrać jak w User Info controller
+
 	@Override
 	@PostMapping(path = "/{providerId}/services")
 	public Service addService(Service service, @PathVariable Long providerId) {

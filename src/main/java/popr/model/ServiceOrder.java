@@ -40,6 +40,10 @@ public class ServiceOrder {
     @OneToOne
     private Person orderedBy;
 
+    //@JsonIgnore
+    @ManyToOne
+    private Provider provider;
+
     @PrePersist
     private void prePersist() {
         creationDate = ZonedDateTime.now();

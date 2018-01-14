@@ -38,4 +38,7 @@ public class Provider {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "provider")
     List<Person> employees = new ArrayList<>();
+
+    @ManyToOne
+    List<ServiceOrder> orders = new ArrayList<>();
 }

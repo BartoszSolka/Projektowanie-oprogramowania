@@ -36,6 +36,7 @@ public class ServiceUserController implements ServiceUserManager {
     @PostMapping(path = "/addOrder")
     public ServiceOrder createServiceOrder(String description, String address, String postalCode, Long serviceID) {
         Zone zone = zoneRepository.findByPostalCode(postalCode);
+//        ToDo tutaj należy znależć najbliższego usługodawcę i podać jego id w parametrach tworzenia
         return userOperationsService.createServiceOrder(description, address,  zone, serviceID);
     }
 
