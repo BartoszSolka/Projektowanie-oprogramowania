@@ -396,9 +396,7 @@
     var openModalForStatusEditing = function () {
         $("#statusModal").modal();
     };
-    /*var openModalForNewService = function () {
-        $("#newServiceModal").modal();
-    };*/
+
     var openModalForOrderEditing = function () {
         $("#orderModalEdit").modal();
     };
@@ -455,30 +453,6 @@
         objArray[document.getElementById('statusModal').dataset.currentIndex].state = status;
         objArray[document.getElementById('statusModal').dataset.currentIndex].stateDescription = statusDescription;
     };
-
-    /*var createNewService = function () {
-        var serviceDescription = document.getElementById('modalNewServiceDescription');
-        var serviceAddress = document.getElementById('modalNewServiceZone');
-        var serviceZone = document.getElementById('modalNewServiceAddress');
-        var serviceOrder = document.getElementById('modalNewServiceOrder');
-
-        var serviceDataObj = {
-            id: (parseInt(objArray[objArray.length-1].id)+1),
-            description: serviceDescription.value.trim(),
-            zone: serviceZone.value.trim(),
-            address: serviceAddress.value.trim(),
-            order: serviceOrder.value.trim(),
-            state: 'Brak',
-            stateDescription: '-',
-            userNumber: '-'
-        };
-        objArray.push(serviceDataObj);
-        addServiceToView([serviceDataObj], objArray.length-1);
-        serviceDescription.value = '';
-        serviceAddress.value = '';
-        serviceZone.value = '';
-        serviceOrder.value = '';
-    };*/
 
     var updateLocation = function () {
         var newZone = document.getElementById('modalLocation').value;
@@ -619,6 +593,9 @@
         init();
     });
     var init = function () {
+        $.get('http://localhost:8080/serviceProvider/ordersStatuses', function (data) {
+            console.log('statusy', data);
+        });
         $.get('http://localhost:8080/serviceProvider/' + id, function (data) {
              console.log('dane providera:', data);
              if(data.active){
@@ -664,7 +641,6 @@
             objArray.push(obj);
         }
         addOrderToView(objArray);
-        //addOrderToView(daneMockupOrder);
     };
 
     var prepareChangesDataObj = function (data) {
@@ -700,11 +676,11 @@
     var prepareServiceDataObj = function (data, data2) {
         var notActivatedServicesArray = [];
         for(var i = 0; i<data2.length;i++){
-            if((data2[i].validatedBy === null && data2[i].serviceChangeType === 'ADD') || data2[i].serviceChangeType === 'DELETE'){
+            if((data2[i].validatedBy === null && data2[i].serviceChangeType === 'ADD') || (data2[i].serviceChangeType === 'DELETE' && data2[i].validatedBy !== null)){
                 notActivatedServicesArray.push(data2[i].service.id);
             }
         }
-        //console.log(data2, notActivatedServicesArray);
+
         var isValid = true;
         for(i = 0; i<data.length;i++){
             for(var j = 0; j<notActivatedServicesArray.length; j++){
@@ -726,30 +702,6 @@
         }
         addServiceToView(objServiceArray);
     };
-    /*var daneMockup = [
-        {
-            id: '3',
-            description: 'Drzewo blokuje drogę',
-            zone: '01-515',
-            address: 'ul. Piękna 2',
-            order: 'Udrożnienie drogi',
-            state: 'w trakcie realizacji',
-            stateDescription: 'Ekipa opuściła firmę',
-            userNumber: '+48 123 456 789'
-        }
-    ];*/
-
-    /*var daneMockupOrder = [
-        {
-            id: '7',
-            order: 'Oczyszczenie zablokowanej drogi',
-            description: 'Wybrać w przypadku blokady przejazdu na drodze',
-            price: '500',
-            time: '2 dni'
-        }
-    ];*/
-
-
 
 </script>
 </body>
