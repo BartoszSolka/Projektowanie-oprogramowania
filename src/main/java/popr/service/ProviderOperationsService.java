@@ -1,21 +1,33 @@
 package popr.service;
 
-import lombok.RequiredArgsConstructor;
-
-import org.hibernate.criterion.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import popr.interfaces.ProviderOperationsInterface;
-import popr.model.*;
-import popr.model.enums.ServiceChangeType;
-import popr.model.enums.ServiceOrderStatusDict;
-import popr.repository.*;
-
-import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import lombok.RequiredArgsConstructor;
+import popr.interfaces.ProviderOperationsInterface;
+import popr.model.Person;
+import popr.model.Provider;
+import popr.model.Service;
+import popr.model.ServiceChange;
+import popr.model.ServiceOrder;
+import popr.model.ServiceOrderStatus;
+import popr.model.ServiceType;
+import popr.model.Zone;
+import popr.model.enums.ServiceChangeType;
+import popr.model.enums.ServiceOrderStatusDict;
+import popr.repository.ComplaintRepository;
+import popr.repository.PersonRepository;
+import popr.repository.ProviderRepository;
+import popr.repository.ServiceChangeRepository;
+import popr.repository.ServiceOrderRepository;
+import popr.repository.ServiceOrderStatusRepository;
+import popr.repository.ServiceRepository;
+import popr.repository.ServiceTypeRepository;
+import popr.repository.ZoneRepository;
 
 @org.springframework.stereotype.Service
 @RequiredArgsConstructor
