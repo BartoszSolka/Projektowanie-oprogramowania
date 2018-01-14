@@ -35,10 +35,10 @@
 </nav>
 <div class="container">
     <div class="jumbotron">
-        <button type="button" class="btn btn-default" onclick='openNewOrderModal();'>Nowa usługa</button>
+        <button type="button" class="btn btn-default" onclick='openNewServiceModal();'>Nowa usługa</button>
     </div>
 
-    <div class="modal fade" id="newOrderModal" role="dialog">
+    <div class="modal fade" id="newServiceModal" role="dialog">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -47,20 +47,24 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="modalOrderDescription">Rodzaj usługi:</label>
-                        <input type="text" class="form-control" id="modalOrderDescription">
+                        <label for="modalServiceType">Rodzaj usługi:</label>
+                        <select class="form-control" id="modalServiceType"></select>
                     </div>
                     <div class="form-group">
-                        <label for="modalOrderPrice">Cena:</label>
-                        <input type="text" class="form-control" id="modalOrderPrice">
+                        <label for="modalServiceDescription">Opis:</label>
+                        <input type="text" class="form-control" id="modalServiceDescription">
                     </div>
                     <div class="form-group">
-                        <label for="modalOrderTime">Estymowany czas realizacji:</label>
-                        <input type="text" class="form-control" id="modalOrderTime">
+                        <label for="modalServicePrice">Cena:</label>
+                        <input type="text" class="form-control" id="modalServicePrice">
+                    </div>
+                    <div class="form-group">
+                        <label for="modalServiceTime">Estymowany czas realizacji:</label>
+                        <input type="text" class="form-control" id="modalServiceTime">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" onclick='addOrder();'>Zatwierdź</button>
+                    <button type="button" class="btn btn-default" onclick='addService();'>Zatwierdź</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
                 </div>
             </div>
@@ -72,10 +76,13 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Usługa dodana pomyślnie</h4>
+                    <h4 class="modal-title">Usługa utworzona pomyślnie</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Aby usługa została dodana do listy moich usług należy poczekać na akceptację.</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="$('#newOrderModal').modal('toggle');">Zamknij</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="$('#newServiceModal').modal('toggle');">Zamknij</button>
                 </div>
             </div>
         </div>
@@ -102,52 +109,108 @@
     /**
  * Created by Paweł on 13.11.2017.
  */
-    var openNewOrderModal = function () {
-        $("#newOrderModal").modal();
-        document.getElementById('modalOrderDescription').value = '';
-        document.getElementById('modalOrderPrice').value = '';
-        document.getElementById('modalOrderTime').value = '';
+    var id = 14;
+    var getAllServiceTypes = function () {
+        $.get('http://localhost:8080/serviceProvider/serviceTypes', function (data) {
+            console.log('types', data);
+            appendTypes(data.content);
+        });
     };
 
-    var addOrder = function () {
-        var modalOrder = document.getElementById('modalOrderDescription');
-        var modalOrderPrice = document.getElementById('modalOrderPrice');
-        var modalOrderTime = document.getElementById('modalOrderTime');
+    var appendTypes = function (data) {
+        var select = document.getElementById('modalServiceType');
+        for(var i = 0;i<data.length;i++){
+            var option = document.createElement('option');
+            option.textContent = data[i].name + ' ' + data[i].description;
+            option.dataset.typeIndex = data[i].id;
+            select.appendChild(option);
+        }
+    };
 
-        var description = modalOrder.value.trim();
-        var price = modalOrderPrice.value.trim();
-        var time = modalOrderTime.value.trim();
+    var openNewServiceModal = function () {
+        $("#newServiceModal").modal();
+        document.getElementById('modalServiceDescription').value = '';
+        document.getElementById('modalServiceType').value = '';
+        document.getElementById('modalServicePrice').value = '';
+        document.getElementById('modalServiceTime').value = '';
+    };
+
+    var addService = function () {
+        var modalServiceDescription = document.getElementById('modalServiceDescription');
+        var modalServiceType = document.getElementById('modalServiceType');
+        var modalServicePrice = document.getElementById('modalServicePrice');
+        var modalServiceTime = document.getElementById('modalServiceTime');
+        var selectedIndexOfType = modalServiceType.options.selectedIndex;
+        var typeId = modalServiceType.options[selectedIndexOfType].dataset.typeIndex;
+
+        var price = modalServicePrice.value.trim();
+        var time = modalServiceTime.value.trim();
+        var description = modalServiceDescription.value.trim();
 
         var checked = true;
 
-        if(description.length === 0){
-            modalOrder.style.borderColor = 'red';
-            checked = false;
-        } else {
-            modalOrder.style.borderColor = '#ccc';
-        }
-
         if(price.length === 0){
-            modalOrderPrice.style.borderColor = 'red';
+            modalServicePrice.style.borderColor = 'red';
             checked = false;
         } else {
-            modalOrderPrice.style.borderColor = '#ccc';
+            modalServicePrice.style.borderColor = '#ccc';
         }
 
         if(time.length === 0){
-            modalOrderTime.style.borderColor = 'red';
+            modalServiceTime.style.borderColor = 'red';
             checked = false;
         } else {
-            modalOrderTime.style.borderColor = '#ccc';
+            modalServiceTime.style.borderColor = '#ccc';
         }
 
-
         if(checked){
-            $("#successModal").modal();
+            $.ajax({
+                type: "POST",
+                url: 'http://localhost:8080/serviceProvider/' + id + '/services',
+                data: {
+                    title: '',
+                    description: description,
+                    price: price,
+                    estimatedRealisationTime: time,
+                    serviceType: typeId
+                },
+                success: function (data) {
+                    console.log(data);
+                    var test = {
+                        serviceChangeType: "ADD",
+                        description: description,
+                        price: price,
+                        estimatedRealisationTime: time,
+                        service: {
+                            id: data.id
+                        },
+                        statuses: []
+                    };
+                    $.ajax({
+                        type: "POST",
+                        dataType: 'json',
+                        contentType:"application/json; charset=utf-8",
+                        url: 'http://localhost:8080/serviceProvider/serviceChanges',
+                        data: JSON.stringify(test),
+                        success: function (data) {
+                            console.log('changes !', data);
+                            $("#successModal").modal();
+                        },
+                        error: function (err) {
+                            console.log('changes !', err);
+                        }
+                    });
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
         } else {
             $("#failModal").modal();
         }
     };
+
+    getAllServiceTypes();
 </script>
 </body>
 </html>

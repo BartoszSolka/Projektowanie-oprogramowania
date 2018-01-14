@@ -151,6 +151,7 @@ public class Bootstrap implements ApplicationRunner {
         serviceOrder.setRatingDescription("Super, daję 0");
         serviceOrder.setZone(zone);
         serviceOrder.setOrderedBy(user);
+        serviceOrder.setProvider(provider);
         serviceOrder = serviceOrderRepository.save(serviceOrder);
 
         ServiceOrderStatus serviceOrderStatus = new ServiceOrderStatus();
@@ -165,6 +166,7 @@ public class Bootstrap implements ApplicationRunner {
         serviceOrder2.setRatingDescription("Super, daję 5/5");
         serviceOrder2.setZone(zone);
         serviceOrder2.setOrderedBy(user);
+        serviceOrder2.setProvider(provider);
         serviceOrder2 = serviceOrderRepository.save(serviceOrder2);
 
         ServiceOrderStatus serviceOrderStatus2 = new ServiceOrderStatus();
