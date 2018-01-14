@@ -30,22 +30,29 @@ public class AdminController implements AdminManager {
 
     @Override
     @PostMapping (path = "/addProvider")
-    public void addProvider(String nip, String telefon, String siedzibaFirmy, String nazwa, String idStrefy, String email) {
+    public void addProvider(String nip, String telefon, String siedzibaFirmy, String nazwa, String kodStrefy, String email) {
         Provider provider = new Provider();
         provider.setNip(nip);
         provider.setPhoneNo(telefon);
         provider.setAddress(siedzibaFirmy);
         provider.setName(nazwa);
         provider.setEmail(email);
-        Zone zone = zoneRepository.findById(Long.parseLong(idStrefy));
-        provider.setZone(zone);
+        Zone zone = zoneRepository.findByPostalCode(kodStrefy);
+        if (zone != null) {
+            provider.setZone(zone);
+        } else {
+            zone = new Zone();
+            zone.setPostalCode(kodStrefy);
+            zoneRepository.save(zone);
+            provider.setZone(zone);
+        }
 
         adminOperationsService.addProvider(provider);
     }
 
     @Override
     @PostMapping ("/editProvider/{idUslugodawcy}")
-    public void editProvider(@PathVariable String idUslugodawcy, String nip, String telefon, String siedzibaFirmy, String nazwa, String idStrefy, String email) {
+    public void editProvider(@PathVariable String idUslugodawcy, String nip, String telefon, String siedzibaFirmy, String nazwa, String kodStrefy, String email) {
         Provider provider = new Provider();
         provider.setId(Long.parseLong(idUslugodawcy));
         provider.setNip(nip);
@@ -53,8 +60,15 @@ public class AdminController implements AdminManager {
         provider.setAddress(siedzibaFirmy);
         provider.setName(nazwa);
         provider.setEmail(email);
-        Zone zone = zoneRepository.findById(Long.parseLong(idStrefy));
-        provider.setZone(zone);
+        Zone zone = zoneRepository.findByPostalCode(kodStrefy);
+        if (zone != null) {
+            provider.setZone(zone);
+        } else {
+            zone = new Zone();
+            zone.setPostalCode(kodStrefy);
+            zoneRepository.save(zone);
+            provider.setZone(zone);
+        }
 
         adminOperationsService.editProvider(provider);
     }
