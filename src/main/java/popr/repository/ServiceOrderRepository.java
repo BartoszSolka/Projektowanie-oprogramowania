@@ -20,6 +20,8 @@ public interface ServiceOrderRepository extends JpaRepository<ServiceOrder, Long
     Page<ServiceOrder> findByOrderedBy(Person user, Pageable pageable);
 
     List<ServiceOrder> findByServiceId(Long providerId);
+    
+    List<ServiceOrder> findByProviderId(Long providerId);
 
     ServiceOrder findById(Long serviceId);
 

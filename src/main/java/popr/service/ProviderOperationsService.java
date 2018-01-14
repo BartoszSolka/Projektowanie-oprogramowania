@@ -46,13 +46,7 @@ public class ProviderOperationsService implements ProviderOperationsInterface {
 
 	@Override
 	public List<ServiceOrder> getServiceOrdersByProviderId(Long providerId) {
-		List<Service> services = serviceRepository.findByProviderId(providerId);
-		List<ServiceOrder> orders;
-		if (services.size() > 0) {
-			orders = serviceOrderRepository.findByServiceId(services.get(0).getId());
-			return orders;
-		} else
-			return Collections.emptyList();
+		return serviceOrderRepository.findByProviderId(providerId);
 	}
 
 	@Override
