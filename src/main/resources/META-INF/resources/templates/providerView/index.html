@@ -567,8 +567,7 @@
                 price: price,
                 estimatedRealisationTime: time,
                 service: {
-                    id: serviceId,
-                    description: description
+                    id: serviceId
                 },
                 statuses: []
             };
@@ -593,31 +592,38 @@
 
 
     };
-    var id = 14;
+    var id;
     var objArray = [];
     var objServiceArray = [];
     var zonesArray = [];
 
-    $.get('http://localhost:8080/serviceProvider/' + id + '/zones', function (data) {
-        document.getElementById('currentLocation').textContent = data.postalCode;
+    $.get('http://localhost:8080/userInfo/', function (data) {
+        console.log(data);
+        id = data.provider.id;
+        init();
     });
-    $.get('http://localhost:8080/serviceProvider/' + id + '/orders', function (data) {
-        console.log('Orders', data);
-        prepareOrderDataObj(data);
-    });
-    $.get('http://localhost:8080/serviceProvider/' + id + '/services', function (data) {
-        console.log('Services', data);
-        $.get('http://localhost:8080/serviceProvider/' + id + '/serviceChanges', function (data2) {
-            console.log('changes', data2);
-            prepareServiceDataObj(data, data2.content);
-            prepareChangesDataObj(data2.content);
+    var init = function () {
+        $.get('http://localhost:8080/serviceProvider/' + id + '/zones', function (data) {
+            document.getElementById('currentLocation').textContent = data.postalCode;
         });
+        $.get('http://localhost:8080/serviceProvider/' + id + '/orders', function (data) {
+            console.log('Orders', data);
+            prepareOrderDataObj(data);
+        });
+        $.get('http://localhost:8080/serviceProvider/' + id + '/services', function (data) {
+            console.log('Services', data);
+            $.get('http://localhost:8080/serviceProvider/' + id + '/serviceChanges', function (data2) {
+                console.log('changes', data2);
+                prepareServiceDataObj(data, data2.content);
+                prepareChangesDataObj(data2.content);
+            });
 
-     });
-    $.get('http://localhost:8080/serviceProvider/zones', function (data) {
-        console.log('Zones array', data);
-        zonesArray = data;
-    });
+        });
+        $.get('http://localhost:8080/serviceProvider/zones', function (data) {
+            console.log('Zones array', data);
+            zonesArray = data;
+        });
+    };
 
     var prepareOrderDataObj = function (data) {
         for(var i = 0; i<data.length;i++){

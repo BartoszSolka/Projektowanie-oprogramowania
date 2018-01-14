@@ -14,6 +14,7 @@ popr\model\QServiceType.class
 popr\controller\AdminController.class
 popr\controller\ServiceProviderOrderManager.class
 popr\controller\ServiceUserManager.class
+popr\controller\UserInfoController.class
 popr\model\QProviderStatus.class
 popr\model\ProviderStatus.class
 popr\model\Report.class
