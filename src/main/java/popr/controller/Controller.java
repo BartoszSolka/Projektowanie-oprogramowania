@@ -1,6 +1,9 @@
 package popr.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,16 +11,28 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import popr.model.Person;
 import popr.service.AdminOperationsService;
+import popr.service.UserService;
+
+import java.util.Collection;
+import java.util.List;
 
 @org.springframework.stereotype.Controller
 @RequiredArgsConstructor
 public class Controller {
 
     private final AdminOperationsService adminOperationsService;
+    private final UserService userService;
 
     @GetMapping("/")
     public String index(Model model) {
-        return "/providerView/index";
+        Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        if (authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+            return "redirect:/admin";
+        } else if (authorities.contains(new SimpleGrantedAuthority("ROLE_PROVIDER"))) {
+            return "redirect:/providerView";
+        } else {
+            return "redirect:/userView/my";
+        }
     }
 
     @GetMapping("/providerView")

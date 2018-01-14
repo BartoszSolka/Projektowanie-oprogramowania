@@ -21,14 +21,7 @@
                 <li class="active"><a href="/providerView/new-service">Zarządzaj</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Typ użytkownika <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/">Użytkownik</a></li>
-                        <li><a href="../userView/my.html">Zleceniodawca</a></li>
-                        <li><a href="../admin">Administrator</a></li>
-                    </ul>
-                </li>
+                <li><a href="/logout">Wyloguj</a></li>
             </ul>
         </div>
     </div>
@@ -55,12 +48,12 @@
                         <input type="text" class="form-control" id="modalServiceDescription">
                     </div>
                     <div class="form-group">
-                        <label for="modalServicePrice">Cena:</label>
-                        <input type="text" class="form-control" id="modalServicePrice">
+                        <label for="modalServicePrice">Cena (w zł):</label>
+                        <input type="number" class="form-control" id="modalServicePrice">
                     </div>
                     <div class="form-group">
-                        <label for="modalServiceTime">Estymowany czas realizacji:</label>
-                        <input type="text" class="form-control" id="modalServiceTime">
+                        <label for="modalServiceTime">Estymowany czas realizacji (ilosc godzin):</label>
+                        <input type="number" class="form-control" id="modalServiceTime">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -110,6 +103,11 @@
  * Created by Paweł on 13.11.2017.
  */
     var id = 14;
+    $.get('http://localhost:8080/userInfo/', function (data) {
+        console.log(data);
+        id = data.provider.id;
+    });
+
     var getAllServiceTypes = function () {
         $.get('http://localhost:8080/serviceProvider/serviceTypes', function (data) {
             console.log('types', data);
@@ -141,14 +139,17 @@
         var modalServicePrice = document.getElementById('modalServicePrice');
         var modalServiceTime = document.getElementById('modalServiceTime');
         var selectedIndexOfType = modalServiceType.options.selectedIndex;
-        var typeId = modalServiceType.options[selectedIndexOfType].dataset.typeIndex;
-
         var price = modalServicePrice.value.trim();
         var time = modalServiceTime.value.trim();
         var description = modalServiceDescription.value.trim();
 
         var checked = true;
-
+        if(selectedIndexOfType === -1){
+            modalServiceType.style.borderColor = 'red';
+            checked = false;
+        } else {
+            modalServiceType.style.borderColor = '#ccc';
+        }
         if(price.length === 0){
             modalServicePrice.style.borderColor = 'red';
             checked = false;
@@ -164,6 +165,7 @@
         }
 
         if(checked){
+            var typeId = modalServiceType.options[selectedIndexOfType].dataset.typeIndex;
             $.ajax({
                 type: "POST",
                 url: 'http://localhost:8080/serviceProvider/' + id + '/services',
@@ -198,11 +200,13 @@
                         },
                         error: function (err) {
                             console.log('changes !', err);
+                            $("#failModal").modal();
                         }
                     });
                 },
                 error: function (err) {
                     console.log(err);
+                    $("#failModal").modal();
                 }
             });
         } else {

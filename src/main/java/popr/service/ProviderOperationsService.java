@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -59,16 +61,31 @@ public class ProviderOperationsService implements ProviderOperationsInterface {
 
 	@Override
 	public ServiceOrderStatus changeServiceOrderStatus(ServiceOrderStatus newStatusOrder, Long serviceOrderId) {
-		ServiceOrder updatedServiceOrder = new ServiceOrder();
-		updatedServiceOrder.setId(serviceOrderId);
-		newStatusOrder.setServiceOrder(updatedServiceOrder);
-		String mailContent;
-		mailContent = ("Zmieniono status zlecenia" + "\n" + "Opis: " + updatedServiceOrder.getDescription() + "\n"
-				+ "Nowy status: " + newStatusOrder.getOrderStatusDict() + "\n" + "Opis nowwego statusu: "
-				+ newStatusOrder.getComment());
-		mailService.sendEmail(mailContent, updatedServiceOrder.getOrderedBy().getEmail());
 
-		return serviceOrderStatusRepository.save(newStatusOrder);
+		newStatusOrder.setId(null);
+		ServiceOrder updatedServiceOrder = serviceOrderRepository.findOne(newStatusOrder.getServiceOrder().getId());
+		if(updatedServiceOrder == null) {
+			return null;
+		}
+		updatedServiceOrder.getStatuses().stream().forEach(status -> {
+			status.setCurrent(false);
+			serviceOrderStatusRepository.save(status);
+		});
+		newStatusOrder.setCurrent(true);
+		updatedServiceOrder.getStatuses().add(newStatusOrder);
+		String mailContent;
+		mailContent = ("Zmieniono status zlecenia" + "\n" + "Opis: " + updatedServiceOrder.getDescription() == null ? "" : updatedServiceOrder.getDescription() + "\n"
+				+ "Nowy status: " + newStatusOrder.getOrderStatusDict() == null ? "" : newStatusOrder.getOrderStatusDict() + "\n" + "Opis nowego statusu: "
+				+ newStatusOrder.getComment() == null ? "" : newStatusOrder.getComment());
+		mailService.sendEmail(mailContent, updatedServiceOrder.getOrderedBy().getEmail());
+		//ServiceOrderStatus serviceOrderStatus;
+		try {
+			serviceOrderRepository.save(updatedServiceOrder);
+			//serviceOrderStatusRepository.save(newStatusOrder);
+		} catch (Exception e) {
+			return null;
+		}
+		return newStatusOrder;
 	}
 
 	@Override
