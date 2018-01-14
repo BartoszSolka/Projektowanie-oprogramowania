@@ -19,26 +19,17 @@
 
 <nav class="navbar navbar-default navbar-static-top">
     <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand">System obsługi awarii - usługodawca</a>
-        </div>
         <div id="navbar" class="navbar-collapse collapse">
+            <div class="navbar-header">
+                <a class="navbar-brand">System obsługi awarii - usługodawca</a>
+            </div>
             <ul class="nav navbar-nav">
                 <li class="active"><a href="/providerView">Strona główna</a></li>
                 <li><a href="/providerView/new-service">Zarządzaj</a></li>
                 <!--<li onclick="openModalForNewService();"><a href="#">Złóż nowe zlecenie</a></li>-->
                 <li onclick="openModalForNewLocation();"><a href="#">Udostępnij lokalizacje</a></li>
                 <li onclick="openModalForStopActivity();"><a href="#">Zatrzymaj aktywność</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Typ użytkownika <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/">Usługodawca</a></li>
-                        <li><a href="../userView/my.html">Użytkownik</a></li>
-                        <li><a href="../admin">Administrator</a></li>
-                    </ul>
-                </li>
+                <li><a href="/logout">Wyloguj</a></li>
             </ul>
         </div>
     </div>
