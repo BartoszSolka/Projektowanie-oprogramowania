@@ -19,26 +19,18 @@
 
 <nav class="navbar navbar-default navbar-static-top">
     <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand">System obsługi awarii - usługodawca</a>
-        </div>
         <div id="navbar" class="navbar-collapse collapse">
+            <div class="navbar-header">
+                <a class="navbar-brand">System obsługi awarii - usługodawca</a>
+            </div>
             <ul class="nav navbar-nav">
                 <li class="active"><a href="/providerView">Strona główna</a></li>
                 <li><a href="/providerView/new-service">Zarządzaj</a></li>
-                <!--<li onclick="openModalForNewService();"><a href="#">Złóż nowe zlecenie</a></li>-->
                 <li onclick="openModalForNewLocation();"><a href="#">Udostępnij lokalizacje</a></li>
                 <li onclick="openModalForStopActivity();"><a href="#">Zatrzymaj aktywność</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Typ użytkownika <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/">Usługodawca</a></li>
-                        <li><a href="../userView/my.html">Użytkownik</a></li>
-                        <li><a href="../admin">Administrator</a></li>
-                    </ul>
-                </li>
+                <li><a href="/logout">Wyloguj</a></li>
             </ul>
         </div>
     </div>
@@ -232,7 +224,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="updateStatus(this);">Zatwierdź</button>
+                    <button type="button" class="btn btn-default" onclick="updateStatus(this);">Zatwierdź</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
                 </div>
             </div>
@@ -244,11 +236,14 @@
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal" onclick="location.reload()">&times;</button>
                     <h4 class="modal-title">Usługa zedytowana pomyślnie</h4>
                 </div>
+                <div class="modal-body">
+                    <p>Aby zmiany zostały wdrożone należy poczekać na akceptację.</p>
+                </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="$('#orderModalEdit').modal('toggle');">Zamknij</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="$('#orderModalEdit').modal('toggle');location.reload()">Zamknij</button>
                 </div>
             </div>
         </div>
@@ -462,6 +457,7 @@
     };
 
     var updateStatus = function (ele) {
+        $("*").css("cursor", "wait");
         var status = document.getElementById('modalStateEdit').options.selectedIndex;
         var statusDescription = document.getElementById('modalStateDescriptionEdit').value;
         var orderId = objArray[ele.parentNode.parentNode.parentNode.parentNode.dataset.currentIndex].id;
@@ -471,7 +467,7 @@
             id: orderStatusId,
             orderStatusDict: status,
             comment: statusDescription,
-            current: true,
+            current: 'true',
             serviceOrder: {
                 id: orderId
             }
@@ -482,6 +478,8 @@
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(dataObj),
             success: function(data) {
+                $('#statusModal').modal('toggle');
+                location.reload();
                 console.log('OK');
             },
             error: function (data) {
