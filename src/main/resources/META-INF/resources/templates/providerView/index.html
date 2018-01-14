@@ -45,7 +45,7 @@
 </nav>
 <div class="container">
     <div class="jumbotron">
-        <h4 style="position:relative;bottom:40px">Obecna lokalizacja: <span id="currentLocation">01-111</span></h4>
+        <h4 style="position:relative;bottom:40px">Obecna lokalizacja: <span id="currentLocation"></span></h4>
         <h2>Moje zlecenia</h2>
         <table class="table table-striped">
             <thead>
@@ -409,6 +409,7 @@
             option.textContent = zonesArray[i].postalCode;
             select.appendChild(option);
         }
+        select.value = document.getElementById('currentLocation').textContent;
         $("#newLocationModal").modal();
     };
     var openModalForStopActivity = function () {
@@ -596,7 +597,10 @@
     var objArray = [];
     var objServiceArray = [];
     var zonesArray = [];
-    var currentZone = '01-111';
+
+    $.get('http://localhost:8080/serviceProvider/' + id + '/zones', function (data) {
+        document.getElementById('currentLocation').textContent = data.postalCode;
+    });
     $.get('http://localhost:8080/serviceProvider/' + id + '/orders', function (data) {
         console.log('Orders', data);
         prepareOrderDataObj(data);
@@ -614,18 +618,7 @@
         console.log('Zones array', data);
         zonesArray = data;
     });
-    /*$.get('http://localhost:8080/serviceProvider/' + id + '/services/6', function (data) {
-     console.log('service details', data);
-     });
-     $.get('http://localhost:8080/serviceProvider/orders/7', function (data) {
-     console.log(data);
-     });
-     $.get('http://localhost:8080/serviceProvider/' + id + '/serviceChanges', function (data) {
-     console.log(data);
-     });
-     $.get('http://localhost:8080/serviceProvider/serviceTypes', function (data) {
-     console.log(data);
-     });*/
+
     var prepareOrderDataObj = function (data) {
         for(var i = 0; i<data.length;i++){
             var obj = {
