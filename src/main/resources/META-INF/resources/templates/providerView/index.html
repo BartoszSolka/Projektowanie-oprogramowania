@@ -523,6 +523,7 @@
     };
 
     var stopActivity = function () {
+
         document.getElementById('currentLocation').textContent = 'Nie aktywny';
         document.getElementById('currentLocation').style.color = 'red';
     };
@@ -622,7 +623,11 @@
     });
     $.get('http://localhost:8080/serviceProvider/' + id + '/services', function (data) {
         console.log('Services', data);
-        prepareServiceDataObj(data);
+        $.get('http://localhost:8080/serviceProvider/' + id + '/serviceChanges', function (data2) {
+            console.log('changes', data2);
+            prepareServiceDataObj(data, data2.content);
+        });
+
      });
     $.get('http://localhost:8080/serviceProvider/zones', function (data) {
         console.log('Zones array', data);
@@ -657,16 +662,32 @@
         addOrderToView(objArray);
         //addOrderToView(daneMockupOrder);
     };
-    var prepareServiceDataObj = function (data) {
-        for(var i = 0; i<data.length;i++){
-            var obj = {
-                id: data[i].id,
-                description: data[i].description,
-                price: data[i].price,
-                estimatedRealisationTime: data[i].estimatedRealisationTime,
-                orderType: data[i].serviceType.name + ' ' + data[i].serviceType.description
-            };
-            objServiceArray.push(obj);
+    var prepareServiceDataObj = function (data, data2) {
+        var notActivatedServicesArray = [];
+        for(var i = 0; i<data2.length;i++){
+            if(data2[i].validatedBy === null && data2[i].serviceChangeType === 'ADD'){
+                notActivatedServicesArray.push(data2[i].service.id);
+            }
+        }
+        //console.log(data2, notActivatedServicesArray);
+        var isValid = true;
+        for(i = 0; i<data.length;i++){
+            for(var j = 0; j<notActivatedServicesArray.length; j++){
+                if(data[i].id === notActivatedServicesArray[j]){
+                    isValid = false;
+                }
+            }
+            if(isValid){
+                var obj = {
+                    id: data[i].id,
+                    description: data[i].description,
+                    price: data[i].price,
+                    estimatedRealisationTime: data[i].estimatedRealisationTime,
+                    orderType: data[i].serviceType.name + ' ' + data[i].serviceType.description
+                };
+                objServiceArray.push(obj);
+            }
+            isValid = true;
         }
         addServiceToView(objServiceArray);
     };
