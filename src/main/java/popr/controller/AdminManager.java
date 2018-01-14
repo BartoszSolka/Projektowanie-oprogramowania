@@ -8,9 +8,9 @@ import java.util.Map;
 
 public interface AdminManager {
 
-    void addProvider(String nip, String telefon, String siedzibaFirmy, String nazwa, String idStrefy, String email);
+    void addProvider(String nip, String telefon, String siedzibaFirmy, String nazwa, String kodStrefy, String email);
     void deleteProvider(String idUslugodawcy);
-    void editProvider(String idUslugodawcy, String nip, String telefon, String siedzibaFirmy, String nazwa, String idStrefy, String email);
+    void editProvider(String idUslugodawcy, String nip, String telefon, String siedzibaFirmy, String nazwa, String kodStrefy, String email);
 
     void editService(String idUslugodawcy, String cena, String estymowanyCzas, String idRodzajuUslugi, String idUslugi);
     void deleteService(String idUslugi);
