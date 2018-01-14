@@ -232,7 +232,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="updateStatus(this);">Zatwierdź</button>
+                    <button type="button" class="btn btn-default" onclick="updateStatus(this);">Zatwierdź</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
                 </div>
             </div>
@@ -471,7 +471,7 @@
             id: orderStatusId,
             orderStatusDict: status,
             comment: statusDescription,
-            current: true,
+            current: 'true',
             serviceOrder: {
                 id: orderId
             }
@@ -482,6 +482,8 @@
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(dataObj),
             success: function(data) {
+                $('#statusModal').modal('toggle');
+                location.reload();
                 console.log('OK');
             },
             error: function (data) {
