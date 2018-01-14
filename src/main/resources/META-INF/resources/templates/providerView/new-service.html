@@ -76,7 +76,10 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Usługa dodana pomyślnie</h4>
+                    <h4 class="modal-title">Usługa utworzona pomyślnie</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Aby usługa została dodana do listy moich usług należy poczekać na akceptację.</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal" onclick="$('#newServiceModal').modal('toggle');">Zamknij</button>
@@ -175,7 +178,7 @@
                     console.log(data);
                     var test = {
                         serviceChangeType: "ADD",
-                        description: 'Dodanie uslugi',
+                        description: description,
                         price: price,
                         estimatedRealisationTime: time,
                         service: {

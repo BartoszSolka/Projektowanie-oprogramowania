@@ -73,19 +73,16 @@
         </table>
     </div>
     <div class="jumbotron">
-        <h2>Zmiany w zleceniach</h2>
+        <h2>Zmiany w usługach</h2>
         <table class="table table-striped">
             <thead>
             <tr>
                 <th>#</th>
-                <th>Opis zmiany</th>
+                <th>Rodzaj zmiany</th>
+                <th>Status</th>
             </tr>
             </thead>
             <tbody id="tchanges">
-                <tr>
-                    <td>1</td>
-                    <td>Zmiana miejsca z  “Aleja Wojska Polskiego 31” na  “Marszałkowska 1”</td>
-                </tr>
             </tbody>
         </table>
     </div>
@@ -157,39 +154,6 @@
         </div>
     </div>
 
-    <div class="modal fade" id="newServiceModal" role="dialog">
-        <div class="modal-dialog modal-sm" style="width:400px;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Dodaj nowe zlecenie</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="modalNewServiceDescription">Opis zlecenia:</label>
-                        <input type="text" class="form-control" id="modalNewServiceDescription">
-                    </div>
-                    <div class="form-group">
-                        <label for="modalNewServiceZone">Strefa:</label>
-                        <input type="text" class="form-control" id="modalNewServiceZone">
-                    </div>
-                    <div class="form-group">
-                        <label for="modalNewServiceOrder">Rodzaj usługi:</label>
-                        <input type="text" class="form-control" id="modalNewServiceOrder">
-                    </div>
-                    <div class="form-group">
-                        <label for="modalNewServiceAddress">Adres:</label>
-                        <input type="text" class="form-control" id="modalNewServiceAddress">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick='createNewService();'>Zapisz</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="modal fade" id="orderModal" role="dialog">
         <div class="modal-dialog modal-sm" style="width:400px;">
             <div class="modal-content">
@@ -204,7 +168,7 @@
                     <p>Estymowany czas realizacji: <span id="modalOrderTime"></span></p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" onclick='openModalForOrderEditing();'>Edytuj usługę</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick='openModalForOrderEditing();'>Edytuj usługę</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
                 </div>
             </div>
@@ -221,7 +185,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="modalStateDescriptionEdit">Rodzaj usługi:</label>
-                        <input type="text" class="form-control" id="modalOrderEdit">
+                        <input disabled type="text" class="form-control" id="modalOrderEdit">
                     </div>
                     <div class="form-group">
                         <label for="modalStateDescriptionEdit">Opis:</label>
@@ -258,10 +222,11 @@
                             <span id='statusEditSelected'>W trakcie realizacji</span>
                             <span class="caret"></span></button>
                         <ul class="dropdown-menu" id="modalStateEdit">
-                            <li><a href="#">Anulowane</a></li>
-                            <li><a href="#">Brak</a></li>
                             <li><a href="#">W trakcie realizacji</a></li>
                             <li><a href="#">Zakończono realizację</a></li>
+                            <li><a href="#">Anulowane</a></li>
+                            <li><a href="#">Reklamowany</a></li>
+                            <li><a href="#">Nowy</a></li>
                         </ul>
                     </div>
                     <div class="form-group">
@@ -431,9 +396,9 @@
     var openModalForStatusEditing = function () {
         $("#statusModal").modal();
     };
-    var openModalForNewService = function () {
+    /*var openModalForNewService = function () {
         $("#newServiceModal").modal();
-    };
+    };*/
     var openModalForOrderEditing = function () {
         $("#orderModalEdit").modal();
     };
@@ -451,12 +416,31 @@
     };
 
     var openModalForOrderDeleting = function (index, element) {
-        var tr = element.parentNode.parentNode;
         $("#deleteOrderInfoModal").modal();
         document.getElementById('deleteOrderInfoModalButton').onclick = function () {
             var serviceId = objServiceArray[index].id;
-            $.delete('http://localhost:8080/serviceProvider/' + id + '/services/' + serviceId, function (data) {
-                tr.parentNode.removeChild(tr);
+            var dataObj = {
+                serviceChangeType: "DELETE",
+                description: 'Usuwanie usługi',
+                price: objServiceArray[index].price,
+                estimatedRealisationTime: objServiceArray[index].estimatedRealisationTime,
+                service: {
+                    id: serviceId
+                },
+                statuses: []
+            };
+            $.ajax({
+                type: "POST",
+                dataType: 'json',
+                contentType:"application/json; charset=utf-8",
+                url: 'http://localhost:8080/serviceProvider/serviceChanges',
+                data: JSON.stringify(dataObj),
+                success: function (data) {
+                    location.reload();
+                },
+                error: function (err) {
+                    console.log('changes !', err);
+                }
             });
         };
     };
@@ -471,7 +455,7 @@
         objArray[document.getElementById('statusModal').dataset.currentIndex].stateDescription = statusDescription;
     };
 
-    var createNewService = function () {
+    /*var createNewService = function () {
         var serviceDescription = document.getElementById('modalNewServiceDescription');
         var serviceAddress = document.getElementById('modalNewServiceZone');
         var serviceZone = document.getElementById('modalNewServiceAddress');
@@ -493,7 +477,7 @@
         serviceAddress.value = '';
         serviceZone.value = '';
         serviceOrder.value = '';
-    };
+    };*/
 
     var updateLocation = function () {
         var newZone = document.getElementById('modalLocation').value;
@@ -523,30 +507,33 @@
     };
 
     var stopActivity = function () {
-
-        document.getElementById('currentLocation').textContent = 'Nie aktywny';
-        document.getElementById('currentLocation').style.color = 'red';
+        $.ajax({
+            url: 'http://localhost:8080/serviceProvider/' + id + '/status',
+            type: 'PUT',
+            data: {
+                isActive: false
+            },
+            success: function(data) {
+                console.log('OK');
+                document.getElementById('currentLocation').textContent = 'Nie aktywny';
+                document.getElementById('currentLocation').style.color = 'red';
+            },
+            error: function (data) {
+                console.log('ERROR');
+            }
+        });
     };
 
     var updateOrder = function () {
-        var modalOrder = document.getElementById('modalOrderEdit');
         var modalDescription = document.getElementById('modalOrderDescriptionEdit');
         var modalPrice = document.getElementById('modalOrderPriceEdit');
         var modalTime = document.getElementById('modalOrderTimeEdit');
 
-        var order = modalOrder.value.trim();
         var description = modalDescription.value.trim();
         var price = modalPrice.value.trim();
         var time = modalTime.value.trim();
 
         var checked = true;
-
-        if(order.length === 0){
-            modalOrder.style.borderColor = 'red';
-            checked = false;
-        } else {
-            modalOrder.style.borderColor = '#ccc';
-        }
 
         if(description.length === 0){
             modalDescription.style.borderColor = 'red';
@@ -573,36 +560,29 @@
         if(checked){
             var dataIndex = document.getElementById('orderModal').dataset.currentIndex;
             var serviceId = objServiceArray[dataIndex].id;
-            $.ajax({
-                url: 'http://localhost:8080/serviceProvider/' + id + '/services/' + serviceId,
-                type: 'PUT',
-                data: {
-                    providerId: id,
-                    serviceId: serviceId,
-                    service: {
-                        id: serviceId,
-                        title: order,
-                        description: description,
-                        price: price,
-                        estimatedRealisationTime: time
-                    }
+            var test = {
+                serviceChangeType: "EDIT",
+                description: description,
+                price: price,
+                estimatedRealisationTime: time,
+                service: {
+                    id: serviceId,
+                    description: description
                 },
-                success: function(data) {
-                    console.log('WORKS');
-
-                    document.getElementById('modalOrder').textContent = order;
-                    document.getElementById('modalOrderDescription').textContent = description;
-                    document.getElementById('modalOrderPrice').textContent = price;
-                    document.getElementById('modalOrderTime').textContent = time;
-                    objServiceArray[dataIndex].order = order;
-                    objServiceArray[dataIndex].description = description;
-                    objServiceArray[dataIndex].price = price;
-                    objServiceArray[dataIndex].time = time;
-                    torder.children[document.getElementById('orderModal').dataset.currentIndex].children[1].textContent = order;
+                statuses: []
+            };
+            $.ajax({
+                type: "POST",
+                dataType: 'json',
+                contentType:"application/json; charset=utf-8",
+                url: 'http://localhost:8080/serviceProvider/serviceChanges',
+                data: JSON.stringify(test),
+                success: function (data) {
+                    console.log('changes !', data);
                     $("#successOrderEditModal").modal();
                 },
-                error: function (data) {
-                    console.log('ERROR');
+                error: function (err) {
+                    console.log('changes !', err);
                     $("#failOrderEditModal").modal();
                 }
             });
@@ -626,6 +606,7 @@
         $.get('http://localhost:8080/serviceProvider/' + id + '/serviceChanges', function (data2) {
             console.log('changes', data2);
             prepareServiceDataObj(data, data2.content);
+            prepareChangesDataObj(data2.content);
         });
 
      });
@@ -652,7 +633,7 @@
                 description: data[i].description,
                 address: data[i].address,
                 service: data[i].service.description,
-                zone: '',
+                zone: data[i].zone.postalCode,
                 state: '',
                 stateDescription: '',
                 userNumber: data[i].orderedBy.phoneNo
@@ -662,10 +643,41 @@
         addOrderToView(objArray);
         //addOrderToView(daneMockupOrder);
     };
+
+    var prepareChangesDataObj = function (data) {
+        var table = document.getElementById('tchanges');
+        for(var i = 0;i<data.length;i++){
+            if(data[i].validatedBy === null){
+                var tr = document.createElement('tr');
+                var tdType = document.createElement('td');
+                var tdId = document.createElement('td');
+                var tdStatus = document.createElement('td');
+
+                tdId.textContent = data[i].id;
+                tdStatus.textContent = 'Oczekiwanie na akceptacje';
+                switch (data[i].serviceChangeType){
+                    case 'ADD':
+                        tdType.textContent = 'Dodawanie nowej usługi';
+                        break;
+                    case 'EDIT':
+                        tdType.textContent = 'Edycja usługi';
+                        break;
+                    case 'DELETE':
+                        tdType.textContent = 'Usuwanie usługi';
+                        break;
+                }
+                tr.appendChild(tdId);
+                tr.appendChild(tdType);
+                tr.appendChild(tdStatus);
+                table.appendChild(tr);
+            }
+        }
+    };
+
     var prepareServiceDataObj = function (data, data2) {
         var notActivatedServicesArray = [];
         for(var i = 0; i<data2.length;i++){
-            if(data2[i].validatedBy === null && data2[i].serviceChangeType === 'ADD'){
+            if((data2[i].validatedBy === null && data2[i].serviceChangeType === 'ADD') || data2[i].serviceChangeType === 'DELETE'){
                 notActivatedServicesArray.push(data2[i].service.id);
             }
         }
