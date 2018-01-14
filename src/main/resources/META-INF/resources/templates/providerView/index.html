@@ -462,6 +462,7 @@
     };
 
     var updateStatus = function (ele) {
+        $("*").css("cursor", "wait");
         var status = document.getElementById('modalStateEdit').options.selectedIndex;
         var statusDescription = document.getElementById('modalStateDescriptionEdit').value;
         var orderId = objArray[ele.parentNode.parentNode.parentNode.parentNode.dataset.currentIndex].id;
