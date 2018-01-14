@@ -223,4 +223,9 @@ public class ProviderOperationsService implements ProviderOperationsInterface {
 		return serviceOrderStatusRepository.findOne(orderStatusId);
 	}
 
+	@Override
+	public List<ServiceOrderStatus> listAllOrderStatuses() {
+		return serviceOrderStatusRepository.findAll();
+	}
+
 }

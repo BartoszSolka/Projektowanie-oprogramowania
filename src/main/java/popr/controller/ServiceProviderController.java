@@ -30,6 +30,11 @@ public class ServiceProviderController implements ServiceProviderOrderManager, S
 		return providerOperationsService.getProvider(providerId);
 	}
 	
+	@GetMapping(path = "/ordersStatuses")
+	public List<ServiceOrderStatus> listAllOrdersStatuses() {
+		return providerOperationsService.listAllOrderStatuses();
+	}
+	
 	@GetMapping(path = "/ordersStatuses/{orderStatusId}")
 	public ServiceOrderStatus getOrderStatus(@PathVariable Long orderStatusId) {
 		if(!validId(orderStatusId)) {

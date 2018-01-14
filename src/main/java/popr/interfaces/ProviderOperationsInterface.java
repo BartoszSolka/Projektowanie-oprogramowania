@@ -53,4 +53,6 @@ public interface ProviderOperationsInterface {
 	Provider getProvider(Long id);
 
 	ServiceOrderStatus getServiceOrderStatus(Long orderStatusId);
+	
+	List<ServiceOrderStatus> listAllOrderStatuses();
 }
