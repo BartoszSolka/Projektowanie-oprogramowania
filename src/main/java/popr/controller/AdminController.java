@@ -116,7 +116,7 @@ public class AdminController implements AdminManager {
 
     @Override
     @PostMapping ("/addPerson")
-    public void addPerson(String email, String imie, String nazwisko, String strefa, String telefon, String adres, String login, String haslo, boolean czyAdmin, String idUslugodawcy) {
+    public void addPerson(String email, String imie, String nazwisko, String kodStrefy, String telefon, String adres, String login, String haslo, boolean czyAdmin, String idUslugodawcy) {
         Person person = new Person();
         person.setEmail(email);
         person.setName(imie);
@@ -125,8 +125,15 @@ public class AdminController implements AdminManager {
         person.setAddress(adres);
         person.setUsername(login);
         person.setPassword(haslo);
-        Zone zone = zoneRepository.findById(Long.parseLong(strefa));
-        person.setZone(zone);
+        Zone zone = zoneRepository.findByPostalCode(kodStrefy);
+        if (zone != null) {
+            person.setZone(zone);
+        } else {
+            zone = new Zone();
+            zone.setPostalCode(kodStrefy);
+            zoneRepository.save(zone);
+            person.setZone(zone);
+        }
         Provider provider = providerRepository.findById(Long.parseLong(idUslugodawcy));
         person.setProvider(provider);
         person.setAdmin(czyAdmin);
@@ -136,7 +143,7 @@ public class AdminController implements AdminManager {
 
     @Override
     @PostMapping ("/editPerson/{idOsoby}")
-    public void editPerson(@PathVariable String idOsoby, String email, String imie, String nazwisko, String strefa, String telefon, String adres, String login, String haslo, boolean czyAdmin, String idUslugodawcy) {
+    public void editPerson(@PathVariable String idOsoby, String email, String imie, String nazwisko, String kodStrefy, String telefon, String adres, String login, String haslo, boolean czyAdmin, String idUslugodawcy) {
         Person person = new Person();
         person.setId(Long.parseLong(idOsoby));
         person.setEmail(email);
@@ -146,8 +153,15 @@ public class AdminController implements AdminManager {
         person.setAddress(adres);
         person.setUsername(login);
         person.setPassword(haslo);
-        Zone zone = zoneRepository.findById(Long.parseLong(strefa));
-        person.setZone(zone);
+        Zone zone = zoneRepository.findByPostalCode(kodStrefy);
+        if (zone != null) {
+            person.setZone(zone);
+        } else {
+            zone = new Zone();
+            zone.setPostalCode(kodStrefy);
+            zoneRepository.save(zone);
+            person.setZone(zone);
+        }
         Provider provider = providerRepository.findById(Long.parseLong(idUslugodawcy));
         person.setProvider(provider);
         person.setAdmin(czyAdmin);

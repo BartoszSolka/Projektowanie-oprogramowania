@@ -16,9 +16,9 @@ public interface AdminManager {
     void deleteService(String idUslugi);
     void addService(String idUslugodawcy, String cena, String estymowanyCzas, String idRodzajuUslugi);
 
-    void addPerson(String email, String imie, String nazwisko, String strefa, String telefon, String adres, String login, String haslo, boolean czyAdmin, String idUslugodawcy);
+    void addPerson(String email, String imie, String nazwisko, String kodStrefy, String telefon, String adres, String login, String haslo, boolean czyAdmin, String idUslugodawcy);
     void deletePerson(String personId);
-    void editPerson(String idOsoby, String email, String imie, String nazwisko, String strefa, String telefon, String adres, String login, String haslo, boolean czyAdmin, String idUslugodawcy);
+    void editPerson(String idOsoby, String email, String imie, String nazwisko, String kodStrefy, String telefon, String adres, String login, String haslo, boolean czyAdmin, String idUslugodawcy);
 
     List<ServiceChange> getNotValidatedServiceChanges();
     List<ChangeStatus> getStatusChangeDictionary();
