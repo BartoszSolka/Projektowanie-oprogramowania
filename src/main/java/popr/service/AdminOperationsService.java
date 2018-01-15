@@ -62,8 +62,8 @@ public class AdminOperationsService implements AdminOperationsInterface {
     }
 
     @Override
-    public List<ServiceChange> getNotValidatedServiceChanges() {
-        return serviceChangeRepository.findByValidatedByIsNull();
+    public List<ServiceChange> getAllServiceChanges() {
+        return serviceChangeRepository.findAll();
     }
 
     @Override

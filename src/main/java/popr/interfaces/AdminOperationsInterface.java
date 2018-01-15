@@ -12,7 +12,7 @@ public interface AdminOperationsInterface {
     void deleteProvider(String providerId);
     void editProvider(Provider provider);
 
-    List<ServiceChange> getNotValidatedServiceChanges();
+    List<ServiceChange> getAllServiceChanges();
     List<ChangeStatus> getStatusChangeDictionary();
     void changeStatusOfChange(String changeId, String statusId, String description);
     void editService(Service service);

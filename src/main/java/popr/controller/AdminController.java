@@ -176,9 +176,9 @@ public class AdminController implements AdminManager {
     }
 
     @Override
-    @GetMapping ("/notValidatedServiceChanges")
-    public List<ServiceChange> getNotValidatedServiceChanges() {
-        return adminOperationsService.getNotValidatedServiceChanges();
+    @GetMapping ("/allServiceChanges")
+    public List<ServiceChange> getAllServiceChanges() {
+        return adminOperationsService.getAllServiceChanges();
     }
 
     @Override

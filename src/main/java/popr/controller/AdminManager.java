@@ -20,7 +20,7 @@ public interface AdminManager {
     void deletePerson(String personId);
     void editPerson(String idOsoby, String email, String imie, String nazwisko, String kodStrefy, String telefon, String adres, String login, String haslo, boolean czyAdmin, String idUslugodawcy);
 
-    List<ServiceChange> getNotValidatedServiceChanges();
+    List<ServiceChange> getAllServiceChanges();
     List<ChangeStatus> getStatusChangeDictionary();
     void changeStatusOfChange(String idZmiany, String idStatusu, String opis);
     List<Zone> getZonesList();
