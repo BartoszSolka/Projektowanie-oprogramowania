@@ -8,7 +8,9 @@ import popr.model.enums.ServiceOrderStatusDict;
 import popr.repository.*;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 
+import static popr.model.QService.service;
 
 
 @org.springframework.stereotype.Service
@@ -23,10 +25,13 @@ public class UserOperationsService implements UserOperationsInterface {
     private final ProviderRepository providerRepository;
     private final ComplaintRepository complaintRepository;
     private final MailServiceImpl mailService;
+    private final ServiceTypeRepository serviceTypeRepository;
 
     @Override
     public ServiceOrder createServiceOrder(String description, String address, Zone zone, Long serviceId) {
-        popr.model.Service service = serviceRepository.findOne(serviceId);
+        ServiceType serviceType = serviceTypeRepository.findById(serviceId);
+        List<Service> services = serviceRepository.findByServiceType(serviceType);
+        Service service = services.get(0);
         String providerEmail  = service.getProvider().getEmail();
         String mailContent;
         if (service == null) {
@@ -50,7 +55,7 @@ public class UserOperationsService implements UserOperationsInterface {
         serviceOrderStatus.setOrderStatusDict(ServiceOrderStatusDict.NEW);
         serviceOrderStatus = serviceOrderStatusRepository.save(serviceOrderStatus);
 
-        mailContent = ("Przypisano zlecenie" + "\n" + "Opis: " + serviceOrder.getDescription() + "\n" +  " Strefa: " + serviceOrder.getZone().getPostalCode() + "\n" +  " Rodzaj usługi: " +serviceOrder.getService().getDescription() + "\n" +  " Adres: " + serviceOrder.getAddress() );
+        mailContent = ("Przypisano zlecenie" + "\n" + "Opis: " + serviceOrder.getDescription() + "\n" +  " Strefa: " + serviceOrder.getZone().getPostalCode() + "\n" +  " Rodzaj usługi: " +serviceOrder.getService().getServiceType().getDescription() + "\n" +  " Adres: " + serviceOrder.getAddress() );
         mailService.sendEmail(mailContent, providerEmail);
         return serviceOrder;
     }
@@ -61,8 +66,8 @@ public class UserOperationsService implements UserOperationsInterface {
     }
 
     @Override
-    public Page<popr.model.Service> getServices(Pageable pageable) {
-        return serviceRepository.findAll(pageable);
+    public Page<popr.model.ServiceType> getServices(Pageable pageable) {
+        return serviceTypeRepository.findAll(pageable);
     }
 
     @Override
@@ -86,12 +91,18 @@ public class UserOperationsService implements UserOperationsInterface {
         ServiceOrder serviceOrder = serviceOrderRepository.findById(orderId);
 
         ServiceOrderStatus serviceOrderStatus = serviceOrderStatusRepository.findByServiceOrderAndCurrentIsTrue(serviceOrder);
-        serviceOrderStatus.setOrderStatusDict(ServiceOrderStatusDict.CANCELED);
+        serviceOrderStatus.setCurrent(false);
+        serviceOrderStatusRepository.save(serviceOrderStatus);
+
+        ServiceOrderStatus serviceOrderStatus1 = new ServiceOrderStatus();
+        serviceOrderStatus1.setServiceOrder(serviceOrder);
+        serviceOrderStatus1 = serviceOrderStatusRepository.save(serviceOrderStatus);
+        serviceOrderStatus1.setOrderStatusDict(ServiceOrderStatusDict.CANCELED);
 
         Service service = serviceOrder.getService();
-        String mailContent = ("Anulowano zlecenie" + "\n" + "Opis: " + serviceOrder.getDescription() + "\n" +  " Strefa: " + serviceOrder.getZone().getPostalCode() + "\n" +  " Rodzaj usługi: " +serviceOrder.getService().getDescription() + "\n" +  " Adres: " + serviceOrder.getAddress() );
+        String mailContent = ("Anulowano zlecenie" + "\n" + "Opis: " + serviceOrder.getDescription() + "\n" +  " Strefa: " + serviceOrder.getZone().getPostalCode() + "\n" +  " Rodzaj usługi: " +serviceOrder.getService().getServiceType().getDescription() + "\n" +  " Adres: " + serviceOrder.getAddress() );
         mailService.sendEmail(mailContent, service.getProvider().getEmail());
-        return serviceOrderStatusRepository.save(serviceOrderStatus);
+        return serviceOrderStatusRepository.save(serviceOrderStatus1);
     }
 
     @Override

@@ -45,6 +45,8 @@ public class UserOperationsServiceTests {
 
     private MailServiceImpl mailServiceImpl;
 
+    private ServiceTypeRepository serviceTypeRepository;
+
     @InjectMocks
     private UserOperationsService userOperationsService;
 
@@ -94,7 +96,7 @@ public class UserOperationsServiceTests {
         userService = mock(UserService.class);
 
         userOperationsService = new UserOperationsService(serviceOrderRepository, serviceOrderStatusRepository,
-                serviceRepository, userService, zoneRepository, providerRepository, complaintRepository, mailServiceImpl);
+                serviceRepository, userService, zoneRepository, providerRepository, complaintRepository, mailServiceImpl, serviceTypeRepository);
     }
 
     @Test

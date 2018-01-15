@@ -30,6 +30,8 @@ public class ServiceOrder {
 
     private Integer rating;
 
+    private String StatusDict;
+
     //@JsonIgnore
     @ManyToOne(optional = false)
     private Zone zone;
@@ -40,7 +42,8 @@ public class ServiceOrder {
     @ManyToOne
     @JsonIgnore
     private Provider provider;
-    
+
+    @JsonIgnore
     @OneToMany(mappedBy="serviceOrder", cascade=CascadeType.ALL)
     private List<ServiceOrderStatus> statuses;
 

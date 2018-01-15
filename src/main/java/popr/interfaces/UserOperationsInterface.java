@@ -9,7 +9,7 @@ public interface UserOperationsInterface {
 
     ServiceOrder createServiceOrder(String description, String address, Zone zone, Long serviceID);
 
-    Page<Service> getServices(Pageable pageable);
+    Page<ServiceType> getServices(Pageable pageable);
 
     Page<Provider> getProviders(Pageable pageable);
 
