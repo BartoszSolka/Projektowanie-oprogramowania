@@ -12,7 +12,7 @@ public interface AdminManager {
     void deleteProvider(String idUslugodawcy);
     void editProvider(String idUslugodawcy, String nip, String telefon, String siedzibaFirmy, String nazwa, String kodStrefy, String email);
 
-    void editService(String idUslugodawcy, String cena, String estymowanyCzas, String idRodzajuUslugi, String idUslugi);
+    void editService(String opis, String cena, String estymowanyCzas, String idRodzajuUslugi, String idUslugi);
     void deleteService(String idUslugi);
     void addService(String idUslugodawcy, String cena, String estymowanyCzas, String idRodzajuUslugi);
 

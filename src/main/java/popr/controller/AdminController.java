@@ -6,9 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import popr.interfaces.AdminOperationsInterface;
 import popr.model.*;
-import popr.repository.ProviderRepository;
-import popr.repository.ServiceTypeRepository;
-import popr.repository.ZoneRepository;
+import popr.repository.*;
 
 import java.util.Date;
 import java.util.List;
@@ -27,6 +25,8 @@ public class AdminController implements AdminManager {
     ServiceTypeRepository serviceTypeRepository;
     @Autowired
     ProviderRepository providerRepository;
+    @Autowired
+    ServiceRepository serviceRepository;
 
     @Override
     @PostMapping (path = "/addProvider")
@@ -95,15 +95,13 @@ public class AdminController implements AdminManager {
 
     @Override
     @PostMapping ("/editService/{idUslugi}")
-    public void editService(String idUslugodawcy, String cena, String estymowanyCzas, String idRodzajuUslugi, @PathVariable String idUslugi) {
-        Service service = new Service();
-        service.setId(Long.parseLong(idUslugi));
+    public void editService(String opis, String cena, String estymowanyCzas, String idRodzajuUslugi, @PathVariable String idUslugi) {
+        Service service = serviceRepository.findById(Long.parseLong(idUslugi));
         ServiceType serviceType = serviceTypeRepository.findById(Long.parseLong(idRodzajuUslugi));
         service.setServiceType(serviceType);
         service.setPrice(Integer.parseInt(cena));
         service.setEstimatedRealisationTime(Integer.parseInt(estymowanyCzas));
-        Provider provider = providerRepository.findById(Long.parseLong(idUslugodawcy));
-        service.setProvider(provider);
+        service.setDescription(opis);
 
         adminOperationsService.addService(service);
     }
