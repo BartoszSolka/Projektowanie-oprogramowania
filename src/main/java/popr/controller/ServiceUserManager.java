@@ -5,19 +5,21 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import popr.model.*;
 
+import java.util.List;
+
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 public interface ServiceUserManager {
 
     ServiceOrder createServiceOrder(String description, String address, String postalCode, Long serviceID);
 
-    Page<Service> getServices(Pageable pageable);
+    Page<ServiceType> getServices(Pageable pageable);
 
     Page<ServiceOrder> getServiceOrdersByZone(String postalCode, Pageable pageable);
 
     Page<Zone> getZones(Pageable pageable);
 
-    Page<ServiceOrderStatus> getServiceOrdersByUser(Pageable pageable);
+    Page<ServiceOrder> getServiceOrdersByUser(Pageable pageable);
 
     ServiceOrderStatus getServiceOrderStatus(Long orderId);
 

@@ -6,6 +6,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import popr.model.*;
+import popr.model.enums.ServiceOrderStatusDict;
 import popr.repository.*;
 
 @Component
@@ -155,6 +156,7 @@ public class Bootstrap implements ApplicationRunner {
         serviceOrder = serviceOrderRepository.save(serviceOrder);
 
         ServiceOrderStatus serviceOrderStatus = new ServiceOrderStatus();
+        serviceOrderStatus.setOrderStatusDict(ServiceOrderStatusDict.NEW);
         serviceOrderStatus.setServiceOrder(serviceOrder);
         serviceOrderStatus = serviceOrderStatusRepository.save(serviceOrderStatus);
 
@@ -171,6 +173,7 @@ public class Bootstrap implements ApplicationRunner {
 
         ServiceOrderStatus serviceOrderStatus2 = new ServiceOrderStatus();
         serviceOrderStatus2.setServiceOrder(serviceOrder2);
+        serviceOrderStatus2.setOrderStatusDict(ServiceOrderStatusDict.COMPLETED);
         serviceOrderStatus2 = serviceOrderStatusRepository.save(serviceOrderStatus2);
 
         Complaint complaint = new Complaint();

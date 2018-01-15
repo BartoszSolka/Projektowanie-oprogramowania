@@ -36,12 +36,12 @@ public class ServiceUserController implements ServiceUserManager {
     @PostMapping(path = "/addOrder")
     public ServiceOrder createServiceOrder(String description, String address, String postalCode, Long serviceID) {
         Zone zone = zoneRepository.findByPostalCode(postalCode);
-        return userOperationsService.createServiceOrder(description, address,  zone, serviceID);
+        return userOperationsService.createServiceOrder(description, address,  zone, serviceID );
     }
 
     @Override
     @GetMapping(path = "/service", produces = APPLICATION_JSON_VALUE)
-    public Page<Service> getServices(Pageable pageable) {
+    public Page<ServiceType> getServices(Pageable pageable) {
         return userOperationsService.getServices(pageable);
     }
 
@@ -49,7 +49,13 @@ public class ServiceUserController implements ServiceUserManager {
     @GetMapping(path = "/zoneService", produces = APPLICATION_JSON_VALUE)
     public Page<ServiceOrder> getServiceOrdersByZone(String postalCode, Pageable pageable) {
         Zone zone = zoneRepository.findByPostalCode(postalCode);
-        return userOperationsService.getServiceOrdersByZone(zone, pageable);
+        Page<ServiceOrder> serviceOrders = userOperationsService.getServiceOrdersByZone(zone, pageable);
+        for (ServiceOrder serviceOrder: serviceOrders
+                ) {
+            ServiceOrderStatus serviceOrderStatus = userOperationsService.getServiceOrderStatus(serviceOrder);
+            serviceOrder.setStatusDict((serviceOrderStatus.getOrderStatusDict()).toString());
+        }
+        return serviceOrders;
     }
 
     @Override
@@ -60,9 +66,15 @@ public class ServiceUserController implements ServiceUserManager {
 
     @Override
     @GetMapping(path = "/userService", produces = APPLICATION_JSON_VALUE)
-    public Page<ServiceOrderStatus> getServiceOrdersByUser(Pageable pageable) {
+    public Page<ServiceOrder> getServiceOrdersByUser(Pageable pageable) {
         Person user = userService.readCurrent();
-        return serviceOrderStatusRepository.findByServiceOrderOrderedByAndCurrentIsTrue(user, pageable);
+        Page<ServiceOrder> serviceOrders = userOperationsService.getServiceOrdersByUser(pageable);
+        for (ServiceOrder serviceOrder: serviceOrders
+                ) {
+            ServiceOrderStatus serviceOrderStatus = userOperationsService.getServiceOrderStatus(serviceOrder);
+            serviceOrder.setStatusDict((serviceOrderStatus.getOrderStatusDict()).toString());
+        }
+        return serviceOrders;
     }
 
     @Override

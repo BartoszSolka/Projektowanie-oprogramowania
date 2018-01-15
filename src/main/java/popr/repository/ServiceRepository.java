@@ -9,9 +9,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import popr.model.Provider;
 import popr.model.Service;
+import popr.model.ServiceType;
 
 public interface ServiceRepository extends JpaRepository<Service, Long> {
+
 	List<Service> findByProviderId(Long id);
+	List<Service> findByServiceType(ServiceType serviceType);
+
 	Service findById(Long id);
 	@Transactional
 	@Modifying
