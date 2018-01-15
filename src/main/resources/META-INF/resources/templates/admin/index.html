@@ -196,66 +196,112 @@
              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
     </div>
     <div class="jumbotron">
-        <h2>Zlecenia po zmianach</h2>
+        <h2>Usługi wymagające akceptacji</h2>
         <table class="table table-striped">
             <thead>
             <tr>
-                <th >ID</th>
-                <th>Opis</th>
-                <th >Data Utworzenia</th>
-                <th >Ocena</th>
-                <th >Strefa</th>
-
+                <th>#</th>
+                <th>Rodzaj zmiany</th>
+                <th>Nazwa usługi</th>
+                <th>Opis od usługodawcy</th>
+                <th>Cena (zł)</th>
+                <th>Czas (godziny)</th>
+                <th>Status</th>
+                <th></th>
             </tr>
             </thead>
             <tbody id="cases">
-            <tr>
-                <th><a>1<span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></th>
-                <td>Dziura w drodzie na ul. Kolorowej</td>
-                <td>20.09.2017</td>
-                 <td>Brak</td>
-                 <td>01-003</td>
-            </tr>
-            <tr>
-                <th><a>2<span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></th>
-                <td>Uszkodzony przystanek autobusowy Metro Pole Motowskie 05</td>
-                <td>18.10.2017</td>
-                <td>8</td>
-                <td>02-034</td>
-            </tr>
-
             </tbody>
         </table>
     </div>
 </div>
 </div>
 <script>
-    $.get('http://localhost:8080/serviceProvider/4/orders', function (data) {
+    $.get('http://localhost:8080/admin/notValidatedServiceChanges', function (data) {
         console.log(data);
-        var tbody = document.getElementById("cases");
-        for (var i = 0; i < data.length; i++) {
-            var tr = document.createElement("tr");
-            var td0 = document.createElement("td");
-            var td1 = document.createElement("td");
-            var td2 = document.createElement("td");
-            var td3 = document.createElement("td");
-            var td4 = document.createElement("td");
+        var table = document.getElementById('cases');
+        for(var i = 0;i<data.length;i++){
+            var tr = document.createElement('tr');
+
+            var tdId = document.createElement('td');
+            var tdType = document.createElement('td');
+            var tdServiceTypeName = document.createElement('td');
+            var tdProviderDescription = document.createElement('td');
+            var tdPrice = document.createElement('td');
+            var tdTime = document.createElement('td');
+            var tdStatus = document.createElement('td');
+            var tdForButton = document.createElement('td');
+
+            console.log(data[i]);
+            tdId.textContent = data[i].id;
+            tdProviderDescription.textContent = data[i].description;
+            tdServiceTypeName.textContent = data[i].service.serviceType.name;
+            tdPrice.textContent = data[i].service.price;
+            tdTime.textContent = data[i].service.estimatedRealisationTime;
+            if(data[i].validatedBy === null){
+                tdStatus.textContent = 'Oczekiwanie na akceptacje';
+            } else {
+                tdStatus.textContent = 'Zaakceptowana';
+            }
+            switch (data[i].serviceChangeType){
+                case 'ADD':
+                    tdType.textContent = 'Dodanie nowej usługi';
+                    break;
+                case 'EDIT':
+                    tdType.textContent = 'Edycja usługi';
+                    break;
+                case 'DELETE':
+                    tdType.textContent = 'Usuwanie usługi';
+                    break;
+            }
+
+            var acceptButton = document.createElement('button');
+            acceptButton.textContent = "Zatwierdź zmianę";
+            acceptButton.className = 'btn btn-default';
+            acceptButton.dataset.changeTypeId = data[i].id;
+            acceptButton.dataset.changeType = data[i].serviceChangeType;
+            acceptButton.onclick = function () {
+                event.stopPropagation();
+                switch (this.dataset.changeType){
+                    case 'ADD':
+                        $.ajax({
+                            url: 'http://localhost:8080/admin/changeStatus/' + this.dataset.changeTypeId,
+                            type: 'PUT',
+                            contentType: "application/json; charset=utf-8",
+                            data: {
+                                "validatedById": "1"
+                            },
+                            success: function(data) {
+                                location.reload();
+                                console.log('OK');
+                            },
+                            error: function (data) {
+                                console.log('ERROR');
+                            }
+                        });
+                        break;
+                    case 'EDIT':
+
+                        break;
+                    case 'DELETE':
+
+                        break;
+                }
+            };
+            tdForButton.appendChild(acceptButton);
 
 
-            td0.textContent = data[i].id;
-            td0.innerHTML = td0.textContent +'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>\n';
-            td1.textContent = data[i].description;
-            td2.textContent = '13.11.2017';//data[i].creation_date;
-            td3.textContent = data[i].rating === null ? 'Brak' : data[i].rating;
-            td4.textContent = '01-003';
-            tr.appendChild(td0);
-            tr.appendChild(td1);
-            tr.appendChild(td2);
-            tr.appendChild(td3);
-            tr.appendChild(td4);
-            tbody.appendChild(tr);
+            tr.appendChild(tdId);
+            tr.appendChild(tdType);
+            tr.appendChild(tdServiceTypeName);
+            tr.appendChild(tdProviderDescription);
+            tr.appendChild(tdPrice);
+            tr.appendChild(tdTime);
+            tr.appendChild(tdStatus);
+            tr.appendChild(tdForButton);
+            table.appendChild(tr);
         }
-    })
+    });
 </script>
 
 
