@@ -50,38 +50,120 @@
         </h4>
         <button type="button" class="btn btn-success" onclick="dodajUzytkownika();">Dodaj</button>
         <div class="modal fade" id="successModal" role="dialog">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Dodanie usługodawcy</h4>
-                </div>
-                <div class="modal-body">
-                    <p>Operacja zakończona pomyślnie.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Dodanie usługodawcy</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Operacja zakończona pomyślnie.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="modal fade" id="failModal" role="dialog">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Błąd !</h4>
-                </div>
-                <div class="modal-body">
-                    <p>Operacja zakończona niepowodzeniem. Sprawdź poprawność danych.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+        <div class="modal fade" id="failModalNIP" role="dialog">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Błąd !</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Operacja zakończona niepowodzeniem. Sprawdź poprawność danych. Nip powinien sie skałać z 10 cyfr</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+
+        <div class="modal fade" id="failModalPostalCode" role="dialog">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Błąd !</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Operacja zakończona niepowodzeniem. Sprawdź poprawność danych. Kod pocztowy powinien mieć foramt 00-000.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="failModalEmail" role="dialog">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Błąd !</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Operacja zakończona niepowodzeniem. Sprawdź poprawność danych. Email powinien mieć foramt przykład@domena.pl.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="failModalTelefon" role="dialog">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Błąd !</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Operacja zakończona niepowodzeniem. Sprawdź poprawność danych. Telefon powinien mieć foramt +48123123123.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="failModal" role="dialog">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Błąd !</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Operacja zakończona niepowodzeniem. Sprawdź poprawność danych.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="failModalNoCode" role="dialog">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Błąd !</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Operacja zakończona niepowodzeniem. Uzupelnij wszystkie pola.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                    </div>
+                </div>
+            </div>
+        </div>
  </div>
 </div>
 
@@ -95,7 +177,80 @@
         var username = document.getElementById("username").value;
         var password = document.getElementById("password").value;
         var zone = document.getElementById("zone").value;
+        function validForm(inputDOMElement) {
+            if (!inputDOMElement) {
+                $("#failModalNoCode").modal();
+                return false
+            } else {
+                return true
+            }
+        }
 
+        function validPostalCode(inputDOMElement) {
+            var codeReg = /[0-9]{2}[-][0-9]{3}/g;
+            if (codeReg.test(inputDOMElement)) {
+
+                return true
+            } else {
+                console.log(codeReg);
+                console.log(inputDOMElement);
+
+                $("#failModalPostalCode").modal();
+                return false
+            }
+        }
+        function validNIPCode(inputDOMElement) {
+            var codeReg = /[0-9]{10}/g;
+            if (codeReg.test(inputDOMElement)) {
+                return true
+            } else {
+                console.log(codeReg);
+                console.log(inputDOMElement);
+                $("#failModalNIP").modal();
+                return false
+            }
+        }
+        function validEmailCode(inputDOMElement) {
+            var codeReg = /[a-zA-Z0-9][@][a-zA-Z][.][a-zA-Z]/g;
+            if (codeReg.test(inputDOMElement)) {
+                return true
+            } else {
+                console.log(codeReg);
+                console.log(inputDOMElement);
+                $("#failModalEmail").modal();
+                return false
+            }
+        }
+        function validTelephone(inputDOMElement) {
+            var codeReg = /[+][0-9]{11}/g;
+            if (codeReg.test(inputDOMElement)) {
+                return true
+            } else {
+                console.log(codeReg);
+                console.log(inputDOMElement);
+                $("#failModalTelefon").modal();
+                return false
+            }
+        }
+        validPostalCode(zone) ;
+        validTelephone(phoneNumber) ;
+        validForm(address);
+        validForm(name);
+        validForm(surname);
+        validForm(username);
+        validForm(password);
+        validEmailCode(email)
+        var isValid =
+            validPostalCode(zone) &&
+            validTelephone(phoneNumber) &&
+            validForm(surname)&&
+            validForm(username)&&
+            validForm(password)&&
+            validForm(address)&&
+            validForm(name)&&
+            validEmailCode(email)
+        if (isValid) {
+            $.ajax({
         $.ajax({
             type: 'POST',
             url: 'http://localhost:8080/admin/addPerson',
