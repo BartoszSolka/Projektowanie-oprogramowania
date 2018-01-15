@@ -114,20 +114,20 @@
             userServiceResponse = response
             var parentDiv = document.getElementById('mainTbody');
             for (var i = 0; i < response.content.length; i++) {
-                if (response.content[i].orderStatusDict === 'COMPLETED') {
+                if (response.content[i].statusDict === 'COMPLETED') {
                     var tr = document.createElement('tr');
                     var td0 = document.createElement('td');
                     var td2 = document.createElement('td');
                     var td4 = document.createElement('td');
                     var td5 = document.createElement('td');
 
-                    td0.textContent = response.content[i].serviceOrder.description;
+                    td0.textContent = response.content[i].description;
                     td2.className = 'dropdown';
 
-                    td2.textContent = response.content[i].serviceOrder.rating;
-                    td4.textContent = response.content[i].serviceOrder.ratingDescription;
+                    td2.textContent = response.content[i].rating;
+                    td4.textContent = response.content[i].ratingDescription;
 
-                    td5.innerHTML = '<button type="button" onclick="openModalRate(' + userServiceResponse.content[i].serviceOrder.id + ')" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Oceń</button>'
+                    td5.innerHTML = '<button type="button" onclick="openModalRate(' + userServiceResponse.content[i].id + ')" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Oceń</button>'
                     tr.appendChild(td0);
                     tr.appendChild(td2);
                     tr.appendChild(td4);

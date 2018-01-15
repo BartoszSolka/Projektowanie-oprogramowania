@@ -89,7 +89,7 @@
             console.log(response);
             var parentDiv = document.getElementById('mainTbody');
             for (var i = 0; i < response.content.length; i++) {
-                var serviceDesc = response.content[i].service.description
+                var serviceDesc = response.content[i].service.serviceType.description
                 var zone = response.content[i].zone.postalCode
                 var tr = document.createElement('tr');
                 var td0 = document.createElement('td');
@@ -100,7 +100,7 @@
                 td2.className = 'dropdown';
 
                 td2.textContent = response.content[i].rating;
-                td4.textContent = 'Brak';
+                td4.textContent = response.content[i].statusDict;
 
                 tr.appendChild(td0);
                 tr.appendChild(td2);
