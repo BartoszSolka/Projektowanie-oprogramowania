@@ -200,6 +200,7 @@
             <thead>
             <tr>
                 <th>#</th>
+                <th>ID usługi</th>
                 <th>Rodzaj zmiany</th>
                 <th>Nazwa usługi</th>
                 <th>Opis od usługodawcy</th>
@@ -216,13 +217,14 @@
 </div>
 </div>
 <script>
-    $.get('http://localhost:8080/admin/notValidatedServiceChanges', function (data) {
+    $.get('http://localhost:8080/admin/allServiceChanges', function (data) {
         console.log(data);
         var table = document.getElementById('cases');
         for(var i = 0;i<data.length;i++){
             var tr = document.createElement('tr');
 
             var tdId = document.createElement('td');
+            var tdServiceId = document.createElement('td');
             var tdType = document.createElement('td');
             var tdServiceTypeName = document.createElement('td');
             var tdProviderDescription = document.createElement('td');
@@ -233,10 +235,13 @@
 
             console.log(data[i]);
             tdId.textContent = data[i].id;
+            tdServiceId.textContent = data[i].service.id;
             tdProviderDescription.textContent = data[i].description;
             tdServiceTypeName.textContent = data[i].service.serviceType.name;
             tdPrice.textContent = data[i].service.price;
             tdTime.textContent = data[i].service.estimatedRealisationTime;
+            tdPrice.style.whiteSpace = 'pre';
+            tdTime.style.whiteSpace = 'pre';
             if(data[i].validatedBy === null){
                 tdStatus.textContent = 'Oczekiwanie na akceptacje';
             } else {
@@ -248,56 +253,113 @@
                     break;
                 case 'EDIT':
                     tdType.textContent = 'Edycja usługi';
+                    if(data[i].validatedBy === null){
+                        tdPrice.textContent = 'Stara cena: ' + tdPrice.textContent + '\r\nNowa cena: ' + data[i].price;
+                        tdTime.textContent = 'Stary czas: ' + tdTime.textContent + '\r\nNowy czas: ' + data[i].estimatedRealisationTime;
+                    }
                     break;
                 case 'DELETE':
                     tdType.textContent = 'Usuwanie usługi';
                     break;
             }
-
-            var acceptButton = document.createElement('button');
-            acceptButton.textContent = "Zatwierdź zmianę";
-            acceptButton.className = 'btn btn-default';
-            acceptButton.dataset.changeTypeId = data[i].id;
-            acceptButton.dataset.changeType = data[i].serviceChangeType;
-            acceptButton.onclick = function () {
-                event.stopPropagation();
-                switch (this.dataset.changeType){
-                    case 'ADD':
-                        $.ajax({
-                            url: 'http://localhost:8080/admin/changeStatus/' + this.dataset.changeTypeId,
-                            type: 'PUT',
-                            contentType: "application/json; charset=utf-8",
-                            data: {
-                                "validatedById": "1"
-                            },
-                            success: function(data) {
-                                location.reload();
-                                console.log('OK');
-                            },
-                            error: function (data) {
-                                console.log('ERROR');
-                            }
-                        });
-                        break;
-                    case 'EDIT':
-
-                        break;
-                    case 'DELETE':
-
-                        break;
-                }
-            };
-            tdForButton.appendChild(acceptButton);
-
-
             tr.appendChild(tdId);
+            tr.appendChild(tdServiceId);
             tr.appendChild(tdType);
             tr.appendChild(tdServiceTypeName);
             tr.appendChild(tdProviderDescription);
             tr.appendChild(tdPrice);
             tr.appendChild(tdTime);
             tr.appendChild(tdStatus);
-            tr.appendChild(tdForButton);
+
+            if(data[i].validatedBy === null){
+                var acceptButton = document.createElement('button');
+                acceptButton.textContent = "Zatwierdź zmianę";
+                acceptButton.className = 'btn btn-default';
+                acceptButton.dataset.changeTypeId = data[i].id;
+                acceptButton.dataset.changeType = data[i].serviceChangeType;
+                acceptButton.dataset.serviceId = data[i].service.id;
+                acceptButton.dataset.newPrice = data[i].price;
+                acceptButton.dataset.newTime = data[i].estimatedRealisationTime;
+                acceptButton.dataset.newDescription = data[i].description;
+                acceptButton.dataset.serviceTypeId = data[i].service.serviceType.id;
+                acceptButton.onclick = function () {
+                    event.stopPropagation();
+                    switch (this.dataset.changeType){
+                        case 'ADD':
+                            $.ajax({
+                                url: 'http://localhost:8080/admin/changeStatus/' + this.dataset.changeTypeId,
+                                type: 'PUT',
+                                contentType: "application/json; charset=utf-8",
+                                data: {
+                                    validatedById: 1
+                                },
+                                success: function(data) {
+                                    location.reload();
+                                },
+                                error: function (data) {
+                                    console.log('ERROR');
+                                }
+                            });
+                            break;
+                        case 'EDIT':
+                            var serviceId = this.dataset.serviceId;
+                            var serviceTypeId = this.dataset.serviceTypeId;
+                            var newDescription = this.dataset.newDescription;
+                            var newPrice = this.dataset.newPrice;
+                            var newTime = this.dataset.newTime;
+                            $.ajax({
+                                url: 'http://localhost:8080/admin/changeStatus/' + this.dataset.changeTypeId,
+                                type: 'PUT',
+                                contentType: "application/json; charset=utf-8",
+                                data: {
+                                    validatedById: 1
+                                },
+                                success: function(data) {
+                                    console.log(newDescription);
+                                    $.ajax({
+                                        url: 'http://localhost:8080/admin/editService/' + serviceId,
+                                        type: 'POST',
+                                        data: {
+                                            opis: newDescription,
+                                            cena: newPrice,
+                                            estymowanyCzas: newTime,
+                                            idRodzajuUslugi: serviceTypeId
+                                        },
+                                        success: function(data) {
+                                            location.reload();
+                                        },
+                                        error: function (data) {
+                                            console.log('ERROR');
+                                        }
+                                    });
+                                },
+                                error: function (data) {
+                                    console.log('ERROR');
+                                }
+                            });
+                            break;
+                        case 'DELETE':
+                            //var serviceId = this.dataset.serviceId;
+                            $.ajax({
+                                url: 'http://localhost:8080/admin/changeStatus/' + this.dataset.changeTypeId,
+                                type: 'PUT',
+                                contentType: "application/json; charset=utf-8",
+                                data: {
+                                    validatedById: 1
+                                },
+                                success: function(data) {
+                                    location.reload();
+                                },
+                                error: function (data) {
+                                    console.log('ERROR');
+                                }
+                            });
+                            break;
+                    }
+                };
+                tdForButton.appendChild(acceptButton);
+                tr.appendChild(tdForButton);
+            }
             table.appendChild(tr);
         }
     });

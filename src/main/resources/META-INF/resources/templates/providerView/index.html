@@ -70,6 +70,7 @@
             <thead>
             <tr>
                 <th>#</th>
+                <th>ID usługi</th>
                 <th>Rodzaj zmiany</th>
                 <th>Nazwa</th>
                 <th>Cena (zł)</th>
@@ -687,6 +688,7 @@
 
             var tr = document.createElement('tr');
             var tdType = document.createElement('td');
+            var tdServiceId = document.createElement('td');
             var tdName = document.createElement('td');
             var tdPrice = document.createElement('td');
             var tdTime = document.createElement('td');
@@ -694,9 +696,12 @@
             var tdStatus = document.createElement('td');
 
             tdId.textContent = data[i].id;
+            tdServiceId.textContent = data[i].service.id;
             tdName.textContent = data[i].service.serviceType.name;
             tdPrice.textContent = data[i].service.price;
             tdTime.textContent = data[i].service.estimatedRealisationTime;
+            tdPrice.style.whiteSpace = 'pre';
+            tdTime.style.whiteSpace = 'pre';
             if(data[i].validatedBy === null){
                 tdStatus.textContent = 'Oczekiwanie na akceptacje';
             } else {
@@ -709,12 +714,17 @@
                     break;
                 case 'EDIT':
                     tdType.textContent = 'Edycja usługi';
+                    if(data[i].validatedBy === null) {
+                        tdPrice.textContent = 'Stara cena: ' + tdPrice.textContent + '\r\nNowa cena: ' + data[i].price;
+                        tdTime.textContent = 'Stary czas: ' + tdTime.textContent + '\r\nNowy czas: ' + data[i].estimatedRealisationTime;
+                    }
                     break;
                 case 'DELETE':
                     tdType.textContent = 'Usuwanie usługi';
                     break;
             }
             tr.appendChild(tdId);
+            tr.appendChild(tdServiceId);
             tr.appendChild(tdType);
             tr.appendChild(tdName);
             tr.appendChild(tdPrice);
