@@ -98,6 +98,7 @@ public class UserOperationsService implements UserOperationsInterface {
         serviceOrderStatus1.setServiceOrder(serviceOrder);
         serviceOrderStatus1 = serviceOrderStatusRepository.save(serviceOrderStatus);
         serviceOrderStatus1.setOrderStatusDict(ServiceOrderStatusDict.CANCELED);
+        serviceOrderStatus1.setCurrent(true);
 
         Service service = serviceOrder.getService();
         String mailContent = ("Anulowano zlecenie" + "\n" + "Opis: " + serviceOrder.getDescription() + "\n" +  " Strefa: " + serviceOrder.getZone().getPostalCode() + "\n" +  " Rodzaj usługi: " +serviceOrder.getService().getServiceType().getDescription() + "\n" +  " Adres: " + serviceOrder.getAddress() );
