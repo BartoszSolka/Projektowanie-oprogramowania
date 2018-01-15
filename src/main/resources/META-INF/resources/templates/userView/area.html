@@ -86,7 +86,6 @@
             postalCode: '01-111'
         },
         success: function (response) {
-            console.log(response);
             var parentDiv = document.getElementById('mainTbody');
             for (var i = 0; i < response.content.length; i++) {
                 var serviceDesc = response.content[i].service.serviceType.description
@@ -137,7 +136,6 @@
                 postalCode: searchZone.value
             },
             success: function (response) {
-                console.log(response);
                 var parentDiv = document.getElementById('mainTbody');
                 for (var i = 0; i < response.content.length; i++) {
                     var serviceDesc = response.content[i].service.description
@@ -152,7 +150,7 @@
                     td2.className = 'dropdown';
 
                     td2.textContent = response.content[i].rating;
-                    td4.textContent = 'Brak';
+                    td4.textContent = response.content[i].statusDict;
 
                     tr.appendChild(td0);
                     tr.appendChild(td2);

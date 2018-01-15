@@ -113,7 +113,6 @@
             url: 'http://localhost:8080/user/zones',
             dataType: 'json',
             success: function (response) {
-                console.log(response)
                 var strefaZlecenia = document.getElementById('strefaZlecenia')
                 response.content.forEach(function (code) {
                     var opt = document.createElement('option')
