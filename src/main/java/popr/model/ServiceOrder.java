@@ -32,6 +32,8 @@ public class ServiceOrder {
 
     private String StatusDict;
 
+    private String comment;
+
     //@JsonIgnore
     @ManyToOne(optional = false)
     private Zone zone;

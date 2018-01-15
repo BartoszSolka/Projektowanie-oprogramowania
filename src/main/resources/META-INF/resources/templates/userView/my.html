@@ -223,21 +223,21 @@
         success: function (response) {
             var parentDiv = document.getElementById('mainTbody');
             for (var i = 0; i < response.content.length; i++) {
-                if (response.content[i].orderStatusDict !== 'CANCELED' && response.content[i].orderStatusDict !== 'COMPLETED') {
-                    var orderStatus = response.content[i].orderStatusDict === null ? 'Brak' : response.content[i].orderStatusDict;
+                if (response.content[i].statusDict !== 'CANCELED' && response.content[i].statusDict !== 'COMPLETED') {
+                    var orderStatus = response.content[i].statusDict === null ? 'Brak' : response.content[i].statusDict;
                     var descModal = response.content[i].comment === null ? 'Brak' : response.content[i].comment;
-                    var serviceDesc = response.content[i].serviceOrder.service.description
-                    var zone = response.content[i].serviceOrder.zone.postalCode
+                    var serviceDesc = response.content[i].service.serviceType.name;
+                    var zone = response.content[i].zone.postalCode;
 
                     var tr = document.createElement('tr');
                     var td0 = document.createElement('td');
                     var td2 = document.createElement('td');
                     var td4 = document.createElement('td');
                     var td5 = document.createElement('td');
-                    td0.innerHTML = "<a href='#' onclick=\"getStatusModal(" + response.content[i].serviceOrder.id + ",'" + response.content[i].serviceOrder.description + "','" + response.content[i].serviceOrder.address + "','" + orderStatus + "','" + serviceDesc + "','" + descModal + "','"+ zone +"')\" type=\"button\" data-toggle=\"modal\" data-target=\"#myModal\">" + response.content[i].serviceOrder.description + "</a>\n";
-                    td2.textContent = response.content[i].serviceOrder.rating === null ? 0 : response.content[i].serviceOrder.rating;
+                    td0.innerHTML = "<a href='#' onclick=\"getStatusModal(" + response.content[i].id + ",'" + response.content[i].description + "','" + response.content[i].address + "','" + orderStatus + "','" + serviceDesc + "','" + descModal + "','"+ zone +"')\" type=\"button\" data-toggle=\"modal\" data-target=\"#myModal\">" + response.content[i].description + "</a>\n";
+                    td2.textContent = response.content[i].rating === null ? 0 : response.content[i].rating;
                     td2.contentEditable = 'true';
-                    td2.setAttribute('data-id', response.content[i].serviceOrder.id);
+                    td2.setAttribute('data-id', response.content[i].id);
                     td2.onkeypress = function () {
                         if (event.keyCode === 13) {
                             sendNewRate(this.textContent, this.getAttribute('data-id'));
@@ -252,7 +252,7 @@
                         }
                     };
                     td4.innerHTML = orderStatus
-                    td5.innerHTML = '<button class="btn btn-primary btn-sm" onclick="cancelOrder(' + response.content[i].serviceOrder.id + ')" type="button" data-toggle="modal" data-target="#myModal2">Anuluj</button>' + ' <button class="btn btn-primary btn-sm" onclick="getEditedStatusModal(' + response.content[i].serviceOrder.id + ',\'' + response.content[i].serviceOrder.description + '\',\'' + response.content[i].serviceOrder.address + '\')" type="button" data-toggle="modal" data-target="#myModal3">Edytuj</button>';
+                    td5.innerHTML = '<button class="btn btn-primary btn-sm" onclick="cancelOrder(' + response.content[i].id + ')" type="button" data-toggle="modal" data-target="#myModal2">Anuluj</button>' + ' <button class="btn btn-primary btn-sm" onclick="getEditedStatusModal(' + response.content[i].id + ',\'' + response.content[i].description + '\',\'' + response.content[i].address + '\')" type="button" data-toggle="modal" data-target="#myModal3">Edytuj</button>';
 
                     tr.appendChild(td0);
                     tr.appendChild(td2);

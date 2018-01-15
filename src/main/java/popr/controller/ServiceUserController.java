@@ -54,6 +54,7 @@ public class ServiceUserController implements ServiceUserManager {
                 ) {
             ServiceOrderStatus serviceOrderStatus = userOperationsService.getServiceOrderStatus(serviceOrder);
             serviceOrder.setStatusDict((serviceOrderStatus.getOrderStatusDict()).toString());
+            serviceOrder.setComment((serviceOrderStatus.getComment()));
         }
         return serviceOrders;
     }
@@ -73,6 +74,7 @@ public class ServiceUserController implements ServiceUserManager {
                 ) {
             ServiceOrderStatus serviceOrderStatus = userOperationsService.getServiceOrderStatus(serviceOrder);
             serviceOrder.setStatusDict((serviceOrderStatus.getOrderStatusDict()).toString());
+            serviceOrder.setComment((serviceOrderStatus.getComment()));
         }
         return serviceOrders;
     }
