@@ -304,13 +304,13 @@ var edytujUslugodawce = function () {
         }
     }
     function validEmailCode(inputDOMElement) {
-        var codeReg = /[a-zA-Z][@][a-zA-Z][.][a-zA-Z]/g;
+        var codeReg = /[a-zA-Z0-9][@][a-zA-Z][.a-zA-Z]/g;
         if (codeReg.test(inputDOMElement)) {
             return true
         } else {
             console.log(codeReg);
             console.log(inputDOMElement);
-            $("#failModalNIP").modal();
+            $("#failModalEmail").modal();
             return false
         }
     }
